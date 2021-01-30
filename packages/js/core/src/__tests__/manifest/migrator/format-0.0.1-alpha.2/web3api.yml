@@ -1,5 +1,5 @@
 description: Awesome Web3API project
-format: "0.0.1-alpha.2"
+format: "0.0.1-prealpha.2"
 api: 
   schemas:
     - file: ../query/schema.graphql

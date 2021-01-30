@@ -1,8 +1,8 @@
-import { Manifest as OldManifest } from "../formats/0.0.1-alpha.1";
-import { Manifest as NewManifest } from "../formats/0.0.1-alpha.2";
+import { Manifest as OldManifest } from "../formats/0.0.1-prealpha.1";
+import { Manifest as NewManifest } from "../formats/0.0.1-prealpha.2";
 
 export function migrate(old: OldManifest): NewManifest {
-  const NEW_FORMAT = "0.0.1-alpha.2";
+  const NEW_FORMAT = "0.0.1-prealpha.2";
   const schemas = [];
   let api = {};
   let information = {};

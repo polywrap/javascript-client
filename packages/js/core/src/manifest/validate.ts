@@ -1,14 +1,11 @@
-import { Manifest } from "./formats/0.0.1-alpha.1";
-import { latestFormat } from "./formats";
-import { upgradeManifest, ManifestFormats } from "./migrator";
+import {
+  AnyManifest,
+  ManifestFormats
+} from "./";
+import schema_0_0_1_alpha_1 from "@web3api/manifest-schema/formats/0.0.1-alpha.1.json";
+import schema_0_0_1_alpha_2 from "@web3api/manifest-schema/formats/0.0.1-alpha.2.json";
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import schema from "@web3api/manifest-schema";
-import { Validator } from "jsonschema";
-import { compare } from "semver";
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-const packageInformation = require("../../package.json");
+import { Validator, Schema } from "jsonschema";
 
 enum ValidationError {
   ADDITIONAL_PROPERTY = "additionalProperties",
@@ -17,31 +14,45 @@ enum ValidationError {
   INPUT = "format",
 }
 
+const manifestSchemas: { [key in ManifestFormats]: Schema | undefined } = {
+  "0.0.1-prealpha.1": schema_0_0_1_alpha_1.manifest,
+  "0.0.1-prealpha.2": schema_0_0_1_alpha_2.manifest
+}
+
 const validator = new Validator();
 
 Validator.prototype.customFormats.file = (file: string) => {
   return validateFile(file);
 };
 
-const validateFile = (path: string) => {
+function validateFile(path: string): boolean {
   // eslint-disable-next-line no-useless-escape
   const validPathMatch = path.match(/^((\.\/|..\/)[^\/ ]*)+\/?$/gm);
-  return validPathMatch && validPathMatch[0].length === path.length;
+
+  if (validPathMatch && validPathMatch[0]) {
+    return validPathMatch[0].length === path.length;
+  } else {
+    return false;
+  }
 };
 
 Validator.prototype.customFormats.manifestFormat = (format: string) => {
   return validateFormat(format);
 };
 
-const validateFormat = (format: string) => {
-  // TODO: accept any previous versions?
-  return format === packageInformation.version;
+function validateFormat(format: string): boolean {
+  return manifestSchemas[format as ManifestFormats] !== undefined;
 };
 
-export const sanitizeAndUpgrade = (manifest: Manifest): Manifest => {
-  const manifestSchema = schema["manifest"];
+export function validateManifest (manifest: AnyManifest) {
+  const schema = manifestSchemas[manifest.format as ManifestFormats];
 
-  const { errors } = validator.validate(manifest, manifestSchema);
+  if (!schema) {
+    throw Error(`Unrecognized manifest schema format "${manifest.format}"`);
+  }
+
+  const { errors } = validator.validate(manifest, schema);
+
   /*
    We should handle five cases or errors:
    1- When a non-accepted field is added to the manifest
@@ -70,8 +81,9 @@ export const sanitizeAndUpgrade = (manifest: Manifest): Manifest => {
       case ValidationError.INPUT: {
         const isFormatVersionError = argument === "manifestFormat";
         const isFileError = argument === "file";
+
         if (isFormatVersionError) {
-          throw Error(`The manifest's format is not correct. Accepted format version: ${packageInformation.version}`);
+          throw Error(`The manifest's format is not correct. Given: ${manifest.format}\nAccepted formats: ${Object.keys(manifestSchemas)}`);
         } else if (isFileError) {
           throw Error(
             `Property ${pathMapping} has the value "${instance}", which is not a valid file path.` +
@@ -91,10 +103,4 @@ export const sanitizeAndUpgrade = (manifest: Manifest): Manifest => {
         );
     }
   }
-
-  if (compare(manifest.format, latestFormat) === -1) {
-    manifest = upgradeManifest(manifest, latestFormat as ManifestFormats);
-  }
-
-  return manifest;
 };
