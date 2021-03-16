@@ -1,6 +1,6 @@
 {
-  "name": "@web3api/ethereum-plugin-js",
-  "description": "Web3API Ethereum Javascript Plugin",
+  "name": "@web3api/test-env-js",
+  "description": "Web3API Test Helpers",
   "version": "0.0.1-prealpha.6",
   "license": "MIT",
   "repository": {
@@ -9,8 +9,7 @@
   },
   "main": "build/index.js",
   "files": [
-    "build",
-    "schema.graphql"
+    "build"
   ],
   "scripts": {
     "build": "rimraf ./build && tsc --project tsconfig.build.json",
@@ -21,13 +20,14 @@
   },
   "dependencies": {
     "@web3api/core-js": "0.0.1-prealpha.6",
-    "ethers": "5.0.7"
+    "@web3api/ens-plugin-js": "0.0.1-prealpha.6",
+    "@web3api/ethereum-plugin-js": "0.0.1-prealpha.6",
+    "@web3api/ipfs-plugin-js": "0.0.1-prealpha.6",
+    "axios": "0.21.1",
+    "spawn-command": "0.0.2-1"
   },
   "devDependencies": {
-    "@types/jest": "26.0.8",
-    "jest": "26.2.2",
     "rimraf": "3.0.2",
-    "ts-jest": "26.1.4",
     "ts-node": "8.10.2",
     "typescript": "3.9.7"
   },
