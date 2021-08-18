@@ -6,25 +6,13 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Web3ApiManifest {
-  format: "0.0.1-prealpha.3";
-  repository?: string;
-  build?: string;
-  language?: string;
-  interface?: boolean;
-  modules: {
-    mutation?: {
-      schema: string;
-      module?: string;
-    };
-    query?: {
-      schema: string;
-      module?: string;
-    };
-  };
+export interface PluginManifest {
+  format: "0.0.1-prealpha.1";
+  language: string;
+  schema: string;
   import_redirects?: {
     uri: string;
     schema: string;
   }[];
-  __type: "Web3ApiManifest";
+  __type: "PluginManifest";
 }

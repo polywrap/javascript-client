@@ -7,11 +7,10 @@
  */
 
 export interface Web3ApiManifest {
-  format: "0.0.1-prealpha.3";
+  format: "0.0.1-prealpha.4";
   repository?: string;
   build?: string;
-  language?: string;
-  interface?: boolean;
+  language: string;
   modules: {
     mutation?: {
       schema: string;
