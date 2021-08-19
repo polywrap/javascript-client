@@ -5,12 +5,12 @@
  * and run node ./scripts/manifest/generateFormatTypes.js to regenerate this file.
  */
 import {
-  AnyBuildManifest,
-  BuildManifestFormats
+  AnyPluginManifest,
+  PluginManifestFormats
 } from ".";
 import * as Validators from "../../validators";
 
-import schema_0_0_1_prealpha_1 from "@web3api/manifest-schemas/formats/web3api.build/0.0.1-prealpha.1.json";
+import schema_0_0_1_prealpha_1 from "@web3api/manifest-schemas/formats/web3api.plugin/0.0.1-prealpha.1.json";
 import { Tracer } from "@web3api/tracing-js"
 
 import {
@@ -20,36 +20,35 @@ import {
   ValidatorResult
 } from "jsonschema";
 
-type BuildManifestSchemas = {
-  [key in BuildManifestFormats]: Schema | undefined
+type PluginManifestSchemas = {
+  [key in PluginManifestFormats]: Schema | undefined
 };
 
-const schemas: BuildManifestSchemas = {
+const schemas: PluginManifestSchemas = {
   "0.0.1-prealpha.1": schema_0_0_1_prealpha_1,
 };
 
 const validator = new Validator();
 
-Validator.prototype.customFormats.dockerImageName = Validators.dockerImageName;
-Validator.prototype.customFormats.dockerfileName = Validators.dockerfileName;
-Validator.prototype.customFormats.dockerImageId = Validators.dockerImageId;
+Validator.prototype.customFormats.pluginLanguage = Validators.pluginLanguage;
+Validator.prototype.customFormats.file = Validators.file;
 
-export const validateBuildManifest = Tracer.traceFunc(
-  "core: validateBuildManifest",
+export const validatePluginManifest = Tracer.traceFunc(
+  "core: validatePluginManifest",
   (
-    manifest: AnyBuildManifest,
+    manifest: AnyPluginManifest,
     extSchema: Schema | undefined = undefined
   ): void => {
-    const schema = schemas[manifest.format as BuildManifestFormats];
+    const schema = schemas[manifest.format as PluginManifestFormats];
 
     if (!schema) {
-      throw Error(`Unrecognized BuildManifest schema format "${manifest.format}"`);
+      throw Error(`Unrecognized PluginManifest schema format "${manifest.format}"`);
     }
 
     const throwIfErrors = (result: ValidatorResult) => {
       if (result.errors.length) {
         throw new Error([
-          `Validation errors encountered while sanitizing BuildManifest format ${manifest.format}`,
+          `Validation errors encountered while sanitizing PluginManifest format ${manifest.format}`,
           ...result.errors.map((error: ValidationError) => error.toString())
         ].join("\n"));
       }

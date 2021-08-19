@@ -4,12 +4,13 @@
   "additionalProperties": false,
   "required": [
     "format",
-    "modules"
+    "modules",
+    "language"
   ],
   "properties": {
     "format": {
       "type": "string",
-      "const": "0.0.1-prealpha.3"
+      "const": "0.0.1-prealpha.4"
     },
     "repository": {
       "type": "string"
@@ -21,9 +22,6 @@
     "language": {
       "type": "string",
       "format": "wasmLanguage"
-    },
-    "interface": {
-      "type": "boolean"
     },
     "modules": {
       "type": "object",

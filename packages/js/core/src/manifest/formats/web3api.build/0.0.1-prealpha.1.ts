@@ -7,7 +7,7 @@
  */
 
 export interface BuildManifest {
-  format: "0.0.1-prealpha.2";
+  format: "0.0.1-prealpha.1";
   docker?: {
     name?: string;
     dockerfile?: string;

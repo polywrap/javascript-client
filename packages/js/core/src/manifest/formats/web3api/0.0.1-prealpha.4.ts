@@ -7,18 +7,18 @@
  */
 
 export interface Web3ApiManifest {
-  format: "0.0.1-prealpha.2";
+  format: "0.0.1-prealpha.4";
   repository?: string;
   build?: string;
   language: string;
   modules: {
     mutation?: {
       schema: string;
-      module: string;
+      module?: string;
     };
     query?: {
       schema: string;
-      module: string;
+      module?: string;
     };
   };
   import_redirects?: {
