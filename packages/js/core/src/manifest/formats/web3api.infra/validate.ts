@@ -5,11 +5,11 @@
  * and run node ./scripts/manifest/generateFormatTypes.js to regenerate this file.
  */
 import {
-  AnyDeployManifest,
-  DeployManifestFormats
+  AnyInfraManifest,
+  InfraManifestFormats
 } from ".";
-import * as Validators from "../../validators";
-import schema_0_0_1_prealpha_1 from "@web3api/manifest-schemas/formats/web3api.deploy/0.0.1-prealpha.1.json";
+
+import schema_0_0_1_prealpha_1 from "@web3api/manifest-schemas/formats/web3api.infra/0.0.1-prealpha.1.json";
 import { Tracer } from "@web3api/tracing-js"
 
 import {
@@ -19,34 +19,33 @@ import {
   ValidatorResult
 } from "jsonschema";
 
-type DeployManifestSchemas = {
-  [key in DeployManifestFormats]: Schema | undefined
+type InfraManifestSchemas = {
+  [key in InfraManifestFormats]: Schema | undefined
 };
 
-const schemas: DeployManifestSchemas = {
+const schemas: InfraManifestSchemas = {
   "0.0.1-prealpha.1": schema_0_0_1_prealpha_1,
 };
 
 const validator = new Validator();
 
-Validator.prototype.customFormats.web3apiUri = Validators.web3apiUri;
 
-export const validateDeployManifest = Tracer.traceFunc(
-  "core: validateDeployManifest",
+export const validateInfraManifest = Tracer.traceFunc(
+  "core: validateInfraManifest",
   (
-    manifest: AnyDeployManifest,
+    manifest: AnyInfraManifest,
     extSchema: Schema | undefined = undefined
   ): void => {
-    const schema = schemas[manifest.format as DeployManifestFormats];
+    const schema = schemas[manifest.format as InfraManifestFormats];
 
     if (!schema) {
-      throw Error(`Unrecognized DeployManifest schema format "${manifest.format}"\nmanifest: ${JSON.stringify(manifest, null, 2)}`);
+      throw Error(`Unrecognized InfraManifest schema format "${manifest.format}"\nmanifest: ${JSON.stringify(manifest, null, 2)}`);
     }
 
     const throwIfErrors = (result: ValidatorResult) => {
       if (result.errors.length) {
         throw new Error([
-          `Validation errors encountered while sanitizing DeployManifest format ${manifest.format}`,
+          `Validation errors encountered while sanitizing InfraManifest format ${manifest.format}`,
           ...result.errors.map((error: ValidationError) => error.toString())
         ].join("\n"));
       }
