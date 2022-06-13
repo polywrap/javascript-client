@@ -1,25 +1,25 @@
-#import { Query, Connection, Network, EventNotification, StaticTxResult, TxOverrides, TxRequest, TxReceipt } into Ethereum from "w3://ens/ethereum.web3api.eth"
+#import * from "../common/schema.graphql"
 
 type Module {
   callContractView(
     address: String!
     method: String!
     args: [String!]
-    connection: Ethereum_Connection
+    connection: Connection
   ): String!
 
   callContractStatic(
     address: String!
     method: String!
     args: [String!]
-    connection: Ethereum_Connection
-    txOverrides: Ethereum_TxOverrides
-  ): Ethereum_StaticTxResult!
+    connection: Connection
+    txOverrides: TxOverrides
+  ): StaticTxResult!
 
   getBalance(
     address: String!
     blockTag: BigInt
-    connection: Ethereum_Connection
+    connection: Connection
   ): BigInt!
 
   encodeParams(
@@ -48,64 +48,58 @@ type Module {
   ): String!
 
   getSignerAddress(
-    connection: Ethereum_Connection
+    connection: Connection
   ): String!
 
   getSignerBalance(
     blockTag: BigInt
-    connection: Ethereum_Connection
+    connection: Connection
   ): BigInt!
 
   getSignerTransactionCount(
     blockTag: BigInt
-    connection: Ethereum_Connection
+    connection: Connection
   ): BigInt!
 
   getGasPrice(
-    connection: Ethereum_Connection
+    connection: Connection
   ): BigInt!
 
   estimateTransactionGas(
-    tx: Ethereum_TxRequest!
-    connection: Ethereum_Connection
+    tx: TxRequest!
+    connection: Connection
   ): BigInt!
 
   estimateContractCallGas(
     address: String!
     method: String!
     args: [String!]
-    connection: Ethereum_Connection
-    txOverrides: Ethereum_TxOverrides
+    connection: Connection
+    txOverrides: TxOverrides
   ): BigInt!
 
   checkAddress(
     address: String!
   ): Boolean!
 
-  toWei(
-    eth: String!
-  ): BigInt!
+  toWei(eth: String!): BigInt!
 
-  toEth(
-    wei: BigInt!
-  ): String!
+  toEth(wei: BigInt!): String!
 
   awaitTransaction(
     txHash: String!
     confirmations: UInt32!
     timeout: UInt32!
-    connection: Ethereum_Connection
-  ): Ethereum_TxReceipt!
+    connection: Connection
+  ): TxReceipt!
 
   waitForEvent(
     address: String!
     event: String!
     args: [String!]
     timeout: UInt32
-    connection: Ethereum_Connection
-  ): Ethereum_EventNotification!
+    connection: Connection
+  ): EventNotification!
 
-  getNetwork(
-    connection: Ethereum_Connection
-  ): Ethereum_Network!
+  getNetwork(connection: Connection): Network!
 }
