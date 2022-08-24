@@ -7,10 +7,11 @@ import {
   PluginPackage,
   Uri,
   GetFileOptions,
-  Env,
   GetManifestOptions,
+  Env,
   isBuffer,
-} from "@polywrap/core-js";
+} from "../.";
+
 import { WrapManifest } from "@polywrap/wrap-manifest-types-js";
 import { msgpackDecode } from "@polywrap/msgpack-js";
 import { Tracer, TracingLevel } from "@polywrap/tracing-js";
@@ -35,21 +36,18 @@ export class PluginWrapper extends Wrapper {
   }
 
   public async getFile(
-    _options: GetFileOptions,
+    _: GetFileOptions,
     _client: Client
   ): Promise<Uint8Array | string> {
     throw Error("client.getFile(...) is not implemented for Plugins.");
   }
 
-  public async getSchema(_client: Client): Promise<string> {
-    return Promise.resolve(this._plugin.manifest.schema);
-  }
-
+  @Tracer.traceMethod("PluginWrapper: getManifest")
   public async getManifest(
-    _options: GetManifestOptions,
+    _: GetManifestOptions,
     _client: Client
   ): Promise<WrapManifest> {
-    throw Error("client.getManifest(...) is not implemented for Plugins.");
+    return this._plugin.manifest;
   }
 
   @Tracer.traceMethod("PluginWrapper: invoke", TracingLevel.High)
