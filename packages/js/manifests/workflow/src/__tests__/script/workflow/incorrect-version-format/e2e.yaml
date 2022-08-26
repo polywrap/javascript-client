@@ -1,9 +1,0 @@
-name: test-workflow
-format: "BAD_FORMAT_VERSION"
-jobs:
-  sampleMethod:
-    steps:
-      - uri: fs/build
-        method: sampleMethod
-        args:
-          arg: "polywrap"
