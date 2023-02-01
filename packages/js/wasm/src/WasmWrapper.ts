@@ -20,6 +20,7 @@ import {
   WrapErrorCode,
   ErrorSource,
   typesHandler,
+  deepCopy
 } from "@polywrap/core-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
 
@@ -126,7 +127,7 @@ export class WasmWrapper implements Wrapper {
   }
 
   public getManifest(): Readonly<WrapManifest> {
-    return JSON.parse(JSON.stringify(this._manifest));
+    return deepCopy(this._manifest);
   }
 
   public async invoke(
