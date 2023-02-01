@@ -125,8 +125,8 @@ export class WasmWrapper implements Wrapper {
     return ResultOk(data);
   }
 
-  public getManifest(): WrapManifest {
-    return this._manifest;
+  public getManifest(): Readonly<WrapManifest> {
+    return JSON.parse(JSON.stringify(this._manifest));
   }
 
   public async invoke(

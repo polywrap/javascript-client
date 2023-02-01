@@ -29,8 +29,8 @@ export class PluginWrapper implements Wrapper {
     );
   }
 
-  public getManifest(): WrapManifest {
-    return this._manifest;
+  public getManifest(): Readonly<WrapManifest> {
+    return JSON.parse(JSON.stringify(this._manifest));
   }
 
   public async invoke(
