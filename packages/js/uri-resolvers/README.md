@@ -44,7 +44,7 @@ This example is similar to the default resolver used by the ClientConfigBuilder 
 export abstract class UriResolverAggregatorBase<
   TResolutionError = undefined,
   TGetResolversError = undefined
-> implements IUriResolver<TResolutionError | TGetResolversError> 
+> implements UriResolver<TResolutionError | TGetResolversError> 
 ```
 
 ### Methods
@@ -62,9 +62,9 @@ export abstract class UriResolverAggregatorBase<
    * */
   abstract getUriResolvers(
     uri: Uri,
-    client: CoreClient,
-    resolutionContext: IUriResolutionContext
-  ): Promise<Result<IUriResolver<unknown>[], TGetResolversError>>;
+    client: WrapClient,
+    resolutionContext: UriResolutionContext
+  ): Promise<Result<UriResolver<unknown>[], TGetResolversError>>;
 ```
 
 #### tryResolveUri
@@ -80,8 +80,8 @@ export abstract class UriResolverAggregatorBase<
    */
   async tryResolveUri(
     uri: Uri,
-    client: CoreClient,
-    resolutionContext: IUriResolutionContext
+    client: WrapClient,
+    resolutionContext: UriResolutionContext
   ): Promise<
     Result<UriPackageOrWrapper, TResolutionError | TGetResolversError>
   > 
@@ -117,9 +117,9 @@ export abstract class UriResolverAggregatorBase<
    * */
   protected async tryResolveUriWithResolvers(
     uri: Uri,
-    client: CoreClient,
-    resolvers: IUriResolver<unknown>[],
-    resolutionContext: IUriResolutionContext
+    client: WrapClient,
+    resolvers: UriResolver<unknown>[],
+    resolutionContext: UriResolutionContext
   ): Promise<Result<UriPackageOrWrapper, TResolutionError>> 
 ```
 
@@ -149,8 +149,8 @@ export class UriResolverAggregator<
  * */
 export type GetResolversFunc = (
   uri: Uri,
-  client: CoreClient
-) => Promise<IUriResolver<unknown>[]>;
+  client: WrapClient
+) => Promise<UriResolver<unknown>[]>;
 ```
 
 #### GetResolversWithErrorFunc
@@ -163,8 +163,8 @@ export type GetResolversFunc = (
  * */
 export type GetResolversWithErrorFunc<TError> = (
   uri: Uri,
-  client: CoreClient
-) => Promise<Result<IUriResolver<unknown>[], TError>>;
+  client: WrapClient
+) => Promise<Result<UriResolver<unknown>[], TError>>;
 ```
 
 ### Methods
@@ -179,8 +179,8 @@ export type GetResolversWithErrorFunc<TError> = (
   constructor(
     resolvers: (
       uri: Uri,
-      client: CoreClient
-    ) => Promise<Result<IUriResolver<unknown>[], TGetResolversError>>,
+      client: WrapClient
+    ) => Promise<Result<UriResolver<unknown>[], TGetResolversError>>,
     resolverName?: string
   );
   constructor(resolvers: GetResolversFunc, resolverName?: string);
@@ -205,8 +205,8 @@ export type GetResolversWithErrorFunc<TError> = (
    * */
   async getUriResolvers(
     uri: Uri,
-    client: CoreClient
-  ): Promise<Result<IUriResolver<unknown>[], TGetResolversError>> 
+    client: WrapClient
+  ): Promise<Result<UriResolver<unknown>[], TGetResolversError>> 
 ```
 
 #### getStepDescription (protected)
@@ -261,8 +261,8 @@ export class WrapperCache implements IWrapperCache
  * and can be achieved through other resolvers if necessary.
  * The WrapperCacheResolver wraps an IUriResolver implementation and delegates resolution to it.
  * */
-export class WrapperCacheResolver<TError>
-  implements IUriResolver<TError | Error> 
+export class PackageToWrapperCacheResolver<TError>
+  implements UriResolver<TError | Error> 
 ```
 
 ### constructor
@@ -274,7 +274,7 @@ export class WrapperCacheResolver<TError>
    * @param _cache - a wrapper cache
    * */
   constructor(
-    private _innerResolver: IUriResolver<TError>,
+    private _innerResolver: UriResolver<TError>,
     private _cache: IWrapperCache
   ) 
 ```
@@ -311,8 +311,8 @@ export class WrapperCacheResolver<TError>
    */
   async tryResolveUri(
     uri: Uri,
-    client: CoreClient,
-    resolutionContext: IUriResolutionContext
+    client: WrapClient,
+    resolutionContext: UriResolutionContext
   ): Promise<Result<UriPackageOrWrapper, TError | Error>> 
 ```
 
@@ -325,8 +325,8 @@ export class WrapperCacheResolver<TError>
  * @returns the URI's resolution path
  * */
 export const getUriResolutionPath = (
-  history: IUriResolutionStep<unknown>[]
-): IUriResolutionStep<unknown>[] 
+  history: UriResolutionStep<unknown>[]
+): UriResolutionStep<unknown>[] 
 ```
 
 ## InfiniteLoopError
@@ -347,7 +347,7 @@ export class InfiniteLoopError extends Error
    * */
   constructor(
     private readonly _uri: Uri,
-    private readonly _history: IUriResolutionStep<unknown>[]
+    private readonly _history: UriResolutionStep<unknown>[]
   ) 
 ```
 
@@ -355,7 +355,7 @@ export class InfiniteLoopError extends Error
 ```ts
 /** An abstract IUriResolver implementation that updates the resolution context */
 export abstract class ResolverWithHistory<TError = undefined>
-  implements IUriResolver<TError> 
+  implements UriResolver<TError> 
 ```
 
 ### Methods
@@ -378,8 +378,8 @@ export abstract class ResolverWithHistory<TError = undefined>
    */
   async tryResolveUri(
     uri: Uri,
-    client: CoreClient,
-    resolutionContext: IUriResolutionContext
+    client: WrapClient,
+    resolutionContext: UriResolutionContext
   ): Promise<Result<UriPackageOrWrapper, TError>> 
 ```
 
@@ -412,8 +412,8 @@ export abstract class ResolverWithHistory<TError = undefined>
    */
   protected abstract _tryResolveUri(
     uri: Uri,
-    client: CoreClient,
-    resolutionContext: IUriResolutionContext
+    client: WrapClient,
+    resolutionContext: UriResolutionContext
   ): Promise<Result<UriPackageOrWrapper, TError>>;
 ```
 
@@ -421,7 +421,7 @@ export abstract class ResolverWithHistory<TError = undefined>
 ```ts
 /** An IUriResolver implementation that prevents infinite loops in the resolution path. */
 export class ResolverWithLoopGuard<TError = undefined>
-  implements IUriResolver<TError | InfiniteLoopError> 
+  implements UriResolver<TError | InfiniteLoopError> 
 ```
 
 ### constructor
@@ -431,7 +431,7 @@ export class ResolverWithLoopGuard<TError = undefined>
    *
    * @param _resolver - a resolution to delegate resolution to
    * */
-  constructor(private _resolver: IUriResolver<TError>) 
+  constructor(private _resolver: UriResolver<TError>) 
 ```
 
 ### Methods
@@ -463,8 +463,8 @@ export class ResolverWithLoopGuard<TError = undefined>
    */
   async tryResolveUri(
     uri: Uri,
-    client: CoreClient,
-    resolutionContext: IUriResolutionContext
+    client: WrapClient,
+    resolutionContext: UriResolutionContext
   ): Promise<Result<UriPackageOrWrapper, TError | InfiniteLoopError>> 
 ```
 
@@ -544,7 +544,7 @@ export class UriResolutionResult<TError = undefined>
   static ok<TError = undefined>(uri: Uri): Result<UriPackageOrWrapper, TError>;
   static ok<TError = undefined>(
     uri: Uri,
-    wrapPackage: IWrapPackage
+    wrapPackage: WrapPackage
   ): Result<UriPackageOrWrapper, TError>;
   static ok<TError = undefined>(
     uri: Uri,
@@ -555,7 +555,7 @@ export class UriResolutionResult<TError = undefined>
   ): Result<UriPackageOrWrapper, TError>;
   static ok<TError = undefined>(
     uriPackageOrWrapper: Uri | UriPackageOrWrapper,
-    packageOrWrapper?: IWrapPackage | Wrapper
+    packageOrWrapper?: WrapPackage | Wrapper
   ): Result<UriPackageOrWrapper, TError> 
 ```
 
@@ -570,7 +570,7 @@ export class UriResolutionResult<TError = undefined>
 ## UriResolver
 ```ts
 /** An IUriResolver factory */
-export class UriResolver 
+export class UriResolverFactory 
 ```
 
 ### Methods
@@ -586,7 +586,7 @@ export class UriResolver
   static from<TError = undefined>(
     resolverLike: UriResolverLike,
     resolverName?: string
-  ): IUriResolver<TError> 
+  ): UriResolver<TError> 
 ```
 
 ## UriResolverLike
@@ -597,10 +597,10 @@ export class UriResolver
  * - An array of UriResolverLike
  * */
 export type UriResolverLike =
-  | IUriResolver<unknown>
-  | IUriRedirect
-  | IUriPackage
-  | IUriWrapper
+  | UriResolver<unknown>
+  | UriRedirect
+  | UriPackage
+  | UriWrapper
   | UriResolverLike[];
 ```
 
@@ -621,7 +621,7 @@ export class PackageResolver extends ResolverWithHistory
    * @param _uri - the URI to redirect to the wrap package
    * @param wrapPackage - a wrap package
    * */
-  constructor(private _uri: Uri, private wrapPackage: IWrapPackage) 
+  constructor(private _uri: Uri, private wrapPackage: WrapPackage) 
 ```
 
 ### Methods
@@ -748,7 +748,7 @@ export class WrapperResolver extends ResolverWithHistory
  * static resolvers--i.e. those that resolve to embedded URIs, Wrappers, and Packages
  * */
 export class StaticResolver<TError = undefined>
-  implements IUriResolver<TError> 
+  implements UriResolver<TError> 
 ```
 
 ### constructor
@@ -789,8 +789,8 @@ export class StaticResolver<TError = undefined>
    */
   async tryResolveUri(
     uri: Uri,
-    _: CoreClient,
-    resolutionContext: IUriResolutionContext
+    _: WrapClient,
+    resolutionContext: UriResolutionContext
   ): Promise<Result<UriPackageOrWrapper, TError>> 
 ```
 
@@ -801,9 +801,9 @@ export class StaticResolver<TError = undefined>
  * - An array of StaticResolverLike
  * */
 export type StaticResolverLike =
-  | IUriRedirect
-  | IUriPackage
-  | IUriWrapper
+  | UriRedirect
+  | UriPackage
+  | UriWrapper
   | StaticResolverLike[];
 ```
 
@@ -816,7 +816,7 @@ export type StaticResolverLike =
  * (default is to use the cache)
  */
 export class RequestSynchronizerResolver<TError>
-  implements IUriResolver<TError> 
+  implements UriResolver<TError> 
 ```
 
 ### constructor
@@ -828,7 +828,7 @@ export class RequestSynchronizerResolver<TError>
    * @param options - the optional options containing the `shouldIgnoreCache` error handler
    * */
   constructor(
-    private resolverToSynchronize: IUriResolver<TError>,
+    private resolverToSynchronize: UriResolver<TError>,
     private options?: {
       shouldIgnoreCache?: (error: TError | undefined) => boolean;
     }
@@ -868,8 +868,8 @@ export class RequestSynchronizerResolver<TError>
    */
   async tryResolveUri(
     uri: Uri,
-    client: CoreClient,
-    resolutionContext: IUriResolutionContext
+    client: WrapClient,
+    resolutionContext: UriResolutionContext
   ): Promise<Result<UriPackageOrWrapper, TError>> 
 ```
 
