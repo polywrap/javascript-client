@@ -1,4 +1,4 @@
-name: CD-Javascript
+name: CD-JavaScript
 on:
   # When Pull Request is merged
   pull_request_target:

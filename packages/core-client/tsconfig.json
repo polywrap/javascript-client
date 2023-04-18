@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig",
+  "extends": "../../tsconfig",
   "compilerOptions": {
     "lib": [
       "es2020",
@@ -12,5 +12,4 @@
     "./src/**/*.ts",
     "./examples/**/*.ts"
   ],
-  "exclude": []
 }

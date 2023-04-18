@@ -42,7 +42,7 @@ const casesFiles = fs
 const getModule = async (name: string) => {
   const wasmPath = path.join(__dirname, "cases", "build", `${name}.wasm`);
   const buffer = fs.readFileSync(wasmPath);
-  const bytes = new Uint8Array(buffer).buffer;
+  const bytes = new Uint8Array(buffer);
   return bytes;
 };
 

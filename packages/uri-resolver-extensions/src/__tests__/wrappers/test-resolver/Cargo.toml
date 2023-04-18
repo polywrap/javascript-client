@@ -3,7 +3,7 @@ name = "test-uri-resolver-wasm-rs"
 version = "0.1.0"
 description = "A URI resolver extension wrapper for testing"
 authors = ["Polywrap"]
-repository = "https://github.com/polywrap/monorepo"
+repository = "https://github.com/polywrap/javascript-client"
 license = "MIT"
 edition = "2021"
 

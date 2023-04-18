@@ -876,7 +876,7 @@ export class RequestSynchronizerResolver<TError>
 
 ## Development
 
-This package is open-source. It lives within the [Polywrap toolchain monorepo](https://github.com/polywrap/toolchain/tree/origin/packages/js/uri-resolvers). Contributions from the community are welcomed!
+This package is open-source. It lives within the [Polywrap JavaScript Client repository](https://github.com/polywrap/javascript-client). Contributions from the community are welcomed!
 
 ### Build
 ```bash

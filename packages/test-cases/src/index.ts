@@ -2,11 +2,7 @@ import admZip from 'adm-zip';
 import axios from "axios";
 import shell from "shelljs";
 
-export const GetPathToBindTestFiles = () => `${__dirname}/cases/bind`
-export const GetPathToComposeTestFiles = () => `${__dirname}/cases/compose`
-export const GetPathToParseTestFiles = () => `${__dirname}/cases/parse`
-export const GetPathToTestWrappers = () => `${__dirname}/cases/wrappers`
-export const GetPathToCliTestFiles = () => `${__dirname}/cases/cli`;
+export const GetPathToTestWrappers = () => `${__dirname}/../wrappers`
 
 export async function fetchWrappers(): Promise<void> {
   // function to fetch file from GitHub release
@@ -32,7 +28,7 @@ export async function fetchWrappers(): Promise<void> {
 
   try {
     const buffer = await fetchFromGithub(url);
-    const zipBuiltFolder = './cases/wrappers';
+    const zipBuiltFolder = GetPathToTestWrappers();
     unzipFile(buffer, zipBuiltFolder);
     shell.exec(`rm -rf node_modules`)
     console.log(`Wrappers folder fetch successful`);

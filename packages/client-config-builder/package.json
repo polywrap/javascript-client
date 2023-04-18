@@ -1,11 +1,11 @@
 {
   "name": "@polywrap/client-config-builder-js",
-  "description": "Polywrap Javascript Client configuration",
+  "description": "Polywrap JavaScript Client configuration",
   "version": "0.10.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/polywrap/monorepo.git"
+    "url": "https://github.com/polywrap/javascript-client.git"
   },
   "main": "build/index.js",
   "files": [
@@ -16,8 +16,8 @@
     "build:docs": "yarn build:snippets && yarn build:readme",
     "build:fast": "rimraf ./build && tsc --project tsconfig.build.json",
     "embed:wrappers": "ts-node ./scripts/embed-wrappers.ts",
-    "lint": "eslint --color -c ../../../.eslintrc.js src/",
-    "test": "jest --passWithNoTests --runInBand --verbose",
+    "lint": "eslint --color -c ../../.eslintrc.js src/",
+    "test": "jest --passWithNoTests --runInBand --verbose --config ../../jest.config.js --rootDir .",
     "test:watch": "yarn test -- --watch",
     "build:snippets": "tsc --project ./examples/tsconfig.examples.json",
     "build:readme": "yarn doc-snippets combine"
@@ -36,12 +36,12 @@
     "base64-to-uint8array": "1.0.0"
   },
   "devDependencies": {
-    "@types/jest": "26.0.8",
+    "@types/jest": "29.5.0",
     "@types/prettier": "2.6.0",
     "doc-snippets": "~1.0.0",
-    "jest": "26.6.3",
+    "jest": "29.5.0",
     "rimraf": "3.0.2",
-    "ts-jest": "26.5.4",
+    "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
     "typescript": "4.9.5"
   },
