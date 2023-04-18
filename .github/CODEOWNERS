@@ -6,8 +6,8 @@ packages/wasm/as  @dOrgJelli @krisbitney @namesty @Niraj-Kamdar
 packages/wasm/rs  @namesty @dOrgJelli
 
 # Wrapper Test-Cases
-packages/test-cases/cases/wrappers/wasm-as @cbrzn @namesty @nerfZael @krisbitney @Niraj-Kamdar
-packages/test-cases/cases/wrappers/wasm-rs @cbrzn @namesty @nerfZael @krisbitney @Niraj-Kamdar
+packages/test-cases/cases/wasm-as @cbrzn @namesty @nerfZael @krisbitney @Niraj-Kamdar
+packages/test-cases/cases/wasm-rs @cbrzn @namesty @nerfZael @krisbitney @Niraj-Kamdar
 
 # Schema
 packages/schema/parse    @dOrgJelli @namesty @nerfZael @Niraj-Kamdar

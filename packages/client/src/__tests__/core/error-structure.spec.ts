@@ -52,7 +52,7 @@ describe("Error structure", () => {
       expect(result.error?.reason).toContain("A URI Resolver returned an error.");
       expect(
         result.error?.uri.endsWith(
-          "packages/test-cases/cases/wrappers/subinvoke/00-subinvoke/implementations/as-not-found"
+          "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/as-not-found"
         )
       ).toBeTruthy();
       expect(result.error?.resolutionStack).toBeTruthy();
@@ -75,7 +75,7 @@ describe("Error structure", () => {
       expect(result.error?.reason).toContain("SubInvocation exception encountered");
       expect(
         result.error?.uri.endsWith(
-          "packages/test-cases/cases/wrappers/subinvoke/02-consumer/implementations/as"
+          "packages/test-cases/wrappers/subinvoke/02-consumer/implementations/as"
         )
       ).toBeTruthy();
       expect(result.error?.method).toEqual("throwError");
@@ -116,7 +116,7 @@ describe("Error structure", () => {
         expect(result.error?.reason.startsWith("__wrap_abort:")).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/cases/wrappers/subinvoke/00-subinvoke/implementations/as"
+            "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/as"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("add");
@@ -145,7 +145,7 @@ describe("Error structure", () => {
         ).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/cases/wrappers/subinvoke/00-subinvoke/implementations/as"
+            "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/as"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("notExistingMethod");
@@ -188,7 +188,7 @@ describe("Error structure", () => {
         ).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/cases/wrappers/subinvoke/02-consumer/implementations/as"
+            "packages/test-cases/wrappers/subinvoke/02-consumer/implementations/as"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("throwError");
@@ -315,7 +315,7 @@ describe("Error structure", () => {
         expect(result.error?.reason.startsWith("__wrap_abort:")).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/cases/wrappers/subinvoke/00-subinvoke/implementations/rs"
+            "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/rs"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("add");
@@ -344,7 +344,7 @@ describe("Error structure", () => {
         ).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/cases/wrappers/subinvoke/00-subinvoke/implementations/rs"
+            "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/rs"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("notExistingMethod");
@@ -387,7 +387,7 @@ describe("Error structure", () => {
         ).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/cases/wrappers/subinvoke/02-consumer/implementations/rs"
+            "packages/test-cases/wrappers/subinvoke/02-consumer/implementations/rs"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("throwError");
