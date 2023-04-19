@@ -22,11 +22,6 @@ jobs:
         uses: tj-actions/changed-files@v35
         with:
           files: |
-            packages/cli/src/commands/build.ts
-            packages/cli/src/lib/Compiler.ts
-            packages/cli/src/lib/defaults/build-strategies/*
-            packages/schema/bind/*
-            packages/wasm/*
             packages/js/wasm/*
             packages/js/asyncify/*
             packages/js/manifests/*
@@ -103,7 +98,7 @@ jobs:
             cargo-${{ runner.os }}-${{ github.job }}
 
       - name: Set environment variable
-        run: echo POLYWRAP_CLI_PATH=$(pwd)/toolchain/packages/cli >> $GITHUB_ENV
+        run: echo POLYWRAP_CLI_PATH=$(pwd)/node_modules/polywrap >> $GITHUB_ENV
 
       - name: Set environment variable
         run: echo POLYWRAP_WASM_PATH=$(pwd)/toolchain/packages/wasm >> $GITHUB_ENV
