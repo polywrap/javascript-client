@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/polywrap/monorepo.git"
+    "url": "https://github.com/polywrap/toolchain.git"
   },
   "main": "build/index.js",
   "files": [
@@ -19,14 +19,17 @@
   },
   "dependencies": {
     "@polywrap/asyncify-js": "0.10.0",
-    "@polywrap/core-js": "0.10.0",
+    "@polywrap/wrap-js": "0.10.0",
     "@polywrap/msgpack-js": "0.10.0",
     "@polywrap/result": "0.10.0",
     "@polywrap/tracing-js": "0.10.0",
     "@polywrap/wrap-manifest-types-js": "0.10.0"
   },
   "peerDependencies": {
-    "@polywrap/core-js": "0.10.x"
+    "@polywrap/wrap-js": "0.10.x"
+  },
+  "peerDependencies": {
+    "@polywrap/wrap-js": "0.10.x"
   },
   "devDependencies": {
     "@polywrap/cli-js": "0.10.0",

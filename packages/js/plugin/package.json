@@ -18,14 +18,14 @@
     "test:watch": "yarn test -- --watch"
   },
   "dependencies": {
-    "@polywrap/core-js": "0.10.0",
+    "@polywrap/wrap-js": "0.10.0",
     "@polywrap/msgpack-js": "0.10.0",
     "@polywrap/result": "0.10.0",
     "@polywrap/tracing-js": "0.10.0",
     "@polywrap/wrap-manifest-types-js": "0.10.0"
   },
   "peerDependencies": {
-    "@polywrap/core-js": "0.10.x"
+    "@polywrap/wrap-js": "0.10.x"
   },
   "devDependencies": {
     "@types/jest": "26.0.8",
