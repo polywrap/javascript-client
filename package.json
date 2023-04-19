@@ -27,8 +27,6 @@
     "lint:fix": "lerna run lint -- --fix",
     "lint:ci": "yarn lint",
     "test": "lerna run test --no-private --ignore @polywrap/client-js --concurrency 1 && lerna run test --scope @polywrap/client-js",
-    "test:core": "lerna run test --no-private --ignore @polywrap/*-plugin-js --ignore polywrap* --ignore @polywrap/client-js --concurrency 1",
-    "test:client": "lerna run test --no-private --scope @polywrap/client-js --concurrency 1",
     "version:apply": "lerna version $(cat VERSION) --exact --no-git-tag-version --yes",
     "postversion:apply": "git add . && git commit -m \"build(release): migrate to `cat ./VERSION`\"",
     "publish:npm": "lerna exec --no-private --concurrency 1 -- yarn publish --access public --non-interactive --verbose",
