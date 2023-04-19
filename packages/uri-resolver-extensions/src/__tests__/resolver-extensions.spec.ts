@@ -448,8 +448,13 @@ source: { file: "src/wrap/module/wrapped.rs", row: 35, col: 21 }`
       fail("Resoulution should have failed");
     }
 
-    expect(result.error).toEqual(
-      "While resolving wrap://test/not-a-match with URI resolver extension wrap://test/undefined-resolver, the extension could not be fully resolved. Last tried URI is wrap://test/undefined-resolver"
+    expect((result.error as Error)?.message).toEqual(
+      `Unable to find URI wrap://test/undefined-resolver.
+code: 28 URI NOT FOUND
+uri: wrap://test/undefined-resolver
+uriResolutionStack: [
+  "wrap://test/undefined-resolver => UriResolverAggregator"
+]`
     );
   });
 });
