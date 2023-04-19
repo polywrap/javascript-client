@@ -12,7 +12,7 @@ packages/manifests                @dOrgJelli @namesty @nerfZael @pileks @Niraj-K
 packages/msgpack                  @dOrgJelli @Niraj-Kamdar
 packages/plugin                   @nerfZael @dOrgJelli
 packages/result                   @nerfZael
-packages/tracing                  @dOrgJelli @Niraj-Kamdar @fetsorn
+packages/tracing                  @dOrgJelli @Niraj-Kamdar
 packages/uri-resolver-extensions  @nerfZael
 packages/uri-resolvers            @nerfZael
 packages/validation               @nerfZael @cbrzn
