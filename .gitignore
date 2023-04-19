@@ -17,7 +17,7 @@ bin
 pkg
 wasm-pack.log
 .env
-packages/test-cases/cases/wrappers
+packages/test-cases/wrappers
 polywrap.deployment.txt
 **/.hypothesis/
 **/.pytest_cache/
