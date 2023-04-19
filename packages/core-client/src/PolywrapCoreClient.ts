@@ -282,25 +282,33 @@ export class PolywrapCoreClient implements CoreClient {
         loadWrapperContext
       );
 
-      resolutionContext.trackStep({
-        sourceUri: typedOptions.uri,
-        result: loadWrapperResult.ok
-          ? UriResolutionResult.ok(typedOptions.uri, loadWrapperResult.value)
-          : UriResolutionResult.err(loadWrapperResult.error),
-        description: `Client.loadWrapper(${typedOptions.uri.uri})`,
-        subHistory: loadWrapperContext.getHistory(),
-      });
-
       if (!loadWrapperResult.ok) {
+        resolutionContext.trackStep({
+          sourceUri: typedOptions.uri,
+          result: UriResolutionResult.err(loadWrapperResult.error),
+          description: `Client.loadWrapper`,
+          subHistory: loadWrapperContext.getHistory(),
+        });
+
         return loadWrapperResult;
       }
-      const wrapper = loadWrapperResult.value;
 
       let resolutionPath = loadWrapperContext.getResolutionPath();
       resolutionPath =
         resolutionPath.length > 0 ? resolutionPath : [typedOptions.uri];
 
-      const env = getEnvFromUriHistory(resolutionPath, this);
+      const finalUri = resolutionPath[resolutionPath.length - 1];
+
+      const wrapper = loadWrapperResult.value;
+
+      resolutionContext.trackStep({
+        sourceUri: typedOptions.uri,
+        result: UriResolutionResult.ok(finalUri, loadWrapperResult.value),
+        description: `Client.loadWrapper`,
+        subHistory: loadWrapperContext.getHistory(),
+      });
+
+      const env = options.env ?? getEnvFromUriHistory(resolutionPath, this);
 
       const invokeContext = resolutionContext.createSubContext();
 
@@ -311,14 +319,12 @@ export class PolywrapCoreClient implements CoreClient {
         wrapper,
       });
 
-      const finalUri = resolutionPath[resolutionPath.length - 1];
-
       resolutionContext.trackStep({
         sourceUri: finalUri,
         result: invokeResult.ok
           ? UriResolutionResult.ok(finalUri)
           : ResultErr(invokeResult.error),
-        description: `Client.invoke(${finalUri.uri})`,
+        description: `Client.invokeWrapper`,
         subHistory: invokeContext.getHistory(),
       });
 
