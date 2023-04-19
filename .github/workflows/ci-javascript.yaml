@@ -128,8 +128,8 @@ jobs:
 
       - if: ${{ needs.CI-WRAP-Test-Harness.outputs.rebuild_required == 'true' }}
         run: |
-          rm -rf packages/test-cases/cases/wrappers
-          mv wrappers packages/test-cases/cases
+          rm -rf packages/test-cases/wrappers
+          mv wrappers packages/test-cases
 
       - name: Test
         run: yarn test

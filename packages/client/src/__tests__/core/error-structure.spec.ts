@@ -5,7 +5,7 @@ import { Uri } from "@polywrap/core-js";
 import { GetPathToTestWrappers } from "@polywrap/test-cases";
 import { PolywrapClient } from "../..";
 import { WrapError, WrapErrorCode } from "@polywrap/core-js";
-import { incompatiblePlugin, mockPluginRegistration } from "../helpers";
+import { mockPluginRegistration } from "../helpers";
 import { msgpackDecode, msgpackEncode } from "@polywrap/msgpack-js";
 import {
   ClientConfigBuilder,
@@ -52,7 +52,7 @@ describe("Error structure", () => {
       expect(result.error?.reason).toContain("A URI Resolver returned an error.");
       expect(
         result.error?.uri.endsWith(
-          "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/as-not-found"
+          "packages/test-cases/build/../wrappers/subinvoke/00-subinvoke/implementations/as-not-found"
         )
       ).toBeTruthy();
       expect(result.error?.resolutionStack).toBeTruthy();
@@ -75,7 +75,7 @@ describe("Error structure", () => {
       expect(result.error?.reason).toContain("SubInvocation exception encountered");
       expect(
         result.error?.uri.endsWith(
-          "packages/test-cases/wrappers/subinvoke/02-consumer/implementations/as"
+          "packages/test-cases/build/../wrappers/subinvoke/02-consumer/implementations/as"
         )
       ).toBeTruthy();
       expect(result.error?.method).toEqual("throwError");
@@ -116,7 +116,7 @@ describe("Error structure", () => {
         expect(result.error?.reason.startsWith("__wrap_abort:")).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/as"
+            "packages/test-cases/build/../wrappers/subinvoke/00-subinvoke/implementations/as"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("add");
@@ -145,7 +145,7 @@ describe("Error structure", () => {
         ).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/as"
+            "packages/test-cases/build/../wrappers/subinvoke/00-subinvoke/implementations/as"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("notExistingMethod");
@@ -188,7 +188,7 @@ describe("Error structure", () => {
         ).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/wrappers/subinvoke/02-consumer/implementations/as"
+            "packages/test-cases/build/../wrappers/subinvoke/02-consumer/implementations/as"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("throwError");
@@ -264,29 +264,6 @@ describe("Error structure", () => {
           );
         });
 
-        test.skip("Invoke a plugin with incompatible version", async () => {
-          const builder = new ClientConfigBuilder();
-          const config = builder
-            .addPackage("wrap://ens/plugin.eth", incompatiblePlugin())
-            .build();
-          const client = new PolywrapClient(config);
-          const result = await client.invoke<string>({
-            uri: "wrap://ens/plugin.eth",
-            method: "getData",
-          });
-
-          expect(result.ok).toBeFalsy();
-          if (result.ok) throw Error("should never happen");
-
-          expect(result.error?.name).toEqual("WrapError");
-          expect(result.error?.code).toEqual(WrapErrorCode.URI_RESOLVER_ERROR);
-          expect(result.error?.uri.endsWith("plugin.eth")).toBeTruthy();
-          expect(result.error?.resolutionStack).toBeDefined();
-          expect(`${result.error?.cause}`).toContain(
-            `Unrecognized WrapManifest schema version "0.0.0.5"`
-          );
-        });
-
         afterAll(() => {
           fs.rmdirSync("tmp", { recursive: true });
         });
@@ -315,7 +292,7 @@ describe("Error structure", () => {
         expect(result.error?.reason.startsWith("__wrap_abort:")).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/rs"
+            "packages/test-cases/build/../wrappers/subinvoke/00-subinvoke/implementations/rs"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("add");
@@ -344,7 +321,7 @@ describe("Error structure", () => {
         ).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/wrappers/subinvoke/00-subinvoke/implementations/rs"
+            "packages/test-cases/build/../wrappers/subinvoke/00-subinvoke/implementations/rs"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("notExistingMethod");
@@ -387,7 +364,7 @@ describe("Error structure", () => {
         ).toBeTruthy();
         expect(
           result.error?.uri.endsWith(
-            "packages/test-cases/wrappers/subinvoke/02-consumer/implementations/rs"
+            "packages/test-cases/build/../wrappers/subinvoke/02-consumer/implementations/rs"
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("throwError");
@@ -432,7 +409,7 @@ describe("Error structure", () => {
           uri: DefaultBundle.plugins.fileSystem.uri.uri,
           method: "readFile",
           args: {
-            pathh: "packages/js/client/src/__tests__/core/index.ts",
+            pathh: "packages/client/src/__tests__/core/index.ts",
           },
         });
 
@@ -449,7 +426,7 @@ describe("Error structure", () => {
         expect(result.error?.uri).toEqual(DefaultBundle.plugins.fileSystem.uri.uri);
         expect(result.error?.method).toEqual("readFile");
         expect(result.error?.args).toContain(
-          '{\n  "pathh": "packages/js/client/src/__tests__/core/index.ts"\n}'
+          '{\n  "pathh": "packages/client/src/__tests__/core/index.ts"\n}'
         );
         expect(result.error?.source?.file).toEqual(
           "node:internal/fs/promises"
@@ -496,7 +473,7 @@ describe("Error structure", () => {
         expect(result.error?.uri).toEqual("wrap://plugin/mock");
         expect(
           result.error?.source?.file?.endsWith(
-            "packages/js/client/src/__tests__/helpers.ts"
+            "packages/client/src/__tests__/helpers.ts"
           )
         ).toBeTruthy();
         expect(result.error?.source?.row).toEqual(47);
