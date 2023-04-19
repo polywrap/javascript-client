@@ -41,18 +41,27 @@ export class UriResolverWrapper implements IUriResolver<unknown> /* $ */ {
     client: CoreClient,
     resolutionContext: IUriResolutionContext
   ): Promise<Result<UriPackageOrWrapper, unknown>> /* $ */ {
+    const resolverExtensionContext = resolutionContext.createSubContext();
+
     const result = await tryResolveUriWithImplementation(
       uri,
       this.implementationUri,
       client,
-      resolutionContext
+      resolverExtensionContext
     );
 
-    if (!result.ok) {
-      return UriResolutionResult.err(result.error);
-    }
+    const resolutionResult = result.ok
+      ? getResult(result.value, uri, this.implementationUri, client)
+      : UriResolutionResult.err(result.error);
 
-    return getResult(result.value, uri, this.implementationUri, client);
+    resolutionContext.trackStep({
+      sourceUri: uri,
+      result: resolutionResult,
+      description: `ResolverExtension (${this.implementationUri.uri})`,
+      subHistory: resolverExtensionContext.getHistory(),
+    });
+
+    return resolutionResult;
   }
 }
 
@@ -94,8 +103,6 @@ const tryResolveUriWithImplementation = async (
 ): Promise<
   Result<UriResolverInterface.MaybeUriOrManifest | undefined, unknown>
 > /* $ */ => {
-  const resolverExtensionContext = resolutionContext.createSubContext();
-
   const invokeResult = await client.invoke<UriResolverInterface.MaybeUriOrManifest>(
     {
       uri: implementationUri,
@@ -104,18 +111,9 @@ const tryResolveUriWithImplementation = async (
         authority: uri.authority,
         path: uri.path,
       },
-      resolutionContext: resolverExtensionContext,
+      resolutionContext,
     }
   );
-
-  resolutionContext.trackStep({
-    sourceUri: uri,
-    result: invokeResult.ok
-      ? UriResolutionResult.ok(implementationUri)
-      : UriResolutionResult.err(invokeResult.error),
-    description: `ResolverExtension (${implementationUri.uri})`,
-    subHistory: resolverExtensionContext.getHistory(),
-  });
 
   if (!invokeResult.ok) {
     return invokeResult;
