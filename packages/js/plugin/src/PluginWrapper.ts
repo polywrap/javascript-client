@@ -10,6 +10,7 @@ import {
   isBuffer,
   WrapError,
   WrapErrorCode,
+  deepCopy,
 } from "@polywrap/core-js";
 import { WrapManifest } from "@polywrap/wrap-manifest-types-js";
 import { msgpackDecode } from "@polywrap/msgpack-js";
@@ -29,8 +30,8 @@ export class PluginWrapper implements Wrapper {
     );
   }
 
-  public getManifest(): WrapManifest {
-    return this._manifest;
+  public getManifest(): Readonly<WrapManifest> {
+    return deepCopy(this._manifest);
   }
 
   public async invoke(

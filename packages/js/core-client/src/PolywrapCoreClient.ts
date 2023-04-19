@@ -101,9 +101,9 @@ export class PolywrapCoreClient implements CoreClient {
    * @param uri - a wrap URI
    * @returns a Result containing the WrapManifest if the request was successful
    */
-  public async getManifest(
-    uri: Uri
-  ): Promise<Result<WrapManifest, WrapError>> /* $ */ {
+  public async getManifest<TUri extends Uri | string>(
+    uri: TUri
+  ): Promise<Result<Readonly<WrapManifest>, WrapError>> /* $ */ {
     const load = await this.loadWrapper(Uri.from(uri), undefined);
     if (!load.ok) {
       return load;

@@ -116,9 +116,9 @@ Invoke a wrapper.
    * @param uri - a wrap URI
    * @returns a Result containing the WrapManifest if the request was successful
    */
-  public async getManifest(
-    uri: Uri
-  ): Promise<Result<WrapManifest, WrapError>> 
+  public async getManifest<TUri extends Uri | string>(
+    uri: TUri
+  ): Promise<Result<Readonly<WrapManifest>, WrapError>> 
 ```
 
 ### getFile
