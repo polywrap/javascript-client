@@ -6,12 +6,10 @@ import {
   IUriResolver,
   IUriResolutionContext,
   UriPackageOrWrapper,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
-import {
-  UriResolverAggregatorBase,
-  UriResolutionResult,
-} from "@polywrap/uri-resolvers-js";
+import { UriResolverAggregatorBase } from "@polywrap/uri-resolvers-js";
 
 // $start: ExtendableUriResolver
 /**

@@ -21,6 +21,7 @@ import {
   WrapperEnv,
   ReadonlyUriMap,
   UriMap,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { msgpackEncode, msgpackDecode } from "@polywrap/msgpack-js";
 import {
@@ -28,7 +29,6 @@ import {
   WrapManifest,
 } from "@polywrap/wrap-manifest-types-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
-import { UriResolutionResult } from "@polywrap/uri-resolvers-js";
 
 export class PolywrapCoreClient implements CoreClient {
   // $start: PolywrapCoreClient-constructor

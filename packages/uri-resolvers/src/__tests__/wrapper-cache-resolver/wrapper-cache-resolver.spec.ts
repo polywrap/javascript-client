@@ -6,9 +6,10 @@ import {
   Uri,
   UriPackageOrWrapper,
   UriResolutionContext,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { expectHistory } from "../helpers/expectHistory";
-import { RecursiveResolver, UriResolutionResult } from "../../helpers";
+import { RecursiveResolver } from "../../helpers";
 import { PolywrapCoreClient } from "@polywrap/core-client-js";
 import { PluginPackage } from "@polywrap/plugin-js";
 import { WrapperCache, WrapperCacheResolver } from "../../cache";

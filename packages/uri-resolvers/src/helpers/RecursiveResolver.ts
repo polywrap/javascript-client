@@ -1,6 +1,5 @@
 import { InfiniteLoopError } from "./InfiniteLoopError";
 import { UriResolverLike } from "./UriResolverLike";
-import { UriResolutionResult } from "./UriResolutionResult";
 import { UriResolver } from "./UriResolver";
 
 import { Result } from "@polywrap/result";
@@ -10,6 +9,7 @@ import {
   CoreClient,
   IUriResolutionContext,
   UriPackageOrWrapper,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 
 // $start: RecursiveResolver

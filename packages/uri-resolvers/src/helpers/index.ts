@@ -1,4 +1,3 @@
-export * from "./UriResolutionResult";
 export * from "./UriResolverLike";
 export * from "./ResolverWithHistory";
 export * from "./InfiniteLoopError";

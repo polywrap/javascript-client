@@ -6,10 +6,10 @@ import {
   Uri,
   UriPackageOrWrapper,
   UriResolutionContext,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { expectHistory } from "../helpers/expectHistory";
 import { RequestSynchronizerResolver } from "../../cache";
-import { UriResolutionResult } from "../../helpers";
 import { PolywrapCoreClient } from "@polywrap/core-client-js";
 
 jest.setTimeout(20000);
@@ -211,7 +211,7 @@ describe("RequestSynchronizerResolver", () => {
 
     const invocations: Promise<Result<UriPackageOrWrapper, unknown>>[] = [];
     const resolutionContexts: IUriResolutionContext[] = [];
-    
+
     for (let i = 0; i < 3; i++) {
       const resolutionContext = new UriResolutionContext();
       const result = client.tryResolveUri({ uri, resolutionContext });

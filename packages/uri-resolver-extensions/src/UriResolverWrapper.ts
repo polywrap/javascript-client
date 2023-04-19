@@ -7,10 +7,10 @@ import {
   IUriResolutionContext,
   UriPackageOrWrapper,
   IUriResolver,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { Result, ResultOk } from "@polywrap/result";
 import { WasmPackage } from "@polywrap/wasm-js";
-import { UriResolutionResult } from "@polywrap/uri-resolvers-js";
 
 // $start: UriResolverWrapper
 /**

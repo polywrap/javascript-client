@@ -5,8 +5,8 @@ import {
   UriPackageOrWrapper,
   UriResolutionContext,
   buildCleanUriHistory,
+  UriResolutionResult,
 } from "@polywrap/core-js";
-import { UriResolutionResult } from "@polywrap/uri-resolvers-js";
 import fs from "fs";
 import { Result } from "@polywrap/result";
 import { PolywrapClient, ClientConfigBuilder } from "../../../";
@@ -78,7 +78,7 @@ describe("URI resolution", () => {
     );
 
     if (expectResult.ok) {
-      expectResult.value.type = "wrapper"
+      expectResult.value.type = "wrapper";
     }
 
     await expectResultWithHistory(

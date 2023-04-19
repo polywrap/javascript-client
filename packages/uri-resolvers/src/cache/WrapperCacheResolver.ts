@@ -1,5 +1,5 @@
 import { IWrapperCache } from "./IWrapperCache";
-import { UriResolutionResult, UriResolver, UriResolverLike } from "../helpers";
+import { UriResolver, UriResolverLike } from "../helpers";
 
 import {
   IUriResolver,
@@ -7,6 +7,7 @@ import {
   CoreClient,
   IUriResolutionContext,
   UriPackageOrWrapper,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { Result } from "@polywrap/result";
 
