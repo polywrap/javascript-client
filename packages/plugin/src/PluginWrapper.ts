@@ -85,7 +85,8 @@ export class PluginWrapper implements Wrapper {
       method,
       jsArgs,
       client,
-      options.env || {}
+      options.env || {},
+      options.resolutionContext
     );
 
     if (result.ok) {

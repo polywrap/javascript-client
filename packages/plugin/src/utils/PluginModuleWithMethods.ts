@@ -4,7 +4,7 @@ import { PluginMethod } from "../PluginMethod";
 import { PluginModule } from "../PluginModule";
 import { GetPluginMethodsFunc } from "./GetPluginMethodsFunc";
 
-import { CoreClient, WrapErrorCode } from "@polywrap/core-js";
+import { CoreClient, IUriResolutionContext, WrapErrorCode } from "@polywrap/core-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
 
 export class PluginModuleWithMethods<
@@ -21,7 +21,8 @@ export class PluginModuleWithMethods<
     method: string,
     args: TArgs,
     client: CoreClient,
-    env: TEnv
+    env: TEnv,
+    resolutionContext?: IUriResolutionContext
   ): Promise<Result<TResult, Error>> {
     const fn = this.getMethod<TArgs, TResult>(method);
 
@@ -36,7 +37,7 @@ export class PluginModuleWithMethods<
     }
 
     try {
-      const data = await fn(args, client, env);
+      const data = await fn(args, client, env, resolutionContext);
       return ResultOk(data);
     } catch (e) {
       e.code = WrapErrorCode.WRAPPER_INVOKE_ABORTED;
