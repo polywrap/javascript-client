@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { PluginMethod } from "./PluginMethod";
 
-import { CoreClient, IUriResolutionContext, WrapErrorCode } from "@polywrap/core-js";
+import {
+  CoreClient,
+  IUriResolutionContext,
+  WrapErrorCode,
+} from "@polywrap/core-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
 
 export abstract class PluginModule<

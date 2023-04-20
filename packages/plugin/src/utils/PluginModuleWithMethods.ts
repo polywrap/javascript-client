@@ -4,7 +4,11 @@ import { PluginMethod } from "../PluginMethod";
 import { PluginModule } from "../PluginModule";
 import { GetPluginMethodsFunc } from "./GetPluginMethodsFunc";
 
-import { CoreClient, IUriResolutionContext, WrapErrorCode } from "@polywrap/core-js";
+import {
+  CoreClient,
+  IUriResolutionContext,
+  WrapErrorCode,
+} from "@polywrap/core-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
 
 export class PluginModuleWithMethods<

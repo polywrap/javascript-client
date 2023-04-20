@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { CoreClient, IUriResolutionContext, MaybeAsync } from "@polywrap/core-js";
+import {
+  CoreClient,
+  IUriResolutionContext,
+  MaybeAsync,
+} from "@polywrap/core-js";
 
 /**
  * Invocable plugin method.
@@ -13,4 +17,9 @@ export type PluginMethod<
   TArgs extends Record<string, unknown> = Record<string, unknown>,
   TResult = unknown,
   TEnv extends Record<string, unknown> = Record<string, unknown>
-> = (args: TArgs, client: CoreClient, env: TEnv, resolutionContext?: IUriResolutionContext) => MaybeAsync<TResult>;
+> = (
+  args: TArgs,
+  client: CoreClient,
+  env: TEnv,
+  resolutionContext?: IUriResolutionContext
+) => MaybeAsync<TResult>;
