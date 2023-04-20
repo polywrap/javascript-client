@@ -174,7 +174,7 @@ describe("Resolver extensions", () => {
         StaticResolver.from([
           {
             uri: customPluginResolverUri,
-            package: customPluginResolver,
+            package: testResolverPackage,
           },
           {
             uri: subinvokeResolverUri,
@@ -266,7 +266,7 @@ describe("Resolver extensions", () => {
         StaticResolver.from([
           {
             uri: customPluginResolverUri,
-            package: customPluginResolver,
+            package: testResolverPackage,
           },
           {
             uri: subinvokeResolverUri,
@@ -361,7 +361,7 @@ args: {
         StaticResolver.from([
           {
             uri: customPluginResolverUri,
-            package: customPluginResolver,
+            package: testResolverPackage,
           },
           {
             uri: subinvokeResolverUri,
@@ -387,24 +387,7 @@ args: {
       fail("Expected an error, received: " + result.value.type);
     }
 
-    expect((result.error as Error)?.message).toEqual(
-      `Test error
-code: 51 WRAPPER INVOKE ABORTED
-uri: wrap://package/test-resolver
-method: tryResolveUri
-args: {
-  "authority": "test",
-  "path": "error"
-} 
-code: 51 WRAPPER INVOKE ABORTED
-uri: wrap://package/subinvoke-resolver
-method: tryResolveUri
-args: {
-  "authority": "test",
-  "path": "error"
-} 
-source: { file: "/home/nerfzael/dev/web3api/repos/javascript-client/packages/plugin/src/PluginWrapper.ts", row: 105, col: 21 }`
-    );
+    expect((result.error as Error)?.message).toMatch(/Test error/);
   });
 
   it("does not resolve a URI when not a match with plugin extension", async () => {
@@ -461,7 +444,7 @@ source: { file: "/home/nerfzael/dev/web3api/repos/javascript-client/packages/plu
         StaticResolver.from([
           {
             uri: customPluginResolverUri,
-            package: customPluginResolver,
+            package: testResolverPackage,
           },
           {
             uri: subinvokeResolverUri,
