@@ -1,0 +1,30 @@
+[
+  "wrap://test/error => UriResolverAggregator => error (Test error\ncode: 51 WRAPPER INVOKE ABORTED\nuri: wrap://package/test-resolver\nmethod: tryResolveUri\nargs: {\n  \"authority\": \"test\",\n  \"path\": \"error\"\n} \ncode: 51 WRAPPER INVOKE ABORTED\nuri: wrap://package/subinvoke-resolver\nmethod: tryResolveUri\nargs: {\n  \"authority\": \"test\",\n  \"path\": \"error\"\n} \nsource: { file: \"/home/nerfzael/dev/web3api/repos/javascript-client/packages/plugin/src/PluginWrapper.ts\", row: 105, col: 21 })",
+  [
+    "wrap://test/error => StaticResolver - Miss",
+    "wrap://test/error => ExtendableUriResolver => error (Test error\ncode: 51 WRAPPER INVOKE ABORTED\nuri: wrap://package/test-resolver\nmethod: tryResolveUri\nargs: {\n  \"authority\": \"test\",\n  \"path\": \"error\"\n} \ncode: 51 WRAPPER INVOKE ABORTED\nuri: wrap://package/subinvoke-resolver\nmethod: tryResolveUri\nargs: {\n  \"authority\": \"test\",\n  \"path\": \"error\"\n} \nsource: { file: \"/home/nerfzael/dev/web3api/repos/javascript-client/packages/plugin/src/PluginWrapper.ts\", row: 105, col: 21 })",
+    [
+      "wrap://test/error => ResolverExtension (wrap://package/subinvoke-resolver) => error (Test error\ncode: 51 WRAPPER INVOKE ABORTED\nuri: wrap://package/test-resolver\nmethod: tryResolveUri\nargs: {\n  \"authority\": \"test\",\n  \"path\": \"error\"\n} \ncode: 51 WRAPPER INVOKE ABORTED\nuri: wrap://package/subinvoke-resolver\nmethod: tryResolveUri\nargs: {\n  \"authority\": \"test\",\n  \"path\": \"error\"\n} \nsource: { file: \"/home/nerfzael/dev/web3api/repos/javascript-client/packages/plugin/src/PluginWrapper.ts\", row: 105, col: 21 })",
+      [
+        "wrap://package/subinvoke-resolver => Client.loadWrapper => wrapper (wrap://package/subinvoke-resolver)",
+        [
+          "wrap://package/subinvoke-resolver => UriResolverAggregator => package (wrap://package/subinvoke-resolver)",
+          [
+            "wrap://package/subinvoke-resolver => StaticResolver - Package (wrap://package/subinvoke-resolver) => package (wrap://package/subinvoke-resolver)"
+          ]
+        ],
+        "wrap://package/subinvoke-resolver => Client.invokeWrapper => error (Test error\ncode: 51 WRAPPER INVOKE ABORTED\nuri: wrap://package/test-resolver\nmethod: tryResolveUri\nargs: {\n  \"authority\": \"test\",\n  \"path\": \"error\"\n} \ncode: 51 WRAPPER INVOKE ABORTED\nuri: wrap://package/subinvoke-resolver\nmethod: tryResolveUri\nargs: {\n  \"authority\": \"test\",\n  \"path\": \"error\"\n} \nsource: { file: \"/home/nerfzael/dev/web3api/repos/javascript-client/packages/plugin/src/PluginWrapper.ts\", row: 105, col: 21 })",
+        [
+          "wrap://package/test-resolver => Client.loadWrapper => wrapper (wrap://package/test-resolver)",
+          [
+            "wrap://package/test-resolver => UriResolverAggregator => package (wrap://package/test-resolver)",
+            [
+              "wrap://package/test-resolver => StaticResolver - Package (wrap://package/test-resolver) => package (wrap://package/test-resolver)"
+            ]
+          ],
+          "wrap://package/test-resolver => Client.invokeWrapper => error (Test error\ncode: 51 WRAPPER INVOKE ABORTED\nuri: wrap://package/test-resolver\nmethod: tryResolveUri\nargs: {\n  \"authority\": \"test\",\n  \"path\": \"error\"\n} )"
+        ]
+      ]
+    ]
+  ]
+]
