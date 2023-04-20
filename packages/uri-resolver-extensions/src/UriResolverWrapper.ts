@@ -26,7 +26,7 @@ export class UriResolverWrapper implements IUriResolver<unknown> /* $ */ {
    * */
   constructor(public readonly implementationUri: Uri) /* $ */ {}
 
-  // $start: UriResolverWrapper-_tryResolverUri
+  // $start: UriResolverWrapper-tryResolverUri
   /**
    * Attempt to resolve a URI by invoking a URI Resolver Extension wrapper, then
    * parse the result to a wrap package, a wrapper, or a URI

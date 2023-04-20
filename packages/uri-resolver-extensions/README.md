@@ -21,7 +21,28 @@ If you build a configuration for the Polywrap client using the `ClientConfigBuil
 Otherwise, you must also add the `ExtendableUriResolver` to your resolver.
 
 ```ts
-$snippet: quickstart - example;
+  const clientConfig: CoreClientConfig = {
+    interfaces: new UriMap<Uri[]>([
+      [
+        Uri.from("wrap://ens/uri-resolver.core.polywrap.eth"),
+        [
+          Uri.from("wrap://ens/fs-resolver.polywrap.eth"),
+          Uri.from("wrap://ens/ipfs-resolver.polywrap.eth"),
+          Uri.from("wrap://ens/ens-resolver.polywrap.eth"),
+        ],
+      ],
+    ]),
+    resolver: RecursiveResolver.from(
+      [
+        StaticResolver.from([
+          ...redirects,
+          ...wrappers,
+          ...packages,
+        ]),
+        new ExtendableUriResolver(),
+      ]
+    )
+  };
 ```
 
 # Reference
@@ -29,7 +50,14 @@ $snippet: quickstart - example;
 ## ExtendableUriResolver
 
 ```ts
-$snippet: ExtendableUriResolver;
+/**
+ * A Uri Resolver that delegates resolution to wrappers implementing the
+ * URI Resolver Extension Interface.
+ * */
+export class ExtendableUriResolver extends UriResolverAggregatorBase<
+  Error,
+  Error
+> 
 ```
 
 ### Properties
@@ -37,19 +65,33 @@ $snippet: ExtendableUriResolver;
 #### extInterfaceUri (static)
 
 ```ts
-$snippet: ExtendableUriResolver - extInterfaceUri - static;
+  /** The supported interface URIs to which resolver-ext implementations should be registered */
+  public static defaultExtInterfaceUris: Uri[] = [
+    Uri.from("wrap://ens/wraps.eth:uri-resolver-ext@1.1.0"),
+    Uri.from("wrap://ens/wraps.eth:uri-resolver-ext@1.0.0"),
+  ];
 ```
 
 #### extInterfaceUri
 
 ```ts
-$snippet: ExtendableUriResolver - extInterfaceUri;
+  /** The active interface URIs to which implementations should be registered */
+  public readonly extInterfaceUris: Uri[];
 ```
 
 ### constructor
 
 ```ts
-$snippet: ExtendableUriResolver - constructor;
+  /**
+   * Create an ExtendableUriResolver
+   *
+   * @param extInterfaceUris - URI Resolver Interface URIs
+   * @param resolverName - Name to use in resolution history output
+   * */
+  constructor(
+    extInterfaceUris: Uri[] = ExtendableUriResolver.defaultExtInterfaceUris,
+    resolverName = "ExtendableUriResolver"
+  ) 
 ```
 
 ### Methods
@@ -57,31 +99,74 @@ $snippet: ExtendableUriResolver - constructor;
 #### getUriResolvers
 
 ```ts
-$snippet: ExtendableUriResolver - getUriResolvers;
+  /**
+   * Get a list of URI Resolvers
+   *
+   * @param uri - the URI to query for resolvers
+   * @param client - a CoreClient instance that can be used to make an invocation
+   * @param resolutionContext - the current URI resolution context
+   *
+   * @returns a list of IUriResolver or an error
+   * */
+  async getUriResolvers(
+    uri: Uri,
+    client: CoreClient,
+    resolutionContext: IUriResolutionContext
+  ): Promise<Result<IUriResolver<unknown>[], Error>> 
 ```
 
 #### tryResolverUri
 
 ```ts
-$snippet: ExtendableUriResolver - tryResolverUri;
+  /**
+   * Resolve a URI to a wrap package, a wrapper, or a URI.
+   * Attempts resolution with each the URI Resolver Extension wrappers sequentially.
+   *
+   * @param uri - the URI to resolve
+   * @param client - a CoreClient instance that may be used to invoke a wrapper that implements the UriResolver interface
+   * @param resolutionContext - the current URI resolution context
+   * @returns A Promise with a Result containing either a wrap package, a wrapper, or a URI if successful
+   */
+  async tryResolveUri(
+    uri: Uri,
+    client: CoreClient,
+    resolutionContext: IUriResolutionContext
+  ): Promise<Result<UriPackageOrWrapper, Error>> 
 ```
 
 #### getStepDescription (protected)
 
 ```ts
-$snippet: ExtendableUriResolver - getStepDescription;
+  /**
+   * A utility function for generating step descriptions to facilitate resolution context updates
+   *
+   * @returns text describing the URI resolution step
+   * */
+  protected getStepDescription = (): string 
 ```
 
 ## UriResolverExtensionFileReader
 
 ```ts
-$snippet: UriResolverExtensionFileReader;
+/** An IFileReader that reads files by invoking URI Resolver Extension wrappers */
+export class UriResolverExtensionFileReader implements IFileReader 
 ```
 
 ### constructor
 
 ```ts
-$snippet: UriResolverExtensionFileReader - constructor;
+  /**
+   * Construct a UriResolverExtensionFileReader
+   *
+   * @param _resolverExtensionUri - URI of the URI Resolver Extension wrapper
+   * @param _wrapperUri - URI of the wrap package to read from
+   * @param _client - A CoreClient instance
+   * */
+  constructor(
+    private readonly _resolverExtensionUri: Uri,
+    private readonly _wrapperUri: Uri,
+    private readonly _client: CoreClient
+  ) 
 ```
 
 ### Methods
@@ -89,19 +174,35 @@ $snippet: UriResolverExtensionFileReader - constructor;
 #### readFile
 
 ```ts
-$snippet: UriResolverExtensionFileReader - readFile;
+  /**
+   * Read a file
+   *
+   * @param filePath - the file's path from the wrap package root
+   *
+   * @returns a Result containing a buffer if successful, or an error
+   * */
+  async readFile(filePath: string): Promise<Result<Uint8Array, Error>> 
 ```
 
 ## UriResolverWrapper
 
 ```ts
-$snippet: UriResolverWrapper;
+/**
+ * An IUriResolver that delegates resolution to a wrapper that implements
+ * the URI Resolver Extension Interface
+ * */
+export class UriResolverWrapper implements IUriResolver<unknown> 
 ```
 
 ### constructor
 
 ```ts
-$snippet: UriResolverWrapper - constructor;
+  /**
+   * construct a UriResolverWrapper
+   *
+   * @param implementationUri - URI that resolves to a URI Resolver Extension implementation
+   * */
+  constructor(public readonly implementationUri: Uri) 
 ```
 
 ### Methods
@@ -109,7 +210,20 @@ $snippet: UriResolverWrapper - constructor;
 #### tryResolverUri
 
 ```ts
-$snippet: UriResolverWrapper - tryResolverUri;
+  /**
+   * Attempt to resolve a URI by invoking a URI Resolver Extension wrapper, then
+   * parse the result to a wrap package, a wrapper, or a URI
+   *
+   * @param uri - the URI to resolve
+   * @param client - a CoreClient instance that may be used to invoke a wrapper that implements the UriResolver interface
+   * @param resolutionContext - the current URI resolution context
+   * @returns A Promise with a Result containing either a wrap package, a wrapper, or a URI if successful
+   */
+  async tryResolveUri(
+    uri: Uri,
+    client: CoreClient,
+    resolutionContext: IUriResolutionContext
+  ): Promise<Result<UriPackageOrWrapper, unknown>> 
 ```
 
 ## Development

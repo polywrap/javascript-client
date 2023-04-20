@@ -3,25 +3,25 @@ $start: helpers.md
 ## getUriResolutionPath
 
 ```ts
-$snippet: getUriResolutionPath;
+$snippet: getUriResolutionPath
 ```
 
 ## InfiniteLoopError
 
 ```ts
-$snippet: InfiniteLoopError;
+$snippet: InfiniteLoopError
 ```
 
 ### constructor
 
 ```ts
-$snippet: InfiniteLoopError - constructor;
+$snippet: InfiniteLoopError-constructor
 ```
 
 ## ResolverWithHistory
 
 ```ts
-$snippet: ResolverWithHistory;
+$snippet: ResolverWithHistory
 ```
 
 ### Methods
@@ -29,31 +29,31 @@ $snippet: ResolverWithHistory;
 #### tryResolveUri
 
 ```ts
-$snippet: ResolverWithHistory - tryResolveUri;
+$snippet: ResolverWithHistory-tryResolveUri
 ```
 
 #### getStepDescription (protected)
 
 ```ts
-$snippet: ResolverWithHistory - getStepDescription;
+$snippet: ResolverWithHistory-getStepDescription
 ```
 
 #### \_tryResolveUri (protected)
 
 ```ts
-$snippet: ResolverWithHistory - _tryResolveUri;
+$snippet: ResolverWithHistory-_tryResolveUri
 ```
 
 ## ResolverWithLoopGuard
 
 ```ts
-$snippet: ResolverWithLoopGuard;
+$snippet: ResolverWithLoopGuard
 ```
 
 ### constructor
 
 ```ts
-$snippet: ResolverWithLoopGuard - constructor;
+$snippet: ResolverWithLoopGuard-constructor
 ```
 
 ### Methods
@@ -61,25 +61,25 @@ $snippet: ResolverWithLoopGuard - constructor;
 #### from
 
 ```ts
-$snippet: ResolverWithLoopGuard - from;
+$snippet: ResolverWithLoopGuard-from
 ```
 
 #### tryResolveUri
 
 ```ts
-$snippet: ResolverWithLoopGuard - tryResolveUri;
+$snippet: ResolverWithLoopGuard-tryResolveUri
 ```
 
 ## PackageToWrapperResolver
 
 ```ts
-$snippet: PackageToWrapperResolver;
+$snippet: PackageToWrapperResolver
 ```
 
 ### constructor
 
 ```ts
-$snippet: PackageToWrapperResolver - constructor;
+$snippet: PackageToWrapperResolver-constructor
 ```
 
 ### Methods
@@ -87,33 +87,19 @@ $snippet: PackageToWrapperResolver - constructor;
 #### from
 
 ```ts
-$snippet: PackageToWrapperResolver - from;
+$snippet: PackageToWrapperResolver-from
 ```
 
 #### tryResolveUri
 
 ```ts
-$snippet: PackageToWrapperResolver - tryResolveUri;
-```
-
-### Methods
-
-#### ok
-
-```ts
-$snippet: UriResolutionResult - ok;
-```
-
-#### err
-
-```ts
-$snippet: UriResolutionResult - err;
+$snippet: PackageToWrapperResolver-tryResolveUri
 ```
 
 ## UriResolver
 
 ```ts
-$snippet: UriResolver;
+$snippet: UriResolver
 ```
 
 ### Methods
@@ -121,13 +107,50 @@ $snippet: UriResolver;
 #### from
 
 ```ts
-$snippet: UriResolver - from;
+$snippet: UriResolver-from
 ```
 
 ## UriResolverLike
 
 ```ts
-$snippet: UriResolverLike;
+$snippet: UriResolverLike
+```
+
+## UriResolutionResult
+```ts
+/** Factory for creating Result from URI resolution output */
+export class UriResolutionResult<TError = undefined> 
+```
+
+### Methods
+
+#### ok
+```ts
+  /** Returns a Result with `ok` set to true */
+  static ok<TError = undefined>(uri: Uri): Result<UriPackageOrWrapper, TError>;
+  static ok<TError = undefined>(
+    uri: Uri,
+    wrapPackage: IWrapPackage
+  ): Result<UriPackageOrWrapper, TError>;
+  static ok<TError = undefined>(
+    uri: Uri,
+    wrapper: Wrapper
+  ): Result<UriPackageOrWrapper, TError>;
+  static ok<TError = undefined>(
+    uriPackageOrWrapper: UriPackageOrWrapper
+  ): Result<UriPackageOrWrapper, TError>;
+  static ok<TError = undefined>(
+    uriPackageOrWrapper: Uri | UriPackageOrWrapper,
+    packageOrWrapper?: IWrapPackage | Wrapper
+  ): Result<UriPackageOrWrapper, TError> 
+```
+
+#### err
+```ts
+  /** Returns a Result with `ok` set to false */
+  static err<TError = unknown>(
+    error: TError
+  ): Result<UriPackageOrWrapper, TError> 
 ```
 
 $end
