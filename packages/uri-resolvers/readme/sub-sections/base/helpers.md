@@ -1,116 +1,133 @@
 $start: helpers.md
+
 ## getUriResolutionPath
+
 ```ts
-$snippet: getUriResolutionPath
+$snippet: getUriResolutionPath;
 ```
 
 ## InfiniteLoopError
+
 ```ts
-$snippet: InfiniteLoopError
+$snippet: InfiniteLoopError;
 ```
 
 ### constructor
+
 ```ts
-$snippet: InfiniteLoopError-constructor
+$snippet: InfiniteLoopError - constructor;
 ```
 
 ## ResolverWithHistory
+
 ```ts
-$snippet: ResolverWithHistory
+$snippet: ResolverWithHistory;
 ```
 
 ### Methods
 
 #### tryResolveUri
+
 ```ts
-$snippet: ResolverWithHistory-tryResolveUri
+$snippet: ResolverWithHistory - tryResolveUri;
 ```
 
 #### getStepDescription (protected)
+
 ```ts
-$snippet: ResolverWithHistory-getStepDescription
+$snippet: ResolverWithHistory - getStepDescription;
 ```
 
-#### _tryResolveUri (protected)
+#### \_tryResolveUri (protected)
+
 ```ts
-$snippet: ResolverWithHistory-_tryResolveUri
+$snippet: ResolverWithHistory - _tryResolveUri;
 ```
 
 ## ResolverWithLoopGuard
+
 ```ts
-$snippet: ResolverWithLoopGuard
+$snippet: ResolverWithLoopGuard;
 ```
 
 ### constructor
+
 ```ts
-$snippet: ResolverWithLoopGuard-constructor
+$snippet: ResolverWithLoopGuard - constructor;
 ```
 
 ### Methods
 
 #### from
+
 ```ts
-$snippet: ResolverWithLoopGuard-from
+$snippet: ResolverWithLoopGuard - from;
 ```
 
 #### tryResolveUri
+
 ```ts
-$snippet: ResolverWithLoopGuard-tryResolveUri
+$snippet: ResolverWithLoopGuard - tryResolveUri;
 ```
 
 ## PackageToWrapperResolver
+
 ```ts
-$snippet: PackageToWrapperResolver
+$snippet: PackageToWrapperResolver;
 ```
 
 ### constructor
+
 ```ts
-$snippet: PackageToWrapperResolver-constructor
+$snippet: PackageToWrapperResolver - constructor;
 ```
 
 ### Methods
 
 #### from
+
 ```ts
-$snippet: PackageToWrapperResolver-from
+$snippet: PackageToWrapperResolver - from;
 ```
 
 #### tryResolveUri
-```ts
-$snippet: PackageToWrapperResolver-tryResolveUri
-```
 
-## UriResolutionResult
 ```ts
-$snippet: UriResolutionResult
+$snippet: PackageToWrapperResolver - tryResolveUri;
 ```
 
 ### Methods
 
 #### ok
+
 ```ts
-$snippet: UriResolutionResult-ok
+$snippet: UriResolutionResult - ok;
 ```
 
 #### err
+
 ```ts
-$snippet: UriResolutionResult-err
+$snippet: UriResolutionResult - err;
 ```
 
 ## UriResolver
+
 ```ts
-$snippet: UriResolver
+$snippet: UriResolver;
 ```
 
 ### Methods
 
 #### from
+
 ```ts
-$snippet: UriResolver-from
+$snippet: UriResolver - from;
 ```
 
 ## UriResolverLike
+
 ```ts
-$snippet: UriResolverLike
+$snippet: UriResolverLike;
 ```
+
 $end

@@ -119,6 +119,21 @@ export interface CoreClient extends Invoker, UriResolverHandler<unknown> {
     uri: Uri,
     options: GetImplementationsOptions
   ): Promise<Result<Uri[], WrapError>>;
+
+  /**
+   * Resolve a URI to a wrap package or wrapper.
+   * If the URI resolves to wrap package, load the wrapper.
+   *
+   * @param uri - the Uri to resolve
+   * @param resolutionContext? - a resolution context
+   * @param options - { noValidate?: boolean }
+   * @returns A Promise with a Result containing a Wrapper or Error
+   */
+  loadWrapper(
+    uri: Uri,
+    resolutionContext?: IUriResolutionContext,
+    options?: DeserializeManifestOptions
+  ): Promise<Result<Wrapper, WrapError>>;
 }
 
 ```
