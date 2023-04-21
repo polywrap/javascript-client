@@ -380,7 +380,8 @@ args: {
 
     await expectHistory(
       resolutionContext.getHistory(),
-      "shows-plugin-extension-error-with-subinvoke"
+      "shows-plugin-extension-error-with-subinvoke",
+      true
     );
 
     if (result.ok) {
