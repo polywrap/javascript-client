@@ -1,27 +1,21 @@
 pub mod wrap;
-use wrap::{
-    *,
-    env::{Env},
-    imported::{
-        ArgsGetFile, ArgsTryResolveUri,
-    }
-};
+use wrap::{*,env::Env};
 
 impl ModuleTrait for Module {
     fn try_resolve_uri(
         args: ArgsTryResolveUri,
         _env: Option<Env>
-    ) -> Result<Option<UriResolverMaybeUriOrManifest>, String> {
+    ) -> Result<Option<MaybeUriOrManifest>, String> {
         if args.authority != "test" {
             return Ok(None);
         }
 
         match args.path.as_str() {
-            "from" => Ok(Some(UriResolverMaybeUriOrManifest {
+            "from" => Ok(Some(MaybeUriOrManifest {
                 manifest: None,
                 uri: Some("test/to".to_string())
             })),
-            "package" => Ok(Some(UriResolverMaybeUriOrManifest {
+            "package" => Ok(Some(MaybeUriOrManifest {
                 manifest: Some(vec![0]),
                 uri: None
             })),
