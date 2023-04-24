@@ -126,5 +126,4 @@ nvm use && yarn install && yarn build
 
 ```bash
 yarn test
-``
 ```
