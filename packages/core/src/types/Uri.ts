@@ -1,4 +1,4 @@
-import { RegExpGroups } from "../utils/RegExpGroups";
+import { RegExpGroups } from "../utils";
 
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
 

@@ -1,5 +1,5 @@
 import { CleanResolutionStep } from "../algorithms";
-import { RegExpGroups } from "../utils/RegExpGroups";
+import { RegExpGroups } from "../utils";
 
 export type ErrorSource = Readonly<{
   file?: string;
