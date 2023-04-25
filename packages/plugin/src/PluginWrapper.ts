@@ -1,5 +1,6 @@
 import { PluginModule } from "./PluginModule";
 import { getErrorSource } from "./utils/getErrorSource";
+import { ResolutionContextOverrideClient } from "./ResolutionContextOverrideClient";
 
 import {
   Wrapper,
@@ -14,7 +15,6 @@ import {
 import { WrapManifest } from "@polywrap/wrap-manifest-types-js";
 import { msgpackDecode } from "@polywrap/msgpack-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
-import { ResolutionContextOverrideClient } from "./ResolutionContextOverrideClient";
 
 export class PluginWrapper implements Wrapper {
   constructor(
