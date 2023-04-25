@@ -83,16 +83,16 @@ export class AsyncWasmInstance {
     }
 
     // Extract the initial memory page-range size
-    const memoryInitalLimits =
+    const memoryInitialLimits =
       config.module[sigIdx + envMemoryImportSignature.length + 1];
 
-    if (memoryInitalLimits === undefined) {
+    if (memoryInitialLimits === undefined) {
       throw Error(
         "No initial memory number found, this should never happen..."
       );
     }
 
-    return new WebAssembly.Memory({ initial: memoryInitalLimits });
+    return new WebAssembly.Memory({ initial: memoryInitialLimits });
   }
 
   public static async createInstance(config: {
