@@ -4,7 +4,7 @@
 
 # Getting Started
 
-Have questions or want to get involved? Join our community [Discord](https://discord.polywrap.io) or [open an issue](https://github.com/polywrap/monorepo/issues) on Github.
+Have questions or want to get involved? Join our community [Discord](https://discord.polywrap.io) or [open an issue](https://github.com/polywrap/javascript-client/issues) on Github.
 
 For detailed information about Polywrap and the WRAP standard, visit our [developer documentation](https://docs.polywrap.io/).
 
@@ -12,7 +12,7 @@ For detailed information about Polywrap and the WRAP standard, visit our [develo
 
 The Polywrap project is completely open-source and we welcome contributors of all levels.
 
-Come visit our [Github issues](https://github.com/polywrap/monorepo/issues) to see the problems we're focused on solving. Here are some of our tags for issues and what they mean:
+Come visit our [Github issues](https://github.com/polywrap/javascript-client/issues) to see the problems we're focused on solving. Here are some of our tags for issues and what they mean:
 
 - `good first issue` - These are good first issues for newcomers to learn about how our project works
 
