@@ -226,6 +226,73 @@ describe("Error structure", () => {
         );
       });
 
+      test("Rethrown error from subinvoke is correctly parsed", async () => {
+        const config = new ClientConfigBuilder()
+          .addDefaults()
+          .addRedirects({
+            "ens/imported-invoke.eth": asInvokeWrapperUri.uri,
+            "ens/imported-subinvoke.eth": asSubinvokeWrapperUri.uri,
+          });
+
+        client = new PolywrapClient(config.build());
+        const result = await client.invoke<boolean>({
+          uri: asConsumerWrapperUri.uri,
+          method: "rethrowError",
+          args: {
+            a: "Hey",
+          },
+        });
+
+        expect(result.ok).toBeFalsy();
+        if (result.ok) throw Error("should never happen");
+
+        expect(result.error?.name).toEqual("WrapError");
+        expect(result.error?.code).toEqual(
+          WrapErrorCode.WRAPPER_INVOKE_ABORTED
+        );
+        expect(
+          result.error?.reason.startsWith("SubInvocation exception encountered")
+        ).toBeTruthy();
+        expect(
+          result.error?.uri.endsWith(
+            "packages/test-cases/build/../wrappers/subinvoke/02-consumer/implementations/as"
+          )
+        ).toBeTruthy();
+        expect(result.error?.method).toEqual("rethrowError");
+        expect(result.error?.args).toEqual('{\n  "a": "Hey"\n}');
+        expect(result.error?.source?.file).toEqual(
+          "~lib/@polywrap/wasm-as/containers/Result.ts"
+        );
+
+        expect(result.error?.innerError instanceof WrapError).toBeTruthy();
+        const prev = result.error?.innerError as WrapError;
+        expect(prev.name).toEqual("WrapError");
+        expect(prev.code).toEqual(WrapErrorCode.WRAPPER_INVOKE_ABORTED);
+        expect(
+          prev.reason.startsWith("SubInvocation exception encountered")
+        ).toBeTruthy();
+        expect(prev.uri).toEqual("wrap://ens/imported-invoke.eth");
+        expect(prev.method).toEqual("invokeThrowError");
+        expect(prev.args).toEqual('{\n  "a": "Hey"\n}' );
+        expect(prev.source?.file).toEqual(
+          "~lib/@polywrap/wasm-as/containers/Result.ts"
+        );
+
+        expect(prev.innerError instanceof WrapError).toBeTruthy();
+        const prevOfPrev = prev.innerError as WrapError;
+        expect(prevOfPrev.name).toEqual("WrapError");
+        expect(prevOfPrev.code).toEqual(WrapErrorCode.WRAPPER_INVOKE_ABORTED);
+        expect(prevOfPrev.reason).toEqual("__wrap_abort: Hey");
+        expect(
+          prevOfPrev.uri.endsWith("wrap://ens/imported-subinvoke.eth")
+        ).toBeTruthy();
+        expect(prevOfPrev.method).toEqual("subinvokeThrowError");
+        expect(prev.args).toEqual('{\n  "a": "Hey"\n}');
+        expect(prevOfPrev.source?.file).toEqual(
+          "src/index.ts"
+        );
+      });
+
       describe("Incompatible version invocation", () => {
         beforeAll(async () => {
           const wrapperPath = `${GetPathToTestWrappers()}/subinvoke/00-subinvoke/implementations/as`;
@@ -368,6 +435,69 @@ describe("Error structure", () => {
           )
         ).toBeTruthy();
         expect(result.error?.method).toEqual("throwError");
+        expect(result.error?.args).toEqual('{\n  "a": "Hey"\n}');
+        expect(result.error?.source?.file).toEqual("src/lib.rs");
+
+        expect(result.error?.innerError instanceof WrapError).toBeTruthy();
+        const prev = result.error?.innerError as WrapError;
+        expect(prev.name).toEqual("WrapError");
+        expect(prev.code).toEqual(WrapErrorCode.WRAPPER_INVOKE_ABORTED);
+        expect(
+          prev.reason.startsWith("SubInvocation exception encountered")
+        ).toBeTruthy();
+        expect(prev.uri).toEqual("wrap://ens/imported-invoke.eth");
+        expect(prev.method).toEqual("invokeThrowError");
+        expect(prev.args).toEqual('{\n  "a": "Hey"\n}');
+        expect(prev.source?.file).toEqual("src/lib.rs");
+
+        expect(prev.innerError instanceof WrapError).toBeTruthy();
+        const prevOfPrev = prev.innerError as WrapError;
+        expect(prevOfPrev.name).toEqual("WrapError");
+        expect(prevOfPrev.code).toEqual(WrapErrorCode.WRAPPER_INVOKE_ABORTED);
+        expect(prevOfPrev.reason).toEqual("__wrap_abort: Hey");
+        expect(
+          prevOfPrev.uri.endsWith("wrap://ens/imported-subinvoke.eth")
+        ).toBeTruthy();
+        expect(prevOfPrev.method).toEqual("subinvokeThrowError");
+        expect(prevOfPrev.args).toEqual('{\n  "a": "Hey"\n}');
+        expect(prevOfPrev.source?.file).toEqual(
+          "src/lib.rs"
+        );
+      });
+
+      test("Rethrown error from subinvoke is correctly parsed", async () => {
+        const config = new ClientConfigBuilder()
+          .addDefaults()
+          .addRedirects({
+            "ens/imported-invoke.eth": rsInvokeWrapperUri.uri,
+            "ens/imported-subinvoke.eth": rsSubinvokeWrapperUri.uri,
+          });
+
+        client = new PolywrapClient(config.build());
+        const result = await client.invoke<number>({
+          uri: rsConsumerWrapperUri.uri,
+          method: "rethrowError",
+          args: {
+            a: "Hey",
+          },
+        });
+
+        expect(result.ok).toBeFalsy();
+        if (result.ok) throw Error("should never happen");
+
+        expect(result.error?.name).toEqual("WrapError");
+        expect(result.error?.code).toEqual(
+          WrapErrorCode.WRAPPER_INVOKE_ABORTED
+        );
+        expect(
+          result.error?.reason.startsWith("SubInvocation exception encountered")
+        ).toBeTruthy();
+        expect(
+          result.error?.uri.endsWith(
+            "packages/test-cases/build/../wrappers/subinvoke/02-consumer/implementations/rs"
+          )
+        ).toBeTruthy();
+        expect(result.error?.method).toEqual("rethrowError");
         expect(result.error?.args).toEqual('{\n  "a": "Hey"\n}');
         expect(result.error?.source?.file).toEqual("src/lib.rs");
 
