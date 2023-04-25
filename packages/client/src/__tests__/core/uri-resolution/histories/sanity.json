@@ -103,6 +103,43 @@
                                 ]
                               ],
                               "wrap://plugin/concurrent@1.0.0 => Client.invokeWrapper",
+                              [
+                                "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                [
+                                  "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                  [
+                                    "wrap://embed/ipfs-http-client@1.0.0 => ResolutionResultCacheResolver => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                    [
+                                      "wrap://embed/ipfs-http-client@1.0.0 => PackageToWrapperResolver => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                      [
+                                        "wrap://embed/ipfs-http-client@1.0.0 => UriResolverAggregator => package (wrap://embed/ipfs-http-client@1.0.0)",
+                                        [
+                                          "wrap://embed/ipfs-http-client@1.0.0 => StaticResolver - Package (wrap://embed/ipfs-http-client@1.0.0) => package (wrap://embed/ipfs-http-client@1.0.0)"
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ],
+                                "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                [
+                                  "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                                ],
+                                "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                                [
+                                  "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                                  [
+                                    "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                                    [
+                                      "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                                    ],
+                                    "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                                    [
+                                      "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                                    ]
+                                  ],
+                                  "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                                ]
+                              ],
                               "wrap://plugin/concurrent@1.0.0 => Client.loadWrapper => wrapper (wrap://plugin/concurrent@1.0.0)",
                               [
                                 "wrap://plugin/concurrent@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/concurrent@1.0.0)",
@@ -157,6 +194,49 @@
                                   ]
                                 ],
                                 "wrap://plugin/concurrent@1.0.0 => Client.invokeWrapper",
+                                [
+                                  "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                  [
+                                    "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                    [
+                                      "wrap://embed/ipfs-http-client@1.0.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                                    ]
+                                  ],
+                                  "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                  [
+                                    "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                                  ],
+                                  "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                                  [
+                                    "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                                    [
+                                      "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                                      ],
+                                      "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                                      ]
+                                    ],
+                                    "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                                  ],
+                                  "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                                  [
+                                    "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                                    [
+                                      "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                                      ],
+                                      "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                                      ]
+                                    ],
+                                    "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                                  ]
+                                ],
                                 "wrap://plugin/concurrent@1.0.0 => Client.loadWrapper => wrapper (wrap://plugin/concurrent@1.0.0)",
                                 [
                                   "wrap://plugin/concurrent@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/concurrent@1.0.0)",
@@ -211,6 +291,49 @@
                                     ]
                                   ],
                                   "wrap://plugin/concurrent@1.0.0 => Client.invokeWrapper",
+                                  [
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                    [
+                                      "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                      [
+                                        "wrap://embed/ipfs-http-client@1.0.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                                      ]
+                                    ],
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                    [
+                                      "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                                    ],
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                                    [
+                                      "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                                        ],
+                                        "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                                        ]
+                                      ],
+                                      "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                                    ],
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                                    [
+                                      "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                                        ],
+                                        "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                                        ]
+                                      ],
+                                      "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                                    ]
+                                  ],
                                   "wrap://plugin/concurrent@1.0.0 => Client.loadWrapper => wrapper (wrap://plugin/concurrent@1.0.0)",
                                   [
                                     "wrap://plugin/concurrent@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/concurrent@1.0.0)",
@@ -264,6 +387,49 @@
                                     ]
                                   ],
                                   "wrap://plugin/concurrent@1.0.0 => Client.invokeWrapper",
+                                  [
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                    [
+                                      "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                      [
+                                        "wrap://embed/ipfs-http-client@1.0.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                                      ]
+                                    ],
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                    [
+                                      "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                                    ],
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                                    [
+                                      "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                                        ],
+                                        "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                                        ]
+                                      ],
+                                      "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                                    ],
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                                    [
+                                      "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                                        ],
+                                        "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                                        ]
+                                      ],
+                                      "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                                    ]
+                                  ],
                                   "wrap://plugin/concurrent@1.0.0 => Client.loadWrapper => wrapper (wrap://plugin/concurrent@1.0.0)",
                                   [
                                     "wrap://plugin/concurrent@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/concurrent@1.0.0)",
@@ -341,6 +507,49 @@
                                     ]
                                   ],
                                   "wrap://plugin/concurrent@1.0.0 => Client.invokeWrapper",
+                                  [
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                    [
+                                      "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                      [
+                                        "wrap://embed/ipfs-http-client@1.0.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                                      ]
+                                    ],
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                                    [
+                                      "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                                    ],
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                                    [
+                                      "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                                        ],
+                                        "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                                        ]
+                                      ],
+                                      "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                                    ],
+                                    "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                                    [
+                                      "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                                      [
+                                        "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                                        ],
+                                        "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                                        [
+                                          "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                                        ]
+                                      ],
+                                      "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                                    ]
+                                  ],
                                   "wrap://plugin/concurrent@1.0.0 => Client.loadWrapper => wrapper (wrap://plugin/concurrent@1.0.0)",
                                   [
                                     "wrap://plugin/concurrent@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/concurrent@1.0.0)",
@@ -487,6 +696,34 @@
                   ]
                 ],
                 "wrap://plugin/concurrent@1.0.0 => Client.invokeWrapper",
+                [
+                  "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                  [
+                    "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                    [
+                      "wrap://embed/ipfs-http-client@1.0.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                    ]
+                  ],
+                  "wrap://embed/ipfs-http-client@1.0.0 => Client.loadWrapper => wrapper (wrap://embed/ipfs-http-client@1.0.0)",
+                  [
+                    "wrap://embed/ipfs-http-client@1.0.0 => RequestSynchronizerResolver (Cache) => wrapper (wrap://embed/ipfs-http-client@1.0.0)"
+                  ],
+                  "wrap://embed/ipfs-http-client@1.0.0 => Client.invokeWrapper",
+                  [
+                    "wrap://ens/wraps.eth:http@1.1.0 => Client.loadWrapper => wrapper (wrap://plugin/http@1.1.0)",
+                    [
+                      "wrap://ens/wraps.eth:http@1.1.0 => RequestSynchronizerResolver => uri (wrap://plugin/http@1.1.0)",
+                      [
+                        "wrap://ens/wraps.eth:http@1.1.0 => ResolutionResultCacheResolver (Cache) => uri (wrap://plugin/http@1.1.0)"
+                      ],
+                      "wrap://plugin/http@1.1.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/http@1.1.0)",
+                      [
+                        "wrap://plugin/http@1.1.0 => ResolutionResultCacheResolver (Cache) => wrapper (wrap://plugin/http@1.1.0)"
+                      ]
+                    ],
+                    "wrap://plugin/http@1.1.0 => Client.invokeWrapper"
+                  ]
+                ],
                 "wrap://plugin/concurrent@1.0.0 => Client.loadWrapper => wrapper (wrap://plugin/concurrent@1.0.0)",
                 [
                   "wrap://plugin/concurrent@1.0.0 => RequestSynchronizerResolver => wrapper (wrap://plugin/concurrent@1.0.0)",
