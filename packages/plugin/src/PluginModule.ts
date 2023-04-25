@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { PluginMethod } from "./PluginMethod";
 
-import {
-  CoreClient,
-  IUriResolutionContext,
-  WrapErrorCode,
-} from "@polywrap/core-js";
+import { CoreClient, WrapErrorCode } from "@polywrap/core-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
 
 export abstract class PluginModule<
@@ -29,8 +25,7 @@ export abstract class PluginModule<
     method: string,
     args: TArgs,
     client: CoreClient,
-    env: TEnv,
-    resolutionContext?: IUriResolutionContext
+    env: TEnv
   ): Promise<Result<TResult, Error>> {
     const fn = this.getMethod<TArgs, TResult, TEnv>(method);
 
@@ -45,7 +40,7 @@ export abstract class PluginModule<
     }
 
     try {
-      const data = await fn(args, client, env, resolutionContext);
+      const data = await fn(args, client, env);
       return ResultOk(data);
     } catch (e) {
       e.code = WrapErrorCode.WRAPPER_INVOKE_ABORTED;

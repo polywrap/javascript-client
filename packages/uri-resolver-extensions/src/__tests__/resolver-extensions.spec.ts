@@ -1,7 +1,13 @@
 import { ExtendableUriResolver } from "../ExtendableUriResolver";
 import { expectHistory } from "./helpers/expectHistory";
 
-import { Uri, UriMap, UriResolutionContext, IWrapPackage, IUriResolutionContext } from "@polywrap/core-js";
+import {
+  Uri,
+  UriMap,
+  UriResolutionContext,
+  IWrapPackage,
+  CoreClient,
+} from "@polywrap/core-js";
 import { PolywrapCoreClient } from "@polywrap/core-client-js";
 import { PluginPackage } from "@polywrap/plugin-js";
 import { WasmPackage } from "@polywrap/wasm-js";
@@ -16,8 +22,7 @@ const subinvokeResolverUri = Uri.from("wrap://package/subinvoke-resolver");
 const customPluginResolverUri = Uri.from("wrap://package/test-resolver");
 const customPluginResolver = PluginPackage.from(() => ({
   tryResolveUri: async (
-    args: any,
-    client: PolywrapCoreClient,
+    args: any
   ): Promise<{
     uri?: string | null;
     manifest?: Uint8Array | null;
@@ -46,9 +51,7 @@ const customPluginResolver = PluginPackage.from(() => ({
 const subinvokePluginResolver = PluginPackage.from(() => ({
   tryResolveUri: async (
     args: any,
-    client: PolywrapCoreClient,
-    _env: any,
-    resolutionContext?: IUriResolutionContext,
+    client: CoreClient
   ): Promise<{
     uri?: string | null;
     manifest?: Uint8Array | null;
@@ -56,11 +59,10 @@ const subinvokePluginResolver = PluginPackage.from(() => ({
     const result = await client.invoke<{
       uri?: string | null;
       manifest?: Uint8Array | null;
-    } | null>({ 
+    } | null>({
       uri: Uri.from("wrap://package/test-resolver"),
       method: "tryResolveUri",
       args,
-      resolutionContext
     });
 
     if (!result.ok) {
@@ -72,7 +74,6 @@ const subinvokePluginResolver = PluginPackage.from(() => ({
 }));
 
 describe("Resolver extensions", () => {
-
   let testResolverPackage: IWrapPackage;
   let subinvokeResolverPackage: IWrapPackage;
 
@@ -80,9 +81,12 @@ describe("Resolver extensions", () => {
     const testResolverDir = path.join(__dirname, "/wrappers/test-resolver");
 
     // Build the test-resolver wrapper
-    const res = await Commands.build({}, {
-      cwd: testResolverDir
-    });
+    const res = await Commands.build(
+      {},
+      {
+        cwd: testResolverDir,
+      }
+    );
 
     if (res.exitCode !== 0) {
       fail(`STDOUT: ${res.stdout}\nSTDERR: ${res.stderr}`);
@@ -96,12 +100,18 @@ describe("Resolver extensions", () => {
       fs.readFileSync(path.join(wrapBuildDir, "wrap.wasm"))
     );
 
-    const subinvokeResolverDir = path.join(__dirname, "/wrappers/subinvoke-resolver");
+    const subinvokeResolverDir = path.join(
+      __dirname,
+      "/wrappers/subinvoke-resolver"
+    );
 
     // Build the test-resolver wrapper
-    const subinvokeRes = await Commands.build({}, {
-      cwd: subinvokeResolverDir
-    });
+    const subinvokeRes = await Commands.build(
+      {},
+      {
+        cwd: subinvokeResolverDir,
+      }
+    );
 
     if (subinvokeRes.exitCode !== 0) {
       fail(`STDOUT: ${res.stdout}\nSTDERR: ${res.stderr}`);
@@ -143,10 +153,7 @@ describe("Resolver extensions", () => {
       resolutionContext,
     });
 
-    await expectHistory(
-      resolutionContext.getHistory(),
-      "can-resolve-uri"
-    );
+    await expectHistory(resolutionContext.getHistory(), "can-resolve-uri");
 
     if (!result.ok) {
       fail(result.error);
@@ -235,10 +242,7 @@ describe("Resolver extensions", () => {
       resolutionContext,
     });
 
-    await expectHistory(
-      resolutionContext.getHistory(),
-      "can-resolve-package"
-    );
+    await expectHistory(resolutionContext.getHistory(), "can-resolve-package");
 
     if (!result.ok) {
       fail(result.error);
@@ -415,10 +419,7 @@ args: {
     const resolutionContext = new UriResolutionContext();
     const result = await client.tryResolveUri({ uri, resolutionContext });
 
-    await expectHistory(
-      resolutionContext.getHistory(),
-      "not-a-match"
-    );
+    await expectHistory(resolutionContext.getHistory(), "not-a-match");
 
     if (!result.ok) {
       fail(result.error);
@@ -475,7 +476,6 @@ args: {
     expect(result.value.uri.uri).toEqual("wrap://test/not-a-match");
   });
 
-
   it("can resolve URI with wasm extension", async () => {
     const sourceUri = Uri.from(`test/from`);
     const redirectedUri = Uri.from("test/to");
@@ -504,10 +504,7 @@ args: {
       resolutionContext,
     });
 
-    await expectHistory(
-      resolutionContext.getHistory(),
-      "can-resolve-uri"
-    );
+    await expectHistory(resolutionContext.getHistory(), "can-resolve-uri");
 
     if (!result.ok) {
       fail(result.error);
@@ -597,10 +594,7 @@ args: {
       resolutionContext,
     });
 
-    await expectHistory(
-      resolutionContext.getHistory(),
-      "can-resolve-package"
-    );
+    await expectHistory(resolutionContext.getHistory(), "can-resolve-package");
 
     if (!result.ok) {
       fail(result.error);
@@ -798,10 +792,7 @@ source: { file: "src/wrap/module/wrapped.rs", row: 35, col: 21 }`
     const resolutionContext = new UriResolutionContext();
     const result = await client.tryResolveUri({ uri, resolutionContext });
 
-    await expectHistory(
-      resolutionContext.getHistory(),
-      "not-a-match"
-    );
+    await expectHistory(resolutionContext.getHistory(), "not-a-match");
 
     if (!result.ok) {
       fail(result.error);
@@ -877,10 +868,7 @@ source: { file: "src/wrap/module/wrapped.rs", row: 35, col: 21 }`
       resolutionContext,
     });
 
-    await expectHistory(
-      resolutionContext.getHistory(),
-      "not-found-extension"
-    );
+    await expectHistory(resolutionContext.getHistory(), "not-found-extension");
 
     if (result.ok) {
       fail("Resoulution should have failed");
