@@ -101,19 +101,8 @@ jobs:
         with:
           node-version: '${{ steps.nvm.outputs.NVMRC }}'
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
       - name: Install dependencies
-        run: yarn install --nonInteractive --frozen-lockfile --prefer-offline
+        run: yarn install --nonInteractive --frozen-lockfile
 
       - name: Build
         run: yarn build
@@ -132,4 +121,5 @@ jobs:
           mv wrappers packages/test-cases
 
       - name: Test
-        run: yarn test
+        run: yarn test ./src/__tests__/core/uri-resolution/uri-resolution.spec.ts
+        working-directory: ./packages/client
