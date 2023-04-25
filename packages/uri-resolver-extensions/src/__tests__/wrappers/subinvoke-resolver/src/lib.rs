@@ -2,16 +2,14 @@ pub mod wrap;
 use wrap::{
     *,
     env::{Env},
-    imported::{
-        uri_resolver_module::ArgsGetFile, uri_resolver_module::ArgsTryResolveUri, test_resolver_module,
-    }
+    imported::{test_resolver_module}
 };
 
 impl ModuleTrait for Module {
     fn try_resolve_uri(
         args: ArgsTryResolveUri,
         _env: Option<Env>
-    ) -> Result<Option<UriResolverMaybeUriOrManifest>, String> {
+    ) -> Result<Option<MaybeUriOrManifest>, String> {
         let result = TestResolverModule::try_resolve_uri(&test_resolver_module::ArgsTryResolveUri {
             authority: args.authority,
             path: args.path,
@@ -21,7 +19,7 @@ impl ModuleTrait for Module {
             Ok(result) => {
                 match result {
                     Some(result) => {
-                        return Ok(Some(UriResolverMaybeUriOrManifest {
+                        return Ok(Some(MaybeUriOrManifest {
                             uri: result.uri,
                             manifest: result.manifest
                         }));

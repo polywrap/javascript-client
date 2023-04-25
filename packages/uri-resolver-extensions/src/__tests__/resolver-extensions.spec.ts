@@ -81,16 +81,12 @@ describe("Resolver extensions", () => {
     const testResolverDir = path.join(__dirname, "/wrappers/test-resolver");
 
     // Build the test-resolver wrapper
-    const res = await Commands.build(
+    await Commands.build(
       {},
       {
         cwd: testResolverDir,
       }
     );
-
-    if (res.exitCode !== 0) {
-      fail(`STDOUT: ${res.stdout}\nSTDERR: ${res.stderr}`);
-    }
 
     const wrapBuildDir = path.join(testResolverDir, "build");
 
@@ -106,16 +102,12 @@ describe("Resolver extensions", () => {
     );
 
     // Build the test-resolver wrapper
-    const subinvokeRes = await Commands.build(
+    await Commands.build(
       {},
       {
         cwd: subinvokeResolverDir,
       }
     );
-
-    if (subinvokeRes.exitCode !== 0) {
-      fail(`STDOUT: ${res.stdout}\nSTDERR: ${res.stderr}`);
-    }
 
     const subinvokeBuildDir = path.join(subinvokeResolverDir, "build");
     // Load the wrapper from disk
@@ -156,11 +148,11 @@ describe("Resolver extensions", () => {
     await expectHistory(resolutionContext.getHistory(), "can-resolve-uri");
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "uri") {
-      fail("Expected a URI, received: " + result.value.type);
+      throw Error("Expected a URI, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual(redirectedUri.uri);
@@ -204,11 +196,11 @@ describe("Resolver extensions", () => {
     );
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "uri") {
-      fail("Expected a URI, received: " + result.value.type);
+      throw Error("Expected a URI, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual(redirectedUri.uri);
@@ -245,11 +237,11 @@ describe("Resolver extensions", () => {
     await expectHistory(resolutionContext.getHistory(), "can-resolve-package");
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "package") {
-      fail("Expected a package, received: " + result.value.type);
+      throw Error("Expected a package, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual(redirectedUri.uri);
@@ -293,11 +285,11 @@ describe("Resolver extensions", () => {
     );
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "package") {
-      fail("Expected a package, received: " + result.value.type);
+      throw Error("Expected a package, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual(redirectedUri.uri);
@@ -336,7 +328,7 @@ describe("Resolver extensions", () => {
     );
 
     if (result.ok) {
-      fail("Expected an error, received: " + result.value.type);
+      throw Error("Expected an error, received: " + result.value.type);
     }
 
     expect((result.error as Error)?.message).toEqual(
@@ -389,7 +381,7 @@ args: {
     );
 
     if (result.ok) {
-      fail("Expected an error, received: " + result.value.type);
+      throw Error("Expected an error, received: " + result.value.type);
     }
 
     expect((result.error as Error)?.message).toMatch(/Test error/);
@@ -422,11 +414,11 @@ args: {
     await expectHistory(resolutionContext.getHistory(), "not-a-match");
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "uri") {
-      fail("Expected a uri, received: " + result.value.type);
+      throw Error("Expected a uri, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual("wrap://test/not-a-match");
@@ -466,11 +458,11 @@ args: {
     );
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "uri") {
-      fail("Expected a uri, received: " + result.value.type);
+      throw Error("Expected a uri, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual("wrap://test/not-a-match");
@@ -507,11 +499,11 @@ args: {
     await expectHistory(resolutionContext.getHistory(), "can-resolve-uri");
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "uri") {
-      fail("Expected a URI, received: " + result.value.type);
+      throw Error("Expected a URI, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual(redirectedUri.uri);
@@ -556,11 +548,11 @@ args: {
     );
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "uri") {
-      fail("Expected a URI, received: " + result.value.type);
+      throw Error("Expected a URI, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual(redirectedUri.uri);
@@ -597,11 +589,11 @@ args: {
     await expectHistory(resolutionContext.getHistory(), "can-resolve-package");
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "package") {
-      fail("Expected a package, received: " + result.value.type);
+      throw Error("Expected a package, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual(redirectedUri.uri);
@@ -645,11 +637,11 @@ args: {
     );
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "package") {
-      fail("Expected a package, received: " + result.value.type);
+      throw Error("Expected a package, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual(redirectedUri.uri);
@@ -688,7 +680,7 @@ args: {
     );
 
     if (result.ok) {
-      fail("Expected an error, received: " + result.value.type);
+      throw Error("Expected an error, received: " + result.value.type);
     }
 
     expect((result.error as Error)?.message).toEqual(
@@ -741,7 +733,7 @@ source: { file: "src/wrap/module/wrapped.rs", row: 35, col: 21 }`
     );
 
     if (result.ok) {
-      fail("Expected an error, received: " + result.value.type);
+      throw Error("Expected an error, received: " + result.value.type);
     }
 
     expect((result.error as Error)?.message).toEqual(
@@ -795,11 +787,11 @@ source: { file: "src/wrap/module/wrapped.rs", row: 35, col: 21 }`
     await expectHistory(resolutionContext.getHistory(), "not-a-match");
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "uri") {
-      fail("Expected a uri, received: " + result.value.type);
+      throw Error("Expected a uri, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual("wrap://test/not-a-match");
@@ -839,11 +831,11 @@ source: { file: "src/wrap/module/wrapped.rs", row: 35, col: 21 }`
     );
 
     if (!result.ok) {
-      fail(result.error);
+      throw result.error;
     }
 
     if (result.value.type !== "uri") {
-      fail("Expected a uri, received: " + result.value.type);
+      throw Error("Expected a uri, received: " + result.value.type);
     }
 
     expect(result.value.uri.uri).toEqual("wrap://test/not-a-match");
@@ -871,7 +863,7 @@ source: { file: "src/wrap/module/wrapped.rs", row: 35, col: 21 }`
     await expectHistory(resolutionContext.getHistory(), "not-found-extension");
 
     if (result.ok) {
-      fail("Resoulution should have failed");
+      throw Error("Resoulution should have failed");
     }
 
     expect((result.error as Error)?.message).toEqual(
