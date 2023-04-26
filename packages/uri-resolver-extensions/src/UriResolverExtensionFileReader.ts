@@ -13,7 +13,6 @@ import { Result, ResultErr } from "@polywrap/result";
 // $start: UriResolverExtensionFileReader
 /** An IFileReader that reads files by invoking URI Resolver Extension wrappers */
 export class UriResolverExtensionFileReader implements IFileReader /* $ */ {
-
   private _fileCache: Map<
     string,
     Promise<Result<Uint8Array, Error>>
@@ -52,13 +51,14 @@ export class UriResolverExtensionFileReader implements IFileReader /* $ */ {
     }
 
     // else, create a new read file request
-    const getFileRequest = new Promise<Result<Uint8Array, Error>>(
-      async (resolve) => {
-        const result = await UriResolverInterface.module.getFile(
+    const getFileRequest = new Promise<Result<Uint8Array, Error>>((resolve) => {
+      return UriResolverInterface.module
+        .getFile(
           {
             invoke: <TData = unknown>(
               options: InvokeOptions
-            ): Promise<InvokeResult<TData>> => this._client.invoke<TData>(options),
+            ): Promise<InvokeResult<TData>> =>
+              this._client.invoke<TData>(options),
             invokeWrapper: <TData = unknown>(
               options: InvokeOptions & { wrapper: Wrapper }
             ): Promise<InvokeResult<TData>> =>
@@ -66,29 +66,31 @@ export class UriResolverExtensionFileReader implements IFileReader /* $ */ {
           },
           this._resolverExtensionUri,
           path
-        );
-
-        if (!result.ok) {
-          // The UriResolver has encountered an error,
-          // return the error & reset the file cache (enabling retries).
-          this._fileCache.delete(path);
-          resolve(result);
-        } else if (!result.value) {
-          // The UriResolver did not find the file @ the provided URI.
-          resolve(ResultErr(
-            new Error(
-              `File not found at ${path} using resolver ${this._resolverExtensionUri.uri}`
-            )
-          ));
-        } else {
-          // The file has been found.
-          resolve({
-            value: result.value,
-            ok: true,
-          });
-        }
-      }
-    );
+        )
+        .then((result) => {
+          if (!result.ok) {
+            // The UriResolver has encountered an error,
+            // return the error & reset the file cache (enabling retries).
+            this._fileCache.delete(path);
+            resolve(result);
+          } else if (!result.value) {
+            // The UriResolver did not find the file @ the provided URI.
+            resolve(
+              ResultErr(
+                new Error(
+                  `File not found at ${path} using resolver ${this._resolverExtensionUri.uri}`
+                )
+              )
+            );
+          } else {
+            // The file has been found.
+            resolve({
+              value: result.value,
+              ok: true,
+            });
+          }
+        });
+    });
 
     this._fileCache.set(path, getFileRequest);
 

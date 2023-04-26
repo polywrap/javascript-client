@@ -48,7 +48,8 @@ export class ClientConfigBuilder extends BaseClientConfigBuilder {
         resolver ??
         RecursiveResolver.from(
           RequestSynchronizerResolver.from(
-            ResolutionResultCacheResolver.from([
+            ResolutionResultCacheResolver.from(
+              [
                 StaticResolver.from([
                   ...this.buildRedirects(),
                   ...this.buildWrappers(),
