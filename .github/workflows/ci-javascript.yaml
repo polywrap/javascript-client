@@ -121,5 +121,5 @@ jobs:
           mv wrappers packages/test-cases
 
       - name: Test
-        run: yarn test ./src/__tests__/core/uri-resolution/uri-resolution.spec.ts
+        run: yarn test ./src/__tests__/core/uri-resolution.spec.ts
         working-directory: ./packages/client
