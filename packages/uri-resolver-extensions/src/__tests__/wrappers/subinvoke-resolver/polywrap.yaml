@@ -1,0 +1,10 @@
+format: 0.3.0
+project:
+  name: test-subinvoke-resolver-ext
+  type: wasm/rust
+source:
+  module: ./Cargo.toml
+  schema: ./polywrap.graphql
+  import_abis:
+    - uri: "wrap://package/test-resolver"
+      abi: ../test-resolver/polywrap.graphql

@@ -6,11 +6,11 @@ import {
   Uri,
   UriPackageOrWrapper,
   UriResolutionContext,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { expectHistory } from "../helpers/expectHistory";
 import { PolywrapCoreClient } from "@polywrap/core-client-js";
 import { PluginPackage } from "@polywrap/plugin-js";
-import { UriResolutionResult } from "../../helpers";
 import { PackageToWrapperResolver } from "../../packages";
 
 jest.setTimeout(20000);

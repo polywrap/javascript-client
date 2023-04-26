@@ -1,4 +1,4 @@
-import { UriResolutionResult, UriResolver, UriResolverLike } from "../helpers";
+import { UriResolver, UriResolverLike } from "../helpers";
 
 import {
   IUriResolver,
@@ -6,6 +6,7 @@ import {
   CoreClient,
   IUriResolutionContext,
   UriPackageOrWrapper,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { DeserializeManifestOptions } from "@polywrap/wrap-manifest-types-js";
 import { Result } from "@polywrap/result";

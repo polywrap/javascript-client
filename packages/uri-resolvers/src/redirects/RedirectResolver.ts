@@ -1,6 +1,10 @@
-import { ResolverWithHistory, UriResolutionResult } from "../helpers";
+import { ResolverWithHistory } from "../helpers";
 
-import { Uri, UriPackageOrWrapper } from "@polywrap/core-js";
+import {
+  Uri,
+  UriPackageOrWrapper,
+  UriResolutionResult,
+} from "@polywrap/core-js";
 import { Result } from "@polywrap/result";
 
 // $start: RedirectResolver

@@ -1,4 +1,4 @@
-import { UriResolutionResult, UriResolverLike } from "../helpers";
+import { UriResolverLike } from "../helpers";
 
 import {
   CoreClient,
@@ -9,6 +9,7 @@ import {
   IUriRedirect,
   IUriPackage,
   IUriWrapper,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { Result } from "@polywrap/result";
 
