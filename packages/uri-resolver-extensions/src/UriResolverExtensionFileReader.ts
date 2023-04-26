@@ -67,15 +67,21 @@ export class UriResolverExtensionFileReader implements IFileReader /* $ */ {
           this._resolverExtensionUri,
           path
         );
+
         if (!result.ok) {
+          // The UriResolver has encountered an error,
+          // return the error & reset the file cache (enabling retries).
+          this._fileCache.delete(path);
           resolve(result);
         } else if (!result.value) {
+          // The UriResolver did not find the file @ the provided URI.
           resolve(ResultErr(
             new Error(
               `File not found at ${path} using resolver ${this._resolverExtensionUri.uri}`
             )
           ));
         } else {
+          // The file has been found.
           resolve({
             value: result.value,
             ok: true,
