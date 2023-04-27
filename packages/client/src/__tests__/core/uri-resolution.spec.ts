@@ -41,7 +41,7 @@ describe("URI resolution", () => {
     );
 
     if (expectResult.ok) {
-      expectResult.value.type = "wrapper";
+      expectResult.value.type = "package";
     }
 
     await expectResolutionResult(
