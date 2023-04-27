@@ -65,7 +65,7 @@ async function getCallCount(client: PolywrapClient): Promise<number> {
 }
 
 describe("UriResolverExtensionFileReader", () => {
-  it("sanity", async () => {
+  it("resolves a file", async () => {
     const mockClient = createMockClient();
     const fileReader = createUriResolverExtensionFileReader(mockClient);
 
@@ -97,7 +97,26 @@ describe("UriResolverExtensionFileReader", () => {
     expect(await getCallCount(mockClient)).toBe(1);
   });
 
-  it("retries when an error is thrown", async () => {
+  it("can synchronize parallel requests", async () => {
+    const mockClient = createMockClient();
+    const fileReader = createUriResolverExtensionFileReader(mockClient);
+
+    const results = await Promise.all([
+      fileReader.readFile("some/path"),
+      fileReader.readFile("some/path")
+    ]);
+
+    for (const result of results) {
+      expect(result.ok).toBeTruthy();
+      if (!result.ok) throw result.error;
+      expect(result.value).toMatchObject(mockFile);
+    }
+
+    // Ensure the call counter is 1
+    expect(await getCallCount(mockClient)).toBe(1);
+  });
+
+  it("can retry when an error is thrown", async () => {
     const mockClient = createMockClient();
     const fileReader = createUriResolverExtensionFileReader(mockClient);
 

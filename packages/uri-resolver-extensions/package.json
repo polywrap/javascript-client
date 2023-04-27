@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@polywrap/cli-js": "0.10.0",
+    "@polywrap/client-js": "0.10.0",
     "@polywrap/core-client-js": "0.10.0",
     "@polywrap/plugin-js": "0.10.0",
     "@polywrap/test-cases": "0.10.0",
