@@ -1,16 +1,11 @@
+import { PolywrapCoreClient } from "@polywrap/core-client-js";
 import { UriResolverExtensionFileReader } from "../UriResolverExtensionFileReader";
 
-import {
-  PolywrapClient,
-  ClientConfigBuilder,
-  Uri
-} from "@polywrap/client-js";
-import {
-  PluginModule,
-  PluginWrapper
-} from "@polywrap/plugin-js";
+import { Uri, CoreClient } from "@polywrap/core-js";
+import { PluginModule, PluginWrapper } from "@polywrap/plugin-js";
+import { RecursiveResolver } from "@polywrap/uri-resolvers-js";
 
-const mockUriResolverExtUri = "wrap://mock/uri-resolver-ext";
+const mockUriResolverExtUri = Uri.from("wrap://mock/uri-resolver-ext");
 const mockFile = Uint8Array.from([0, 1, 2]);
 
 class MockUriResolverExt extends PluginModule<{}, {}> {
@@ -31,21 +26,20 @@ class MockUriResolverExt extends PluginModule<{}, {}> {
   }
 }
 
-function createMockClient(): PolywrapClient {
-  const config = new ClientConfigBuilder()
-    .addWrapper(
-      mockUriResolverExtUri,
-      new PluginWrapper(
+function createMockClient(): CoreClient {
+  return new PolywrapCoreClient({
+    resolver: RecursiveResolver.from({
+      uri: mockUriResolverExtUri,
+      wrapper: new PluginWrapper(
         { version: "0.1", type: "plugin", name: "counter", abi: {} },
         new MockUriResolverExt({})
-      )
-    )
-    .build();
-  return new PolywrapClient(config);
+      ),
+    }),
+  });
 }
 
 function createUriResolverExtensionFileReader(
-  mockClient: PolywrapClient
+  mockClient: CoreClient
 ): UriResolverExtensionFileReader {
   return new UriResolverExtensionFileReader(
     Uri.from(mockUriResolverExtUri),
@@ -54,10 +48,10 @@ function createUriResolverExtensionFileReader(
   );
 }
 
-async function getCallCount(client: PolywrapClient): Promise<number> {
+async function getCallCount(client: CoreClient): Promise<number> {
   const result = await client.invoke<number>({
     uri: mockUriResolverExtUri,
-    method: "getCallCount"
+    method: "getCallCount",
   });
 
   if (!result.ok) throw result.error;
@@ -103,7 +97,7 @@ describe("UriResolverExtensionFileReader", () => {
 
     const results = await Promise.all([
       fileReader.readFile("some/path"),
-      fileReader.readFile("some/path")
+      fileReader.readFile("some/path"),
     ]);
 
     for (const result of results) {
