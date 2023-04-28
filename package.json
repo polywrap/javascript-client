@@ -13,7 +13,6 @@
     ]
   },
   "scripts": {
-    "postinstall": "ts-node ./scripts/patch-peer-deps.ts",
     "reset": "yarn clean && yarn && yarn build",
     "clean": "npx rimraf ./**/node_modules ./**/yarn.lock ./**/build ./**/coverage ./**/.polywrap",
     "install:test-wrappers": "lerna run generate:wrappers --scope @polywrap/test-cases",
