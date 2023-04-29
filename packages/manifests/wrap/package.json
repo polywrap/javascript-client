@@ -16,13 +16,13 @@
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "9.0.9",
+    "@polywrap/msgpack-js": "0.10.1",
     "jsonschema": "1.4.0",
     "semver": "7.5.0"
   },
   "devDependencies": {
-    "@polywrap/msgpack-js": "0.10.1",
-    "@polywrap/os-js": "0.10.0",
-    "@polywrap/wrap-manifest-schemas": "0.9.3",
+    "@polywrap/os-js": "~0.10.0",
+    "@polywrap/wrap-manifest-schemas": "0.9.7",
     "@types/jest": "29.5.0",
     "@types/mustache": "4.0.1",
     "@types/prettier": "2.6.0",
