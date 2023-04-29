@@ -1,3 +1,23 @@
+# Polywrap Origin (0.10.1)
+## Features
+**`@polywrap/wasm-js`:**
+* [PR-3](https://github.com/polywrap/javascript-client/pull/3) **WasmWrapper Subinvcations Now Retain The Resolution Context**
+  * Added `resolutionContext` to the `WasmWrapper`'s state.
+  * Pass the `resolutionContext` through to all subinvocations.
+
+## Bugs
+**`@polywrap/client-config-builder-js`**
+* [PR-8](https://github.com/polywrap/javascript-client/pull/8) **`tryResolveUri` Now Returns Wrap Packages**
+  * The default resolver should not automatically convert packages to wrappers. Based on this, the `PackageToWrapperResolver` has been removed from the default config bundle.
+
+**`@polywrap/core-client-js`:**
+* [PR-3](https://github.com/polywrap/javascript-client/pull/3) **Properly Track Subinvocation Resolution Contexts**
+  * Instead of passing the core resolution context to the resolution and invocation processes, seperate sub contexts are created for them. This means that subinvokes will now be tracked in the resolution context.
+
+**`@polywrap/plugin-js`:**
+* [PR-3](https://github.com/polywrap/javascript-client/pull/3) **Properly Track Subinvocation Resolution Contexts**
+  * The client instance provided to plugin methods has been wrapped, enabling the automatic tracking of all subinvocation resolution contexts.
+
 # Polywrap Origin (0.10.0)
 ## Features
 **`@polywrap/client-js`:**
