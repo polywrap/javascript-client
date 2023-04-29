@@ -131,13 +131,13 @@ jobs:
 
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.POLYWRAP_BUILD_BOT_PAT }}
           push-to-fork: ${{env.RELEASE_FORKS}}/${{github.event.pull_request.base.repo.name}}
           branch: release/origin-${{env.RELEASE_VERSION}}
           base: ${{github.event.pull_request.base.ref}}
-          committer: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
+          committer: GitHub <noreply@github.com>
           author: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
           commit-message: "${{env.RELEASE_VERSION}}"
           title: 'Polywrap Origin (${{env.RELEASE_VERSION}})'
