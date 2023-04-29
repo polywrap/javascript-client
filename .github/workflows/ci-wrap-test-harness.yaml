@@ -73,7 +73,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install dependencies
-        run: yarn install --nonInteractive --frozen-lockfile --prefer-offline
+        run: (yarn install --nonInteractive --frozen-lockfile --prefer-offline || yarn install --nonInteractive --frozen-lockfile --prefer-offline)
         working-directory: ./toolchain
 
       - name: Build toolchain
