@@ -45,7 +45,7 @@ jobs:
           echo $(npm whoami --registry https://registry.npmjs.org/)
 
       - name: Install JS dependencies
-        run: yarn install --nonInteractive --frozen-lockfile
+        run: (yarn install --nonInteractive --frozen-lockfile || yarn install --nonInteractive --frozen-lockfile)
 
       - name: Build JS packages
         run: yarn build
