@@ -1,0 +1,4 @@
+#import * from "wrap://ens/wraps.eth:uri-resolver-ext@1.1.0"
+#import { Module } into TestResolver from "wrap://package/test-resolver"
+
+type Env {}

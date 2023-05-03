@@ -1,10 +1,7 @@
-import {
-  UriPackageOrWrapper,
-  IUriResolutionStep,
-  Uri,
-  IWrapPackage,
-  Wrapper,
-} from "@polywrap/core-js";
+import { Uri, IWrapPackage, Wrapper } from "../types";
+import { IUriResolutionStep } from "./IUriResolutionStep";
+import { UriPackageOrWrapper } from "./UriPackageOrWrapper";
+
 import { Result, ResultOk, ResultErr } from "@polywrap/result";
 
 // $start: UriResolutionResult

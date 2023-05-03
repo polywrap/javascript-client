@@ -323,9 +323,8 @@ describe("Error structure", () => {
           if (result.ok) throw Error("should never happen");
 
           expect(result.error?.name).toEqual("WrapError");
-          expect(result.error?.code).toEqual(WrapErrorCode.URI_RESOLVER_ERROR);
+          expect(result.error?.code).toEqual(WrapErrorCode.CLIENT_LOAD_WRAPPER_ERROR);
           expect(result.error?.uri.endsWith("tmp")).toBeTruthy();
-          expect(result.error?.resolutionStack).toBeDefined();
           expect(`${result.error?.cause}`).toContain(
             `Unrecognized WrapManifest schema version "0.0.0.5"`
           );

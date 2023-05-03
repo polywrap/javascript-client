@@ -1,4 +1,5 @@
 # @polywrap/uri-resolver-extensions-js
+
 <a href="https://www.npmjs.com/package/@polywrap/uri-resolver-extensions-js" target="_blank" rel="noopener noreferrer">
 <img src="https://img.shields.io/npm/v/@polywrap/uri-resolver-extensions-js.svg" alt="npm"/>
 </a>
@@ -34,16 +35,19 @@ $snippet: ExtendableUriResolver
 ### Properties
 
 #### extInterfaceUri (static)
+
 ```ts
 $snippet: ExtendableUriResolver-extInterfaceUri-static
 ```
 
 #### extInterfaceUri
+
 ```ts
 $snippet: ExtendableUriResolver-extInterfaceUri
 ```
 
 ### constructor
+
 ```ts
 $snippet: ExtendableUriResolver-constructor
 ```
@@ -51,26 +55,31 @@ $snippet: ExtendableUriResolver-constructor
 ### Methods
 
 #### getUriResolvers
+
 ```ts
 $snippet: ExtendableUriResolver-getUriResolvers
 ```
 
 #### tryResolverUri
+
 ```ts
 $snippet: ExtendableUriResolver-tryResolverUri
 ```
 
 #### getStepDescription (protected)
+
 ```ts
 $snippet: ExtendableUriResolver-getStepDescription
 ```
 
 ## UriResolverExtensionFileReader
+
 ```ts
 $snippet: UriResolverExtensionFileReader
 ```
 
 ### constructor
+
 ```ts
 $snippet: UriResolverExtensionFileReader-constructor
 ```
@@ -78,35 +87,29 @@ $snippet: UriResolverExtensionFileReader-constructor
 ### Methods
 
 #### readFile
+
 ```ts
 $snippet: UriResolverExtensionFileReader-readFile
 ```
 
 ## UriResolverWrapper
+
 ```ts
 $snippet: UriResolverWrapper
 ```
 
 ### constructor
+
 ```ts
 $snippet: UriResolverWrapper-constructor
 ```
 
 ### Methods
 
-#### getStepDescription
-```ts
-$snippet: UriResolverWrapper-getStepDescription
-```
+#### tryResolverUri
 
-#### tryResolveUriWithImplementation
 ```ts
-$snippet: UriResolverWrapper-tryResolveUriWithImplementation
-```
-
-#### _tryResolverUri (protected)
-```ts
-$snippet: UriResolverWrapper-_tryResolverUri
+$snippet: UriResolverWrapper-tryResolverUri
 ```
 
 ## Development
@@ -114,11 +117,13 @@ $snippet: UriResolverWrapper-_tryResolverUri
 This package is open-source. It lives within the [Polywrap JavaScript Client repository](https://github.com/polywrap/javascript-client). Contributions from the community are welcomed!
 
 ### Build
+
 ```bash
 nvm use && yarn install && yarn build
 ```
 
 ### Test
+
 ```bash
 yarn test
-``
+```

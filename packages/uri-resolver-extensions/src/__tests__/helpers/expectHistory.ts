@@ -4,7 +4,8 @@ import fs from "fs";
 
 export const expectHistory = async (
   receivedHistory: IUriResolutionStep<unknown>[] | undefined,
-  historyFileName: string
+  historyFileName: string,
+  replaceFilePaths?: boolean
 ): Promise<void> => {
   if (!receivedHistory) {
     fail("History is not defined");
@@ -17,11 +18,17 @@ export const expectHistory = async (
   const expectedCleanHistory = JSON.stringify(JSON.parse(expectedCleanHistoryStr), null, 2);
 
 
-  const receivedCleanHistory = replaceAll(
+  let receivedCleanHistory = replaceAll(
     JSON.stringify(buildCleanUriHistory(receivedHistory), null, 2),
     `${GetPathToTestWrappers()}`,
     "$root-wrapper-dir"
   );
+
+  if (replaceFilePaths) {
+    receivedCleanHistory = receivedCleanHistory
+      .replace(/file: \\"[^"]+\\"/gm, "")
+      .replace(/file: "[^"]+"/gm, "");
+  }
 
   expect(receivedCleanHistory).toEqual(expectedCleanHistory);
 };

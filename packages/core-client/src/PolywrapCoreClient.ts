@@ -21,6 +21,7 @@ import {
   WrapperEnv,
   ReadonlyUriMap,
   UriMap,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { msgpackEncode, msgpackDecode } from "@polywrap/msgpack-js";
 import {
@@ -274,27 +275,57 @@ export class PolywrapCoreClient implements CoreClient {
       const resolutionContext =
         options.resolutionContext ?? new UriResolutionContext();
 
+      const loadWrapperContext = resolutionContext.createSubContext();
+
       const loadWrapperResult = await this.loadWrapper(
         typedOptions.uri,
-        resolutionContext
+        loadWrapperContext
       );
 
       if (!loadWrapperResult.ok) {
+        resolutionContext.trackStep({
+          sourceUri: typedOptions.uri,
+          result: UriResolutionResult.err(loadWrapperResult.error),
+          description: `Client.loadWrapper`,
+          subHistory: loadWrapperContext.getHistory(),
+        });
+
         return loadWrapperResult;
       }
+
+      let resolutionPath = loadWrapperContext.getResolutionPath();
+      resolutionPath =
+        resolutionPath.length > 0 ? resolutionPath : [typedOptions.uri];
+
+      const finalUri = resolutionPath[resolutionPath.length - 1];
+
       const wrapper = loadWrapperResult.value;
 
-      const resolutionPath = resolutionContext.getResolutionPath();
+      resolutionContext.trackStep({
+        sourceUri: typedOptions.uri,
+        result: UriResolutionResult.ok(finalUri, loadWrapperResult.value),
+        description: `Client.loadWrapper`,
+        subHistory: loadWrapperContext.getHistory(),
+      });
 
-      const env = getEnvFromUriHistory(
-        resolutionPath.length > 0 ? resolutionPath : [typedOptions.uri],
-        this
-      );
+      const env = options.env ?? getEnvFromUriHistory(resolutionPath, this);
+
+      const invokeContext = resolutionContext.createSubContext();
 
       const invokeResult = await this.invokeWrapper<TData>({
-        env: env,
         ...typedOptions,
+        env: env,
+        resolutionContext: invokeContext,
         wrapper,
+      });
+
+      resolutionContext.trackStep({
+        sourceUri: finalUri,
+        result: invokeResult.ok
+          ? UriResolutionResult.ok(finalUri)
+          : ResultErr(invokeResult.error),
+        description: `Client.invokeWrapper`,
+        subHistory: invokeContext.getHistory(),
       });
 
       if (!invokeResult.ok) {

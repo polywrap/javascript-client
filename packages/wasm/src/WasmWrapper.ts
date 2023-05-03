@@ -20,6 +20,7 @@ import {
   WrapErrorCode,
   ErrorSource,
   typesHandler,
+  IUriResolutionContext,
 } from "@polywrap/core-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
 
@@ -43,6 +44,7 @@ export interface State {
   invokeResult?: Result<unknown>;
   getImplementationsResult?: Uint8Array;
   env: Uint8Array;
+  resolutionContext?: IUriResolutionContext;
 }
 
 const EMPTY_ENCODED_OBJECT = msgpackEncode({});
@@ -163,6 +165,7 @@ export class WasmWrapper implements Wrapper {
             : msgpackEncode(args)
           : EMPTY_ENCODED_OBJECT,
         env: options.env ? msgpackEncode(options.env) : EMPTY_ENCODED_OBJECT,
+        resolutionContext: options.resolutionContext,
       };
 
       const abortWithInvokeAborted = (

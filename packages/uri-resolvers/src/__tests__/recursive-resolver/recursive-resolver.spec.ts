@@ -6,10 +6,11 @@ import {
   Uri,
   UriPackageOrWrapper,
   UriResolutionContext,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { expectHistory } from "../helpers/expectHistory";
 import { PolywrapCoreClient } from "@polywrap/core-client-js";
-import { RecursiveResolver, UriResolutionResult } from "../../helpers";
+import { RecursiveResolver } from "../../helpers";
 
 jest.setTimeout(20000);
 
@@ -23,19 +24,13 @@ class SimpleRedirectResolver implements IUriResolver<Error> {
 
     switch (uri.uri) {
       case "wrap://test/1":
-        result = UriResolutionResult.ok(
-          Uri.from("test/2"),
-        );
+        result = UriResolutionResult.ok(Uri.from("test/2"));
         break;
       case "wrap://test/2":
-        result = UriResolutionResult.ok(
-          Uri.from("test/3"),
-        );
+        result = UriResolutionResult.ok(Uri.from("test/3"));
         break;
       case "wrap://test/3":
-        result = UriResolutionResult.ok(
-          Uri.from("test/4"),
-        );
+        result = UriResolutionResult.ok(Uri.from("test/4"));
         break;
       default:
         result = UriResolutionResult.ok(uri);
@@ -56,9 +51,7 @@ describe("RecursiveResolver", () => {
     const uri = new Uri("test/1");
 
     const client = new PolywrapCoreClient({
-      resolver: RecursiveResolver.from(
-        new SimpleRedirectResolver()
-      )
+      resolver: RecursiveResolver.from(new SimpleRedirectResolver()),
     });
 
     let resolutionContext = new UriResolutionContext();
@@ -67,7 +60,7 @@ describe("RecursiveResolver", () => {
     await expectHistory(
       resolutionContext.getHistory(),
       "recursive-resolver",
-      "can-recursively-resolve-uri",
+      "can-recursively-resolve-uri"
     );
 
     if (!result.ok) {
@@ -85,9 +78,7 @@ describe("RecursiveResolver", () => {
     const uri = new Uri("test/not-a-match");
 
     const client = new PolywrapCoreClient({
-      resolver: RecursiveResolver.from(
-        new SimpleRedirectResolver()
-      )
+      resolver: RecursiveResolver.from(new SimpleRedirectResolver()),
     });
 
     let resolutionContext = new UriResolutionContext();
@@ -96,7 +87,7 @@ describe("RecursiveResolver", () => {
     await expectHistory(
       resolutionContext.getHistory(),
       "recursive-resolver",
-      "not-a-match",
+      "not-a-match"
     );
 
     if (!result.ok) {

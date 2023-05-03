@@ -257,7 +257,7 @@ Invoke a wrapper.
 
 ## Development
 
-The Polywrap JavaScript client is open-source. It lives within the [Polywrap JavaScript Client repo](https://github.com/polywrap/javascript-client). Contributions from the community are welcomed!
+The Polywrap JavaScript client is open-source. It lives within the [Polywrap JavaScript Client repository](https://github.com/polywrap/javascript-client). Contributions from the community are welcomed!
 
 ### Build
 ```bash

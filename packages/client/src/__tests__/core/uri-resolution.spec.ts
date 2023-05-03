@@ -1,27 +1,18 @@
-import { GetPathToTestWrappers } from "@polywrap/test-cases";
 import {
   Uri,
-  IUriResolutionStep,
   UriPackageOrWrapper,
   UriResolutionContext,
-  buildCleanUriHistory,
+  UriResolutionResult,
 } from "@polywrap/core-js";
-import { UriResolutionResult } from "@polywrap/uri-resolvers-js";
-import fs from "fs";
 import { Result } from "@polywrap/result";
-import { PolywrapClient, ClientConfigBuilder } from "../../../";
+import { PolywrapClient, ClientConfigBuilder } from "../../";
 
 jest.setTimeout(200000);
 
-const expectResultWithHistory = async (
+const expectResolutionResult = async (
   receivedResult: Result<UriPackageOrWrapper, unknown>,
   expectedResult: Result<UriPackageOrWrapper, unknown>,
-  uriHistory: IUriResolutionStep<unknown>[],
-  historyFileName: string
 ): Promise<void> => {
-  if (historyFileName && uriHistory) {
-    await expectHistory(uriHistory, historyFileName);
-  }
 
   expect(expectedResult.ok).toEqual(receivedResult.ok);
 
@@ -35,34 +26,6 @@ const expectResultWithHistory = async (
     );
   }
 };
-
-const expectHistory = async (
-  receivedHistory: IUriResolutionStep<unknown>[] | undefined,
-  historyFileName: string
-): Promise<void> => {
-  if (!receivedHistory) {
-    fail("History is not defined");
-  }
-
-  let expectedCleanHistory = await fs.promises.readFile(
-    `${__dirname}/histories/${historyFileName}.json`,
-    "utf-8"
-  );
-
-  const receivedCleanHistory = replaceAll(
-    JSON.stringify(buildCleanUriHistory(receivedHistory), null, 2),
-    `${GetPathToTestWrappers()}`,
-    "$root-wrapper-dir"
-  );
-
-  expect(receivedCleanHistory).toEqual(
-    JSON.stringify(JSON.parse(expectedCleanHistory), null, 2)
-  );
-};
-
-function replaceAll(str: string, strToReplace: string, replaceStr: string) {
-  return str.replace(new RegExp(strToReplace, "g"), replaceStr);
-}
 
 describe("URI resolution", () => {
   it("sanity", async () => {
@@ -78,14 +41,12 @@ describe("URI resolution", () => {
     );
 
     if (expectResult.ok) {
-      expectResult.value.type = "wrapper"
+      expectResult.value.type = "package";
     }
 
-    await expectResultWithHistory(
+    await expectResolutionResult(
       result,
       expectResult,
-      resolutionContext.getHistory(),
-      "sanity"
     );
   });
 

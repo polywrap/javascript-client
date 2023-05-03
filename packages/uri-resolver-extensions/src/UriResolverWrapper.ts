@@ -1,5 +1,4 @@
 import { UriResolverExtensionFileReader } from "./UriResolverExtensionFileReader";
-import { loadResolverExtension } from "./ResolverExtensionLoader";
 
 import {
   Uri,
@@ -7,41 +6,27 @@ import {
   UriResolverInterface,
   IUriResolutionContext,
   UriPackageOrWrapper,
-  getEnvFromUriHistory,
+  IUriResolver,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { Result, ResultOk } from "@polywrap/result";
 import { WasmPackage } from "@polywrap/wasm-js";
-import {
-  ResolverWithHistory,
-  UriResolutionResult,
-} from "@polywrap/uri-resolvers-js";
 
 // $start: UriResolverWrapper
 /**
  * An IUriResolver that delegates resolution to a wrapper that implements
  * the URI Resolver Extension Interface
  * */
-export class UriResolverWrapper extends ResolverWithHistory<unknown> /* $ */ {
+export class UriResolverWrapper implements IUriResolver<unknown> /* $ */ {
   // $start: UriResolverWrapper-constructor
   /**
    * construct a UriResolverWrapper
    *
    * @param implementationUri - URI that resolves to a URI Resolver Extension implementation
    * */
-  constructor(public readonly implementationUri: Uri) /* $ */ {
-    super();
-  }
+  constructor(public readonly implementationUri: Uri) /* $ */ {}
 
-  // $start: UriResolverWrapper-getStepDescription
-  /**
-   * A utility function for generating step descriptions to facilitate resolution context updates
-   *
-   * @returns text describing the URI resolution step
-   * */
-  protected getStepDescription = (): string /* $ */ =>
-    `ResolverExtension (${this.implementationUri.uri})`;
-
-  // $start: UriResolverWrapper-_tryResolverUri
+  // $start: UriResolverWrapper-tryResolverUri
   /**
    * Attempt to resolve a URI by invoking a URI Resolver Extension wrapper, then
    * parse the result to a wrap package, a wrapper, or a URI
@@ -51,38 +36,54 @@ export class UriResolverWrapper extends ResolverWithHistory<unknown> /* $ */ {
    * @param resolutionContext - the current URI resolution context
    * @returns A Promise with a Result containing either a wrap package, a wrapper, or a URI if successful
    */
-  protected async _tryResolveUri(
+  async tryResolveUri(
     uri: Uri,
     client: CoreClient,
     resolutionContext: IUriResolutionContext
   ): Promise<Result<UriPackageOrWrapper, unknown>> /* $ */ {
+    const resolverExtensionContext = resolutionContext.createSubContext();
+
     const result = await tryResolveUriWithImplementation(
       uri,
       this.implementationUri,
       client,
-      resolutionContext
+      resolverExtensionContext
     );
 
-    if (!result.ok) {
-      return UriResolutionResult.err(result.error);
-    }
+    const resolutionResult = result.ok
+      ? getResult(result.value, uri, this.implementationUri, client)
+      : UriResolutionResult.err(result.error);
 
-    const uriOrManifest = result.value;
+    resolutionContext.trackStep({
+      sourceUri: uri,
+      result: resolutionResult,
+      description: `ResolverExtension (${this.implementationUri.uri})`,
+      subHistory: resolverExtensionContext.getHistory(),
+    });
 
-    if (uriOrManifest?.uri) {
-      return UriResolutionResult.ok(new Uri(uriOrManifest.uri));
-    } else if (uriOrManifest?.manifest) {
-      const wrapPackage = WasmPackage.from(
-        uriOrManifest.manifest,
-        new UriResolverExtensionFileReader(this.implementationUri, uri, client)
-      );
-
-      return UriResolutionResult.ok(uri, wrapPackage);
-    }
-
-    return UriResolutionResult.ok(uri);
+    return resolutionResult;
   }
 }
+
+const getResult = (
+  uriOrManifest: UriResolverInterface.MaybeUriOrManifest | undefined,
+  uri: Uri,
+  implementationUri: Uri,
+  client: CoreClient
+): Result<UriPackageOrWrapper, unknown> => {
+  if (uriOrManifest?.uri) {
+    return UriResolutionResult.ok(new Uri(uriOrManifest.uri));
+  } else if (uriOrManifest?.manifest) {
+    const wrapPackage = WasmPackage.from(
+      uriOrManifest.manifest,
+      new UriResolverExtensionFileReader(implementationUri, uri, client)
+    );
+
+    return UriResolutionResult.ok(uri, wrapPackage);
+  }
+
+  return UriResolutionResult.ok(uri);
+};
 
 // $start: UriResolverWrapper-tryResolveUriWithImplementation
 /**
@@ -102,31 +103,15 @@ const tryResolveUriWithImplementation = async (
 ): Promise<
   Result<UriResolverInterface.MaybeUriOrManifest | undefined, unknown>
 > /* $ */ => {
-  const subContext = resolutionContext.createSubContext();
-  const result = await loadResolverExtension(
-    uri,
-    implementationUri,
-    client,
-    subContext
-  );
-
-  if (!result.ok) {
-    return result;
-  }
-
-  const extensionWrapper = result.value;
-
-  const env = getEnvFromUriHistory(subContext.getResolutionPath(), client);
-  const invokeResult = await client.invokeWrapper<UriResolverInterface.MaybeUriOrManifest>(
+  const invokeResult = await client.invoke<UriResolverInterface.MaybeUriOrManifest>(
     {
-      wrapper: extensionWrapper,
       uri: implementationUri,
       method: "tryResolveUri",
       args: {
         authority: uri.authority,
         path: uri.path,
       },
-      env: env,
+      resolutionContext,
     }
   );
 
