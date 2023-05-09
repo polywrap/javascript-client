@@ -4,13 +4,14 @@ import { PolywrapClient } from "../../../PolywrapClient";
 import { mockPluginRegistration } from "../../helpers";
 import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { Uri, UriMap } from "@polywrap/core-js";
+import { GetPathToTestWrappers } from "@polywrap/test-cases";
 
 jest.setTimeout(200000);
 
 export const envTestCases = (implementation: string) => {
   describe("invoke with env", () => {
     test(`invoke method without env does not require env in ${implementation}`, async () => {
-      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
       const builder = new ClientConfigBuilder();
@@ -31,7 +32,7 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`invoke method without env works with env in ${implementation}`, async () => {
-      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
       const env = {
@@ -70,7 +71,7 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`invoke method with required env works with env in ${implementation}`, async () => {
-      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
       const env = {
@@ -123,7 +124,7 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`invoke method with required env throws without env registered in ${implementation}`, async () => {
-      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
       const builder = new ClientConfigBuilder();
@@ -142,7 +143,7 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`invoke method with optional env works with env in ${implementation}`, async () => {
-      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
       const env = {
@@ -195,7 +196,7 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`invoke method with optional env works without env in ${implementation}`, async () => {
-      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
       const builder = new ClientConfigBuilder();
@@ -214,7 +215,7 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`env can be registered for any uri in resolution path in ${implementation}`, async () => {
-      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
       const redirectFromUri = Uri.from(`mock/from`);
 
@@ -276,11 +277,8 @@ export const envTestCases = (implementation: string) => {
 
   describe("subinvoke with env", () => {
     test(`subinvoke method without env does not require env in ${implementation}`, async () => {
-      // const subinvokerPath = `${GetPathToTestWrappers()}/env-type/01-subinvoker/implementations/${implementation}`;
-      // const subinvokedPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
-      
-      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
-      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const subinvokerPath = `${GetPathToTestWrappers()}/env-type/01-subinvoker/implementations/${implementation}`;
+      const subinvokedPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
 
@@ -303,8 +301,8 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`subinvoke method without env works with env in ${implementation}`, async () => {
-      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
-      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const subinvokerPath = `${GetPathToTestWrappers()}/env-type/01-subinvoker/implementations/${implementation}`;
+      const subinvokedPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
     
@@ -344,8 +342,8 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`subinvoke method with required env works with env in ${implementation}`, async () => {
-      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
-      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const subinvokerPath = `${GetPathToTestWrappers()}/env-type/01-subinvoker/implementations/${implementation}`;
+      const subinvokedPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
 
@@ -399,8 +397,8 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`subinvoke method with required env throws without env registered in ${implementation}`, async () => {
-      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
-      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const subinvokerPath = `${GetPathToTestWrappers()}/env-type/01-subinvoker/implementations/${implementation}`;
+      const subinvokedPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
 
@@ -420,8 +418,8 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`subinvoke method with optional env works with env in ${implementation}`, async () => {
-      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
-      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const subinvokerPath = `${GetPathToTestWrappers()}/env-type/01-subinvoker/implementations/${implementation}`;
+      const subinvokedPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
 
@@ -475,8 +473,8 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`subinvoke method with optional env works without env in ${implementation}`, async () => {
-      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
-      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const subinvokerPath = `${GetPathToTestWrappers()}/env-type/01-subinvoker/implementations/${implementation}`;
+      const subinvokedPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
 
@@ -496,8 +494,8 @@ export const envTestCases = (implementation: string) => {
     });
 
     test(`subinvoker env does not override subinvoked env in ${implementation}`, async () => {
-      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
-      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const subinvokerPath = `${GetPathToTestWrappers()}/env-type/02-subinvoker-with-env/implementations/${implementation}`;
+      const subinvokedPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
 
