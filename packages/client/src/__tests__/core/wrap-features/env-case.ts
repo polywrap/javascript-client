@@ -1,6 +1,5 @@
 import { PluginPackage } from "@polywrap/plugin-js";
 import { RecursiveResolver } from "@polywrap/uri-resolvers-js";
-import { GetPathToTestWrappers } from "@polywrap/test-cases";
 import { PolywrapClient } from "../../../PolywrapClient";
 import { mockPluginRegistration } from "../../helpers";
 import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
@@ -9,49 +8,84 @@ import { Uri, UriMap } from "@polywrap/core-js";
 jest.setTimeout(200000);
 
 export const envTestCases = (implementation: string) => {
-  describe("env", () => {
-    test(implementation, async () => {
-      const externalWrapperPath = `${GetPathToTestWrappers()}/env-type/00-external/implementations/${implementation}`;
-      const { uri: externalWrapperUri } = Uri.from(
-        `file/${externalWrapperPath}`
-      );
+  describe("invoke with env", () => {
+    test(`invoke method without env does not require env in ${implementation}`, async () => {
+      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
-      const wrapperPath = `${GetPathToTestWrappers()}/env-type/01-main/implementations/${implementation}`;
-      const { uri: wrapperUri } = Uri.from(`file/${wrapperPath}`);
+      const builder = new ClientConfigBuilder();
+      builder.addDefaults();
+      
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: wrapperUri,
+        method: "methodNoEnv",
+        args: {
+          arg: "test",
+        },
+      });
+
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual("test");
+    });
+
+    test(`invoke method without env works with env in ${implementation}`, async () => {
+      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperUri = Uri.from(`file/${wrapperPath}`);
+
+      const env = {
+        object: {
+          prop: "object string",
+        },
+        str: "string",
+        optFilledStr: "optional string",
+        number: 10,
+        bool: true,
+        en: "FIRST",
+        array: [32, 23],
+      };
 
       const envs = {
-        [wrapperUri]: {
-          object: {
-            prop: "object string",
-          },
-          str: "string",
-          optFilledStr: "optional string",
-          number: 10,
-          bool: true,
-          en: "FIRST",
-          array: [32, 23],
-        },
-        [externalWrapperUri]: {
-          externalArray: [1, 2, 3],
-          externalString: "iamexternal",
-        },
+        [wrapperUri.uri]: env
       };
 
       const builder = new ClientConfigBuilder();
       builder
         .addDefaults()
-        .addEnvs(envs)
-        .addRedirect("ens/external-env.polywrap.eth", externalWrapperUri);
+        .addEnvs(envs);
+
       const client = new PolywrapClient(builder.build());
-      const methodRequireEnvResult = await client.invoke({
+      
+      const result = await client.invoke({
         uri: wrapperUri,
-        method: "methodRequireEnv",
+        method: "methodNoEnv",
         args: {
-          arg: "string",
+          arg: "test",
         },
       });
-      if (!methodRequireEnvResult.ok) fail(methodRequireEnvResult.error);
-      expect(methodRequireEnvResult.value).toEqual({
+
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual("test");
+    });
+
+    test(`invoke method with required env works with env in ${implementation}`, async () => {
+      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperUri = Uri.from(`file/${wrapperPath}`);
+
+      const env = {
+        object: {
+          prop: "object string",
+        },
+        str: "string",
+        optFilledStr: "optional string",
+        number: 10,
+        bool: true,
+        en: "FIRST",
+        array: [32, 23],
+      };
+
+      const expectedEnv = {
         str: "string",
         optFilledStr: "optional string",
         optStr: null,
@@ -66,18 +100,138 @@ export const envTestCases = (implementation: string) => {
         en: 0,
         optEnum: null,
         array: [32, 23],
+      };
+
+      const envs = {
+        [wrapperUri.uri]: env
+      };
+
+      const builder = new ClientConfigBuilder();
+      builder
+        .addDefaults()
+        .addEnvs(envs);
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: wrapperUri,
+        method: "methodRequireEnv",
       });
 
-      const subinvokeEnvMethodResult = await client.invoke({
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual(expectedEnv);
+    });
+
+    test(`invoke method with required env throws without env registered in ${implementation}`, async () => {
+      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperUri = Uri.from(`file/${wrapperPath}`);
+
+      const builder = new ClientConfigBuilder();
+      builder
+        .addDefaults();
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
         uri: wrapperUri,
-        method: "subinvokeEnvMethod",
-        args: {
-          arg: "string",
-        },
+        method: "methodRequireEnv",
       });
-      if (!subinvokeEnvMethodResult.ok) fail(subinvokeEnvMethodResult.error);
-      expect(subinvokeEnvMethodResult.value).toEqual({
-        local: {
+      
+      if (result.ok) fail("Expected error");
+      expect(result.error?.message).toMatch(/Environment is not set, and it is required/g);
+    });
+
+    test(`invoke method with optional env works with env in ${implementation}`, async () => {
+      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperUri = Uri.from(`file/${wrapperPath}`);
+
+      const env = {
+        object: {
+          prop: "object string",
+        },
+        str: "string",
+        optFilledStr: "optional string",
+        number: 10,
+        bool: true,
+        en: "FIRST",
+        array: [32, 23],
+      };
+
+      const expectedEnv = {
+        str: "string",
+        optFilledStr: "optional string",
+        optStr: null,
+        number: 10,
+        optNumber: null,
+        bool: true,
+        optBool: null,
+        object: {
+          prop: "object string",
+        },
+        optObject: null,
+        en: 0,
+        optEnum: null,
+        array: [32, 23],
+      };
+
+      const envs = {
+        [wrapperUri.uri]: env
+      };
+
+      const builder = new ClientConfigBuilder();
+      builder
+        .addDefaults()
+        .addEnvs(envs);
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: wrapperUri,
+        method: "methodOptionalEnv",
+      });
+
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual(expectedEnv);
+    });
+
+    test(`invoke method with optional env works without env in ${implementation}`, async () => {
+      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperUri = Uri.from(`file/${wrapperPath}`);
+
+      const builder = new ClientConfigBuilder();
+      builder
+        .addDefaults();
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: wrapperUri,
+        method: "methodOptionalEnv",
+      });
+
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual(null);
+    });
+
+    test(`env can be registered for any uri in resolution path in ${implementation}`, async () => {
+      const wrapperPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const wrapperUri = Uri.from(`file/${wrapperPath}`);
+      const redirectFromUri = Uri.from(`mock/from`);
+
+      const runTestForEnvUri = async (envUri: Uri) => {
+        const env = {
+          object: {
+            prop: "object string",
+          },
+          str: "string",
+          optFilledStr: "optional string",
+          number: 10,
+          bool: true,
+          en: "FIRST",
+          array: [32, 23],
+        };
+  
+        const expectedEnv = {
           str: "string",
           optFilledStr: "optional string",
           optStr: null,
@@ -92,23 +246,122 @@ export const envTestCases = (implementation: string) => {
           en: 0,
           optEnum: null,
           array: [32, 23],
-        },
-        external: {
-          externalArray: [1, 2, 3],
-          externalString: "iamexternal",
+        };
+
+        const envs = {
+          [envUri.uri]: env
+        };
+        
+        const builder = new ClientConfigBuilder();
+        builder
+          .addDefaults()
+          .addEnvs(envs)
+          .addRedirect(redirectFromUri.uri, wrapperUri.uri);
+  
+        const client = new PolywrapClient(builder.build());
+        
+        const result = await client.invoke({
+          uri: redirectFromUri,
+          method: "methodRequireEnv",
+        });
+  
+        if (!result.ok) fail(result.error);
+        expect(result.value).toEqual(expectedEnv);
+      };
+
+      await runTestForEnvUri(redirectFromUri);
+      await runTestForEnvUri(wrapperUri);
+    });
+  });
+
+  describe("subinvoke with env", () => {
+    test(`subinvoke method without env does not require env in ${implementation}`, async () => {
+      // const subinvokerPath = `${GetPathToTestWrappers()}/env-type/01-subinvoker/implementations/${implementation}`;
+      // const subinvokedPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
+      
+      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
+      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
+      const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
+
+      const builder = new ClientConfigBuilder();
+      builder.addDefaults()
+        .addRedirect("mock/main", subinvokedUri);
+      
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: subinvokerUri,
+        method: "subinvokeMethodNoEnv",
+        args: {
+          arg: "test",
         },
       });
 
-      const methodRequireEnvModuleTimeResult = await client.invoke({
-        uri: wrapperUri,
-        method: "methodRequireEnv",
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual("test");
+    });
+
+    test(`subinvoke method without env works with env in ${implementation}`, async () => {
+      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
+      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
+      const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
+    
+      const subinvokedEnv =  {
+        object: {
+          prop: "object string",
+        },
+        str: "string",
+        optFilledStr: "optional string",
+        number: 10,
+        bool: true,
+        en: "FIRST",
+        array: [32, 23],
+      };
+
+      const envs = {
+        "mock/main": subinvokedEnv
+      };
+
+      const builder = new ClientConfigBuilder();
+      builder.addDefaults()
+        .addRedirect("mock/main", subinvokedUri)
+        .addEnvs(envs);
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: subinvokerUri,
+        method: "subinvokeMethodNoEnv",
         args: {
-          arg: "string",
+          arg: "test",
         },
       });
-      if (!methodRequireEnvModuleTimeResult.ok)
-        fail(methodRequireEnvModuleTimeResult.error);
-      expect(methodRequireEnvModuleTimeResult.value).toEqual({
+
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual("test");
+    });
+
+    test(`subinvoke method with required env works with env in ${implementation}`, async () => {
+      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
+      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
+      const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
+
+      const subinvokedEnv =  {
+        object: {
+          prop: "object string",
+        },
+        str: "string",
+        optFilledStr: "optional string",
+        number: 10,
+        bool: true,
+        en: "FIRST",
+        array: [32, 23],
+      };
+
+      const expectedSubinvokedEnv = {
         str: "string",
         optFilledStr: "optional string",
         optStr: null,
@@ -123,29 +376,69 @@ export const envTestCases = (implementation: string) => {
         en: 0,
         optEnum: null,
         array: [32, 23],
+      };
+
+      const envs = {
+        "mock/main": subinvokedEnv
+      };
+
+      const builder = new ClientConfigBuilder();
+      builder.addDefaults()
+        .addRedirect("mock/main", subinvokedUri)
+        .addEnvs(envs);
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: subinvokerUri,
+        method: "subinvokeMethodRequireEnv",
       });
 
-      const mockUpdatedEnvResult = await client.invoke({
-        uri: wrapperUri,
-        method: "methodRequireEnv",
-        args: {
-          arg: "string",
-        },
-        env: {
-          object: {
-            prop: "object another string",
-          },
-          str: "another string",
-          optFilledStr: "optional string",
-          number: 10,
-          bool: true,
-          en: "FIRST",
-          array: [32, 23],
-        },
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual(expectedSubinvokedEnv);
+    });
+
+    test(`subinvoke method with required env throws without env registered in ${implementation}`, async () => {
+      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
+      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
+      const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
+
+      const builder = new ClientConfigBuilder();
+      builder.addDefaults()
+        .addRedirect("mock/main", subinvokedUri);
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: subinvokerUri,
+        method: "subinvokeMethodRequireEnv",
       });
-      if (!mockUpdatedEnvResult.ok) fail(mockUpdatedEnvResult.error);
-      expect(mockUpdatedEnvResult.value).toEqual({
-        str: "another string",
+
+      if (result.ok) fail("Expected error");
+      expect(result.error?.message).toMatch(/Environment is not set, and it is required/g);
+    });
+
+    test(`subinvoke method with optional env works with env in ${implementation}`, async () => {
+      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
+      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
+      const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
+
+      const subinvokedEnv =  {
+        object: {
+          prop: "object string",
+        },
+        str: "string",
+        optFilledStr: "optional string",
+        number: 10,
+        bool: true,
+        en: "FIRST",
+        array: [32, 23],
+      };
+
+      const expectedSubinvokedEnv = {
+        str: "string",
         optFilledStr: "optional string",
         optStr: null,
         number: 10,
@@ -153,13 +446,119 @@ export const envTestCases = (implementation: string) => {
         bool: true,
         optBool: null,
         object: {
-          prop: "object another string",
+          prop: "object string",
         },
         optObject: null,
         en: 0,
         optEnum: null,
         array: [32, 23],
+      };
+
+      const envs = {
+        "mock/main": subinvokedEnv
+      };
+
+      const builder = new ClientConfigBuilder();
+      builder.addDefaults()
+        .addRedirect("mock/main", subinvokedUri)
+        .addEnvs(envs);
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: subinvokerUri,
+        method: "subinvokeMethodOptionalEnv",
       });
+
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual(expectedSubinvokedEnv);
+    });
+
+    test(`subinvoke method with optional env works without env in ${implementation}`, async () => {
+      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
+      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
+      const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
+
+      const builder = new ClientConfigBuilder();
+      builder.addDefaults()
+        .addRedirect("mock/main", subinvokedUri);
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: subinvokerUri,
+        method: "subinvokeMethodOptionalEnv",
+      });
+
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual(null);
+    });
+
+    test(`subinvoker env does not override subinvoked env in ${implementation}`, async () => {
+      const subinvokerPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/01-subinvoker/implementations/${implementation}/build`;
+      const subinvokedPath = `/home/nerfzael/dev/web3api/repos/wrap-test-harness/build/env-type/00-main/implementations/${implementation}/build`;
+      const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
+      const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
+
+      const subinvokedEnv = {
+        object: {
+          prop: "object string B",
+        },
+        str: "string",
+        optFilledStr: "optional string",
+        number: 2,
+        bool: true,
+        en: "FIRST",
+        array: [3, 4],
+      };
+
+      const expectedSubinvokedEnv = {
+        str: "string",
+        optFilledStr: "optional string",
+        optStr: null,
+        number: 2,
+        optNumber: null,
+        bool: true,
+        optBool: null,
+        object: {
+          prop: "object string B",
+        },
+        optObject: null,
+        en: 0,
+        optEnum: null,
+        array: [3, 4],
+      };
+
+      const envs = {
+        [subinvokerUri]: {
+          object: {
+            prop: "object string A",
+          },
+          str: "string",
+          optFilledStr: "optional string",
+          number: 1,
+          bool: true,
+          en: "FIRST",
+          array: [1, 2],
+        },
+        "mock/main": subinvokedEnv
+      };
+
+      const builder = new ClientConfigBuilder();
+      builder.addDefaults()
+        .addRedirect("mock/main", subinvokedUri)
+        .addEnvs(envs);
+
+      const client = new PolywrapClient(builder.build());
+      
+      const result = await client.invoke({
+        uri: subinvokerUri,
+        method: "subinvokeMethodRequireEnv",
+      });
+
+      if (!result.ok) fail(result.error);
+      expect(result.value).toEqual(expectedSubinvokedEnv);
     });
   });
 
