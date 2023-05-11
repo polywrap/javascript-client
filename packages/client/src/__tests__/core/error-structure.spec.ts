@@ -336,7 +336,7 @@ describe("Error structure", () => {
       });
     });
 
-    describe("Wasm wrapper - Rust", () => {
+    describe.only("Wasm wrapper - Rust", () => {
       let client = new PolywrapClient();
       test("Invoke a wrapper with malformed arguments", async () => {
         const result = await client.invoke<string>({
@@ -464,7 +464,7 @@ describe("Error structure", () => {
         );
       });
 
-      test("Rethrown error from subinvoke is correctly parsed", async () => {
+      test.only("Rethrown error from subinvoke is correctly parsed", async () => {
         const config = new ClientConfigBuilder()
           .addDefaults()
           .addRedirects({
@@ -483,6 +483,8 @@ describe("Error structure", () => {
 
         expect(result.ok).toBeFalsy();
         if (result.ok) throw Error("should never happen");
+
+        console.log(JSON.stringify(result.error?.toString(), null, 2))
 
         expect(result.error?.name).toEqual("WrapError");
         expect(result.error?.code).toEqual(
