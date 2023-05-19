@@ -1,4 +1,4 @@
 export * from "./combinePaths";
-export * from "./getEnvFromUriHistory";
+export * from "./getEnvFromResolutionPath";
 export * from "./is-buffer";
 export * from "./typesHandler";
