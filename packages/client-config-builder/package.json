@@ -25,6 +25,7 @@
   "dependencies": {
     "@polywrap/concurrent-plugin-js": "~0.10.0",
     "@polywrap/core-js": "0.10.1",
+    "@polywrap/plugin-js": "0.10.1",
     "@polywrap/ethereum-provider-js": "npm:@polywrap/ethereum-provider-js@~0.3.1",
     "@polywrap/ethereum-provider-js-v1": "npm:@polywrap/ethereum-provider-js@~0.2.4",
     "@polywrap/file-system-plugin-js": "~0.10.0",
