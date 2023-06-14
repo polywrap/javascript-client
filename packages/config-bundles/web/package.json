@@ -1,0 +1,10 @@
+{
+  "name": "@polywrap/web-config-bundle-js",
+  "version": "0.10.1",
+  "dependencies": {
+    "@polywrap/http-plugin-js": "0.10.1"
+  },
+  "peerDependencies": {
+    "@polywrap/client-config-builder-js": "0.10.x"
+  }
+}

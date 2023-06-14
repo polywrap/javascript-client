@@ -1,0 +1,11 @@
+{
+  "name": "@polywrap/web3-config-bundle-js",
+  "version": "0.10.1",
+  "dependencies": {
+    "@polywrap/ethereum-provider-js": "npm:@polywrap/ethereum-provider-js@~0.3.1",
+    "@polywrap/ethereum-provider-js-v1": "npm:@polywrap/ethereum-provider-js@~0.2.4"
+  },
+  "peerDependencies": {
+    "@polywrap/client-config-builder-js": "0.10.x"
+  }
+}

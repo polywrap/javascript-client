@@ -1,0 +1,11 @@
+{
+  "name": "@polywrap/sys-node-config-bundle-js",
+  "version": "0.10.1",
+  "dependencies": {
+    "@polywrap/sys-config-bundle-js": "0.10.1",
+    "@polywrap/file-system-plugin-js": "0.10.1",
+  },
+  "peerDependencies": {
+    "@polywrap/client-config-builder-js": "0.10.x"
+  }
+}
