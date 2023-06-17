@@ -8,23 +8,27 @@ addDefaults("browser") ->
   -> addBundle("web")
   -> addBundle("web3")
 
-sys:
+x sys:
   logger
   concurrent
   random
   datetime
-  file-system
-  resolvers:
-    file-system-resolver
 
-web:
+x sys-node:
+  file-system
+  file-system-uri-resolver
+
+x sys-browser:
+  sys
+
+x web:
   http
   ws
   resolvers:
     http-resolver
     ws-resolver
 
-web3:
+x web3:
   ethereum-wallet
   ipfs-http-client
   resolvers:
