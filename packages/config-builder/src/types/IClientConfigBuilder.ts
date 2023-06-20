@@ -41,7 +41,7 @@ export interface IClientConfigBuilder {
   // $start: IClientConfigBuilder-addBundle
   /**
    * Add a default configuration bundle
-   * 
+   *
    * @returns Promise<IClientConfigBuilder> (mutated self)
    */
   addBundle(bundle: BundleName): Promise<IClientConfigBuilder>;

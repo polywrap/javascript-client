@@ -1,5 +1,5 @@
 import { InvokerOptions, TryResolveUriOptions } from "./types";
-import { SystemName, BundleName, ClientConfigBuilder } from "."
+import { SystemName, BundleName, ClientConfigBuilder } from ".";
 
 import { PolywrapCoreClient } from "@polywrap/core-client-js";
 import {
@@ -43,7 +43,9 @@ export class PolywrapClient extends PolywrapCoreClient {
    *
    * @param systemOrBundles - Either a system name, or bundle names
    */
-  static async from(systemOrBundles: SystemName | BundleName[]): Promise<PolywrapClient> /* $ */ {
+  static async from(
+    systemOrBundles: SystemName | BundleName[]
+  ): Promise<PolywrapClient> /* $ */ {
     const builder = new ClientConfigBuilder();
 
     if (typeof systemOrBundles === "string") {

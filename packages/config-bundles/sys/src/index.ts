@@ -1,4 +1,7 @@
-import { ClientConfigBuilder, BuilderConfig } from "@polywrap/client-config-builder-js";
+import {
+  ClientConfigBuilder,
+  BuilderConfig,
+} from "@polywrap/client-config-builder-js";
 import { loggerPlugin } from "@polywrap/logger-plugin-js";
 import { dateTimePlugin } from "@polywrap/datetime-plugin-js";
 import { concurrentPromisePlugin } from "@polywrap/concurrent-plugin-js";
@@ -13,7 +16,7 @@ export function getBundleConfig(): BuilderConfig {
     datetime: {
       uri: "plugin/datetime@1.0.0",
       plugin: dateTimePlugin({}),
-      implements: ["ens/wraps.eth:datetime@1.0.0"]
+      implements: ["ens/wraps.eth:datetime@1.0.0"],
     },
     concurrent: {
       uri: "plugin/concurrent@1.0.0",

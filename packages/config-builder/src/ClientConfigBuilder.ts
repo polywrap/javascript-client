@@ -30,7 +30,9 @@ export class ClientConfigBuilder extends BaseClientConfigBuilder {
     super();
   }
 
-  async addDefaults(runtime: "node" | "browser" = "node"): Promise<IClientConfigBuilder> {
+  async addDefaults(
+    runtime: "node" | "browser" = "node"
+  ): Promise<IClientConfigBuilder> {
     await this.addBundle("web");
     await this.addBundle("web3");
 

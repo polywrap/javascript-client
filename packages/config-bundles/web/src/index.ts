@@ -1,17 +1,18 @@
-import { ClientConfigBuilder, BuilderConfig } from "@polywrap/client-config-builder-js";
+import * as httpResolver from "./embeds/http-resolver/wrap";
+
+import {
+  ClientConfigBuilder,
+  BuilderConfig,
+} from "@polywrap/client-config-builder-js";
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
 import { httpPlugin } from "@polywrap/http-plugin-js";
-import * as httpResolver from "./embeds/http-resolver/wrap";
 
 export function getBundleConfig(): BuilderConfig {
   const plugins = {
     http: {
       uri: "plugin/http@1.1.0",
       plugin: httpPlugin({}),
-      implements: [
-        "ens/wraps.eth:http@1.1.0",
-        "ens/wraps.eth:http@1.0.0",
-      ],
+      implements: ["ens/wraps.eth:http@1.1.0", "ens/wraps.eth:http@1.0.0"],
     },
   };
 
@@ -23,9 +24,7 @@ export function getBundleConfig(): BuilderConfig {
     },
   };
 
-  const uriResolverExts = [
-    embeds.httpResolver
-  ];
+  const uriResolverExts = [embeds.httpResolver];
 
   const builder = new ClientConfigBuilder();
 
@@ -54,9 +53,7 @@ export function getBundleConfig(): BuilderConfig {
   // Add all uri-resolver-ext interface implementations
   builder.addInterfaceImplementations(
     ExtendableUriResolver.defaultExtInterfaceUris[0].uri,
-    [
-      uriResolverExts[0].source
-    ]
+    [uriResolverExts[0].source]
   );
 
   return builder.config;

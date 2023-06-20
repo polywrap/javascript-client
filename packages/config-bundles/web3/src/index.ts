@@ -1,10 +1,14 @@
-import { ClientConfigBuilder, BuilderConfig } from "@polywrap/client-config-builder-js";
+import * as ipfsHttpClient from "./embeds/ipfs-http-client/wrap";
+import * as ipfsResolver from "./embeds/async-ipfs-resolver/wrap";
+
+import {
+  ClientConfigBuilder,
+  BuilderConfig,
+} from "@polywrap/client-config-builder-js";
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
 import { WasmPackage } from "@polywrap/wasm-js";
 import * as EthProviderV1 from "@polywrap/ethereum-provider-js-v1";
 import * as EthProvider from "@polywrap/ethereum-provider-js";
-import * as ipfsHttpClient from "./embeds/ipfs-http-client/wrap";
-import * as ipfsResolver from "./embeds/async-ipfs-resolver/wrap";
 
 export const ipfsProviders: string[] = [
   "https://ipfs.wrappers.io",
@@ -17,7 +21,11 @@ interface IDefaultEmbed {
   source: string;
 }
 
-type UriResolverExtBootloader = [IDefaultEmbed, { from: string, to: string }, ...string[]];
+type UriResolverExtBootloader = [
+  IDefaultEmbed,
+  { from: string; to: string },
+  ...string[]
+];
 
 export function getBundleConfig(): BuilderConfig {
   const plugins = {
@@ -59,7 +67,7 @@ export function getBundleConfig(): BuilderConfig {
         }),
       }),
       implements: ["ens/wraps.eth:ethereum-provider@2.0.0"],
-    }
+    },
   };
 
   const embeds = {

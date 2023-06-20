@@ -1,8 +1,12 @@
+import * as fsResolver from "./embeds/file-system-resolver/wrap";
+
 import * as Sys from "@polywrap/sys-config-bundle-js";
-import { ClientConfigBuilder, BuilderConfig } from "@polywrap/client-config-builder-js";
+import {
+  ClientConfigBuilder,
+  BuilderConfig,
+} from "@polywrap/client-config-builder-js";
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
 import { fileSystemPlugin } from "@polywrap/file-system-plugin-js";
-import * as fsResolver from "./embeds/file-system-resolver/wrap";
 
 export function getBundleConfig(): BuilderConfig {
   const plugins = {
@@ -21,9 +25,7 @@ export function getBundleConfig(): BuilderConfig {
     },
   };
 
-  const uriResolverExts = [
-    embeds.fsResolver
-  ];
+  const uriResolverExts = [embeds.fsResolver];
 
   const baseConfig = Sys.getBundleConfig();
   const builder = new ClientConfigBuilder();
@@ -56,9 +58,7 @@ export function getBundleConfig(): BuilderConfig {
   // Add all uri-resolver-ext interface implementations
   builder.addInterfaceImplementations(
     ExtendableUriResolver.defaultExtInterfaceUris[0].uri,
-    [
-      uriResolverExts[0].source
-    ]
+    [uriResolverExts[0].source]
   );
 
   return builder.config;

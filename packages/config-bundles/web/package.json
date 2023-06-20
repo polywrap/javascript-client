@@ -18,6 +18,7 @@
   "dependencies": {
     "@polywrap/client-config-builder-js": "~0.10.1",
     "@polywrap/http-plugin-js": "~0.10.0",
+    "@polywrap/uri-resolver-extensions-js": "~0.10.1",
     "base64-to-uint8array": "1.0.0"
   },
   "peerDependencies": {
