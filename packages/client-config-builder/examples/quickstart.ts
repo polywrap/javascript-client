@@ -1,4 +1,4 @@
-import { ClientConfigBuilder } from "../build";
+import { PolywrapClientConfigBuilder } from "../build";
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { WasmWrapper } from "@polywrap/wasm-js";
@@ -10,17 +10,17 @@ import {
 import { fileSystemPlugin } from "@polywrap/file-system-plugin-js";
 import { CoreClientConfig } from "@polywrap/core-js";
 
-export function initialize(): ClientConfigBuilder {
+export function initialize(): PolywrapClientConfigBuilder {
   // $start: quickstart-initialize
   // start with a blank slate (typical usage)
-  const builder = new ClientConfigBuilder();
+  const builder = new PolywrapClientConfigBuilder();
   // $end
 
   return builder;
 }
 
-export function configure(): ClientConfigBuilder {
-  const builder = new ClientConfigBuilder();
+export function configure(): PolywrapClientConfigBuilder {
+  const builder = new PolywrapClientConfigBuilder();
 
   // $start: quickstart-configure
   // add multiple items to the configuration using the catch-all `add` method
@@ -35,9 +35,9 @@ export function configure(): ClientConfigBuilder {
 
   // add or remove items by chaining method calls
   builder
-    .addPackage("wrap://plugin/package", httpPlugin({}))
+    .setPackage("wrap://plugin/package", httpPlugin({}))
     .removePackage("wrap://plugin/package")
-    .addPackages({
+    .setPackages({
       "wrap://plugin/http": httpPlugin({}),
       "wrap://plugin/filesystem": fileSystemPlugin({}),
     });
@@ -50,8 +50,8 @@ export function configure(): ClientConfigBuilder {
   return builder;
 }
 
-export function build(): ClientConfigBuilder | CoreClientConfig {
-  const builder = new ClientConfigBuilder();
+export function build(): PolywrapClientConfigBuilder | CoreClientConfig {
+  const builder = new PolywrapClientConfigBuilder();
 
   // $start: quickstart-build
   // accepted by either the PolywrapClient or the PolywrapCoreClient
@@ -74,7 +74,7 @@ export function build(): ClientConfigBuilder | CoreClientConfig {
 export async function example(): Promise<CoreClientConfig> {
   // $start: quickstart-example
   // init
-  const builder = new ClientConfigBuilder();
+  const builder = new PolywrapClientConfigBuilder();
 
   // add the default bundle first to override its entries later
   builder.addDefaults();
@@ -91,7 +91,7 @@ export async function example(): Promise<CoreClientConfig> {
 
   // add and remove wrappers
   builder
-    .addWrapper(
+    .setWrapper(
       "wrap://ens/wrapper.eth",
       await WasmWrapper.from(
         new Uint8Array([1, 2, 3]),
@@ -99,7 +99,7 @@ export async function example(): Promise<CoreClientConfig> {
       )
     )
     .removeWrapper("wrap://ens/wrapper.eth")
-    .addWrappers({
+    .setWrappers({
       "wrap://ens/wrapper.eth": await WasmWrapper.from(
         new Uint8Array([1, 2, 3]),
         new Uint8Array([1, 2, 3])
@@ -108,9 +108,9 @@ export async function example(): Promise<CoreClientConfig> {
 
   // add and remove wrap packages
   builder
-    .addPackage("wrap://plugin/package", httpPlugin({}))
+    .setPackage("wrap://plugin/package", httpPlugin({}))
     .removePackage("wrap://plugin/package")
-    .addPackages({
+    .setPackages({
       "wrap://plugin/package": httpPlugin({}),
     });
 
@@ -141,9 +141,9 @@ export async function example(): Promise<CoreClientConfig> {
 
   // add or remove URI redirects
   builder
-    .addRedirect("wrap://ens/from.eth", "wrap://ens/to.eth")
+    .setRedirect("wrap://ens/from.eth", "wrap://ens/to.eth")
     .removeRedirect("wrap://ens/from.eth")
-    .addRedirects({
+    .setRedirects({
       "wrap://ens/from.eth": "wrap://ens/to.eth",
     });
 

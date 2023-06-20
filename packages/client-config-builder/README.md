@@ -8,16 +8,16 @@ Supports building configs using method chaining or imperatively.
 
 ### Initialize
 
-Initialize a ClientConfigBuilder using the [constructor](#constructor)
+Initialize a PolywrapClientConfigBuilder using the [constructor](#constructor)
 
 ```typescript
   // start with a blank slate (typical usage)
-  const builder = new ClientConfigBuilder();
+  const builder = new PolywrapClientConfigBuilder();
 ```
 
 ### Configure
 
-Add client configuration with [add](#add), or flexibly mix and match builder [configuration methods](#addwrapper) to add and remove configuration items.
+Add client configuration with [add](#add), or flexibly mix and match builder [configuration methods](#setwrapper) to add and remove configuration items.
 
 ```typescript
   // add multiple items to the configuration using the catch-all `add` method
@@ -32,9 +32,9 @@ Add client configuration with [add](#add), or flexibly mix and match builder [co
 
   // add or remove items by chaining method calls
   builder
-    .addPackage("wrap://plugin/package", httpPlugin({}))
+    .setPackage("wrap://plugin/package", httpPlugin({}))
     .removePackage("wrap://plugin/package")
-    .addPackages({
+    .setPackages({
       "wrap://plugin/http": httpPlugin({}),
       "wrap://plugin/filesystem": fileSystemPlugin({}),
     });
@@ -71,7 +71,7 @@ A complete example using all or most of the available methods.
 
 ```typescript
   // init
-  const builder = new ClientConfigBuilder();
+  const builder = new PolywrapClientConfigBuilder();
 
   // add the default bundle first to override its entries later
   builder.addDefaults();
@@ -88,7 +88,7 @@ A complete example using all or most of the available methods.
 
   // add and remove wrappers
   builder
-    .addWrapper(
+    .setWrapper(
       "wrap://ens/wrapper.eth",
       await WasmWrapper.from(
         new Uint8Array([1, 2, 3]),
@@ -96,7 +96,7 @@ A complete example using all or most of the available methods.
       )
     )
     .removeWrapper("wrap://ens/wrapper.eth")
-    .addWrappers({
+    .setWrappers({
       "wrap://ens/wrapper.eth": await WasmWrapper.from(
         new Uint8Array([1, 2, 3]),
         new Uint8Array([1, 2, 3])
@@ -105,9 +105,9 @@ A complete example using all or most of the available methods.
 
   // add and remove wrap packages
   builder
-    .addPackage("wrap://plugin/package", httpPlugin({}))
+    .setPackage("wrap://plugin/package", httpPlugin({}))
     .removePackage("wrap://plugin/package")
-    .addPackages({
+    .setPackages({
       "wrap://plugin/package": httpPlugin({}),
     });
 
@@ -138,9 +138,9 @@ A complete example using all or most of the available methods.
 
   // add or remove URI redirects
   builder
-    .addRedirect("wrap://ens/from.eth", "wrap://ens/to.eth")
+    .setRedirect("wrap://ens/from.eth", "wrap://ens/to.eth")
     .removeRedirect("wrap://ens/from.eth")
-    .addRedirects({
+    .setRedirects({
       "wrap://ens/from.eth": "wrap://ens/to.eth",
     });
 
@@ -154,12 +154,12 @@ A complete example using all or most of the available methods.
 
 # Reference
 
-## ClientConfigBuilder
+## PolywrapClientConfigBuilder
 
 ### Constructor
 ```ts
   /**
-   * Instantiate a ClientConfigBuilder
+   * Instantiate a PolywrapClientConfigBuilder
    */
   constructor() 
 ```
@@ -168,36 +168,36 @@ A complete example using all or most of the available methods.
 ```ts
   /**
    * Add a partial BuilderConfig
-   * This is equivalent to calling each of the plural add functions: `addEnvs`, `addWrappers`, etc.
+   * This is equivalent to calling each of the plural add functions: `addEnvs`, `setWrappers`, etc.
    *
    * @param config: a partial BuilderConfig
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  add(config: Partial<BuilderConfig>): IClientConfigBuilder;
+  add(config: Partial<BuilderConfig>): ClientConfigBuilder;
 ```
 
-### addWrapper
+### setWrapper
 ```ts
   /**
    * Add an embedded wrapper
    *
    * @param uri: uri of wrapper
    * @param wrapper: wrapper to be added
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addWrapper(uri: string, wrapper: Wrapper): IClientConfigBuilder;
+  setWrapper(uri: string, wrapper: Wrapper): ClientConfigBuilder;
 ```
 
-### addWrappers
+### setWrappers
 ```ts
   /**
    * Add one or more embedded wrappers.
-   * This is equivalent to calling addWrapper for each wrapper.
+   * This is equivalent to calling setWrapper for each wrapper.
    *
    * @param uriWrappers: an object where keys are uris and wrappers are value
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addWrappers(uriWrappers: Record<string, Wrapper>): IClientConfigBuilder;
+  setWrappers(uriWrappers: Record<string, Wrapper>): ClientConfigBuilder;
 ```
 
 ### removeWrapper
@@ -206,33 +206,33 @@ A complete example using all or most of the available methods.
    * Remove an embedded wrapper
    *
    * @param uri: the wrapper's URI
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  removeWrapper(uri: string): IClientConfigBuilder;
+  removeWrapper(uri: string): ClientConfigBuilder;
 ```
 
-### addPackage
+### setPackage
 ```ts
   /**
    * Add an embedded wrap package
    *
    * @param uri: uri of wrapper
    * @param wrapPackage: package to be added
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addPackage(uri: string, wrapPackage: IWrapPackage): IClientConfigBuilder;
+  setPackage(uri: string, wrapPackage: IWrapPackage): ClientConfigBuilder;
 ```
 
-### addPackages
+### setPackages
 ```ts
   /**
    * Add one or more embedded wrap packages
-   * This is equivalent to calling addPackage for each package
+   * This is equivalent to calling setPackage for each package
    *
    * @param uriPackages: an object where keys are uris and packages are value
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addPackages(uriPackages: Record<string, IWrapPackage>): IClientConfigBuilder;
+  setPackages(uriPackages: Record<string, IWrapPackage>): ClientConfigBuilder;
 ```
 
 ### removePackage
@@ -241,9 +241,9 @@ A complete example using all or most of the available methods.
    * Remove an embedded wrap package
    *
    * @param uri: the package's URI
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  removePackage(uri: string): IClientConfigBuilder;
+  removePackage(uri: string): ClientConfigBuilder;
 ```
 
 ### addEnv
@@ -254,9 +254,9 @@ A complete example using all or most of the available methods.
    *
    * @param uri: the wrapper's URI to associate with the Env
    * @param env: an object with the env variables for the uri
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addEnv(uri: string, env: Record<string, unknown>): IClientConfigBuilder;
+  addEnv(uri: string, env: Record<string, unknown>): ClientConfigBuilder;
 ```
 
 ### addEnvs
@@ -266,11 +266,11 @@ A complete example using all or most of the available methods.
    * This is equivalent to calling addEnv for each Env
    *
    * @param uriEnvs: and object where key is the uri and value is the another object with the env variables for the uri
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
   addEnvs(
     uriEnvs: Record<string, Record<string, unknown>>
-  ): IClientConfigBuilder;
+  ): ClientConfigBuilder;
 ```
 
 ### removeEnv
@@ -279,9 +279,9 @@ A complete example using all or most of the available methods.
    * Remove an Env
    *
    * @param uri: the URI associated with the Env
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  removeEnv(uri: string): IClientConfigBuilder;
+  removeEnv(uri: string): ClientConfigBuilder;
 ```
 
 ### setEnv
@@ -292,9 +292,9 @@ A complete example using all or most of the available methods.
    *
    * @param uri: the wrapper's URI to associate with the Env
    * @param env: an object with the environment variables for the uri
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  setEnv(uri: string, env: Record<string, unknown>): IClientConfigBuilder;
+  setEnv(uri: string, env: Record<string, unknown>): ClientConfigBuilder;
 ```
 
 ### addInterfaceImplementation
@@ -304,12 +304,12 @@ A complete example using all or most of the available methods.
    *
    * @param interfaceUri: the URI of the interface
    * @param implementationUri: the URI of the implementation
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
   addInterfaceImplementation(
     interfaceUri: string,
     implementationUri: string
-  ): IClientConfigBuilder;
+  ): ClientConfigBuilder;
 ```
 
 ### addInterfaceImplementations
@@ -319,12 +319,12 @@ A complete example using all or most of the available methods.
    *
    * @param interfaceUri: the URI of the interface
    * @param implementationUris: a list of URIs for the implementations
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
   addInterfaceImplementations(
     interfaceUri: string,
     implementationUris: Array<string>
-  ): IClientConfigBuilder;
+  ): ClientConfigBuilder;
 ```
 
 ### removeInterfaceImplementation
@@ -334,35 +334,35 @@ A complete example using all or most of the available methods.
    *
    * @param interfaceUri: the URI of the interface
    * @param implementationUri: the URI of the implementation
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
   removeInterfaceImplementation(
     interfaceUri: string,
     implementationUri: string
-  ): IClientConfigBuilder;
+  ): ClientConfigBuilder;
 ```
 
-### addRedirect
+### setRedirect
 ```ts
   /**
    * Add a redirect from one URI to another
    *
    * @param from: the URI to redirect from
    * @param to: the URI to redirect to
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addRedirect(from: string, to: string): IClientConfigBuilder;
+  setRedirect(from: string, to: string): ClientConfigBuilder;
 ```
 
-### addRedirects
+### setRedirects
 ```ts
   /**
    * Add an array of URI redirects
    *
    * @param redirects: an object where key is from and value is to
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addRedirects(redirects: Record<string, string>): IClientConfigBuilder;
+  setRedirects(redirects: Record<string, string>): ClientConfigBuilder;
 ```
 
 ### removeRedirect
@@ -371,9 +371,9 @@ A complete example using all or most of the available methods.
    * Remove a URI redirect
    *
    * @param from: the URI that is being redirected
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  removeRedirect(from: string): IClientConfigBuilder;
+  removeRedirect(from: string): ClientConfigBuilder;
 ```
 
 ### addResolver
@@ -390,9 +390,9 @@ A complete example using all or most of the available methods.
    *   | UriResolverLike[];
    *
    * @param resolver: A UriResolverLike
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addResolver(resolver: UriResolverLike): IClientConfigBuilder;
+  addResolver(resolver: UriResolverLike): ClientConfigBuilder;
 ```
 
 ### addResolvers
@@ -409,9 +409,9 @@ A complete example using all or most of the available methods.
    *   | UriResolverLike[];
    *
    * @param resolvers: A list of UriResolverLike
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addResolvers(resolvers: UriResolverLike[]): IClientConfigBuilder;
+  addResolvers(resolvers: UriResolverLike[]): ClientConfigBuilder;
 ```
 
 ### addDefaults
@@ -419,9 +419,9 @@ A complete example using all or most of the available methods.
   /**
    * Add the default configuration bundle
    *
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addDefaults(): IClientConfigBuilder;
+  addDefaults(): ClientConfigBuilder;
 ```
 
 ### build
@@ -563,14 +563,14 @@ export const plugins: IDefaultPlugins = {
 };
 
 export function getConfig(): BuilderConfig {
-  const builder = new ClientConfigBuilder();
+  const builder = new PolywrapClientConfigBuilder();
 
   // Add all embedded packages
   for (const embed of Object.values(embeds)) {
-    builder.addPackage(embed.uri.uri, embed.package);
+    builder.setPackage(embed.uri.uri, embed.package);
 
     // Add source redirect
-    builder.addRedirect(embed.source.uri, embed.uri.uri);
+    builder.setRedirect(embed.source.uri, embed.uri.uri);
 
     // Add source implementation
     builder.addInterfaceImplementation(embed.source.uri, embed.uri.uri);
@@ -578,12 +578,12 @@ export function getConfig(): BuilderConfig {
 
   // Add all plugin packages
   for (const plugin of Object.values(plugins)) {
-    builder.addPackage(plugin.uri.uri, plugin.plugin);
+    builder.setPackage(plugin.uri.uri, plugin.plugin);
 
     // Add all interface implementations & redirects
     for (const interfaceUri of plugin.implements) {
       builder.addInterfaceImplementation(interfaceUri.uri, plugin.uri.uri);
-      builder.addRedirect(interfaceUri.uri, plugin.uri.uri);
+      builder.setRedirect(interfaceUri.uri, plugin.uri.uri);
     }
   }
 
@@ -596,7 +596,7 @@ export function getConfig(): BuilderConfig {
       ...uriResolverExts.slice(2).map((x: Uri) => x.uri),
     ]
   );
-  builder.addRedirect(uriResolverExts[1].from.uri, uriResolverExts[1].to.uri);
+  builder.setRedirect(uriResolverExts[1].from.uri, uriResolverExts[1].to.uri);
 
   // Configure the ipfs-uri-resolver provider endpoints & retry counts
   builder.addEnv(embeds.ipfsResolver.source.uri, {

@@ -1,6 +1,6 @@
 import { DefaultBundle } from "./bundles";
 import { BaseClientConfigBuilder } from "./BaseClientConfigBuilder";
-import { BuildOptions, IClientConfigBuilder, BuilderConfig } from "./types";
+import { BuildOptions, ClientConfigBuilder, BuilderConfig } from "./types";
 
 import {
   CoreClientConfig,
@@ -21,16 +21,16 @@ import {
 } from "@polywrap/uri-resolvers-js";
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
 
-export class ClientConfigBuilder extends BaseClientConfigBuilder {
-  // $start: ClientConfigBuilder-constructor
+export class PolywrapClientConfigBuilder extends BaseClientConfigBuilder {
+  // $start: PolywrapClientConfigBuilder-constructor
   /**
-   * Instantiate a ClientConfigBuilder
+   * Instantiate a PolywrapClientConfigBuilder
    */
   constructor() /* $ */ {
     super();
   }
 
-  addDefaults(): IClientConfigBuilder {
+  addDefaults(): ClientConfigBuilder {
     return this.add(DefaultBundle.getConfig());
   }
 

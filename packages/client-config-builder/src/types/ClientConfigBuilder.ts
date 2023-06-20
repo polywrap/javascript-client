@@ -4,10 +4,10 @@ import { BuildOptions } from "./BuildOptions";
 import { CoreClientConfig, Wrapper, IWrapPackage } from "@polywrap/core-js";
 import { UriResolverLike } from "@polywrap/uri-resolvers-js";
 
-export interface IClientConfigBuilder {
+export interface ClientConfigBuilder {
   config: BuilderConfig;
 
-  // $start: IClientConfigBuilder-build
+  // $start: ClientConfigBuilder-build
   /**
    * Build a sanitized core client configuration that can be passed to the PolywrapClient or PolywrapCoreClient constructors
    *
@@ -17,211 +17,211 @@ export interface IClientConfigBuilder {
   build(options?: BuildOptions): CoreClientConfig;
   // $end
 
-  // $start: IClientConfigBuilder-add
+  // $start: ClientConfigBuilder-add
   /**
    * Add a partial BuilderConfig
    * This is equivalent to calling each of the plural add functions: `addEnvs`, `addWrappers`, etc.
    *
    * @param config: a partial BuilderConfig
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  add(config: Partial<BuilderConfig>): IClientConfigBuilder;
+  add(config: Partial<BuilderConfig>): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addDefaults
+  // $start: ClientConfigBuilder-addDefaults
   /**
    * Add the default configuration bundle
    *
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addDefaults(): IClientConfigBuilder;
+  addDefaults(): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addWrapper
+  // $start: ClientConfigBuilder-setWrapper
   /**
    * Add an embedded wrapper
    *
    * @param uri: uri of wrapper
    * @param wrapper: wrapper to be added
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addWrapper(uri: string, wrapper: Wrapper): IClientConfigBuilder;
+  setWrapper(uri: string, wrapper: Wrapper): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addWrappers
+  // $start: ClientConfigBuilder-setWrappers
   /**
    * Add one or more embedded wrappers.
-   * This is equivalent to calling addWrapper for each wrapper.
+   * This is equivalent to calling setWrapper for each wrapper.
    *
    * @param uriWrappers: an object where keys are uris and wrappers are value
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addWrappers(uriWrappers: Record<string, Wrapper>): IClientConfigBuilder;
+  setWrappers(uriWrappers: Record<string, Wrapper>): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-removeWrapper
+  // $start: ClientConfigBuilder-removeWrapper
   /**
    * Remove an embedded wrapper
    *
    * @param uri: the wrapper's URI
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  removeWrapper(uri: string): IClientConfigBuilder;
+  removeWrapper(uri: string): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addPackage
+  // $start: ClientConfigBuilder-setPackage
   /**
    * Add an embedded wrap package
    *
    * @param uri: uri of wrapper
    * @param wrapPackage: package to be added
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addPackage(uri: string, wrapPackage: IWrapPackage): IClientConfigBuilder;
+  setPackage(uri: string, wrapPackage: IWrapPackage): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addPackages
+  // $start: ClientConfigBuilder-setPackages
   /**
    * Add one or more embedded wrap packages
-   * This is equivalent to calling addPackage for each package
+   * This is equivalent to calling setPackage for each package
    *
    * @param uriPackages: an object where keys are uris and packages are value
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addPackages(uriPackages: Record<string, IWrapPackage>): IClientConfigBuilder;
+  setPackages(uriPackages: Record<string, IWrapPackage>): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-removePackage
+  // $start: ClientConfigBuilder-removePackage
   /**
    * Remove an embedded wrap package
    *
    * @param uri: the package's URI
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  removePackage(uri: string): IClientConfigBuilder;
+  removePackage(uri: string): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addEnv
+  // $start: ClientConfigBuilder-addEnv
   /**
    * Add an Env.
    * If an Env is already associated with the uri, it is modified.
    *
    * @param uri: the wrapper's URI to associate with the Env
    * @param env: an object with the env variables for the uri
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addEnv(uri: string, env: Record<string, unknown>): IClientConfigBuilder;
+  addEnv(uri: string, env: Record<string, unknown>): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addEnvs
+  // $start: ClientConfigBuilder-addEnvs
   /**
    * Add one or more Envs
    * This is equivalent to calling addEnv for each Env
    *
    * @param uriEnvs: and object where key is the uri and value is the another object with the env variables for the uri
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
   addEnvs(
     uriEnvs: Record<string, Record<string, unknown>>
-  ): IClientConfigBuilder;
+  ): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-removeEnv
+  // $start: ClientConfigBuilder-removeEnv
   /**
    * Remove an Env
    *
    * @param uri: the URI associated with the Env
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  removeEnv(uri: string): IClientConfigBuilder;
+  removeEnv(uri: string): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-setEnv
+  // $start: ClientConfigBuilder-setEnv
   /**
    * Add an Env.
    * If an Env is already associated with the uri, it is replaced.
    *
    * @param uri: the wrapper's URI to associate with the Env
    * @param env: an object with the environment variables for the uri
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  setEnv(uri: string, env: Record<string, unknown>): IClientConfigBuilder;
+  setEnv(uri: string, env: Record<string, unknown>): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addInterfaceImplementation
+  // $start: ClientConfigBuilder-addInterfaceImplementation
   /**
    * Register an implementation of a single interface
    *
    * @param interfaceUri: the URI of the interface
    * @param implementationUri: the URI of the implementation
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
   addInterfaceImplementation(
     interfaceUri: string,
     implementationUri: string
-  ): IClientConfigBuilder;
+  ): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addInterfaceImplementations
+  // $start: ClientConfigBuilder-addInterfaceImplementations
   /**
    * Register one or more implementation of a single interface
    *
    * @param interfaceUri: the URI of the interface
    * @param implementationUris: a list of URIs for the implementations
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
   addInterfaceImplementations(
     interfaceUri: string,
     implementationUris: Array<string>
-  ): IClientConfigBuilder;
+  ): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-removeInterfaceImplementation
+  // $start: ClientConfigBuilder-removeInterfaceImplementation
   /**
    * Remove an implementation of a single interface
    *
    * @param interfaceUri: the URI of the interface
    * @param implementationUri: the URI of the implementation
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
   removeInterfaceImplementation(
     interfaceUri: string,
     implementationUri: string
-  ): IClientConfigBuilder;
+  ): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addRedirect
+  // $start: ClientConfigBuilder-setRedirect
   /**
    * Add a redirect from one URI to another
    *
    * @param from: the URI to redirect from
    * @param to: the URI to redirect to
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addRedirect(from: string, to: string): IClientConfigBuilder;
+  setRedirect(from: string, to: string): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addRedirects
+  // $start: ClientConfigBuilder-setRedirects
   /**
    * Add an array of URI redirects
    *
    * @param redirects: an object where key is from and value is to
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addRedirects(redirects: Record<string, string>): IClientConfigBuilder;
+  setRedirects(redirects: Record<string, string>): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-removeRedirect
+  // $start: ClientConfigBuilder-removeRedirect
   /**
    * Remove a URI redirect
    *
    * @param from: the URI that is being redirected
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  removeRedirect(from: string): IClientConfigBuilder;
+  removeRedirect(from: string): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addResolver
+  // $start: ClientConfigBuilder-addResolver
   /**
    * Add a URI Resolver, capable of resolving a URI to a wrapper
    *
@@ -234,12 +234,12 @@ export interface IClientConfigBuilder {
    *   | UriResolverLike[];
    *
    * @param resolver: A UriResolverLike
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addResolver(resolver: UriResolverLike): IClientConfigBuilder;
+  addResolver(resolver: UriResolverLike): ClientConfigBuilder;
   // $end
 
-  // $start: IClientConfigBuilder-addResolvers
+  // $start: ClientConfigBuilder-addResolvers
   /**
    * Add one or more URI Resolvers, capable of resolving URIs to wrappers
    *
@@ -252,8 +252,8 @@ export interface IClientConfigBuilder {
    *   | UriResolverLike[];
    *
    * @param resolvers: A list of UriResolverLike
-   * @returns IClientConfigBuilder (mutated self)
+   * @returns ClientConfigBuilder (mutated self)
    */
-  addResolvers(resolvers: UriResolverLike[]): IClientConfigBuilder;
+  addResolvers(resolvers: UriResolverLike[]): ClientConfigBuilder;
   // $end
 }

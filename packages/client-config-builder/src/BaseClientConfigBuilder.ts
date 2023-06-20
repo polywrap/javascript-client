@@ -1,4 +1,4 @@
-import { BuilderConfig, IClientConfigBuilder } from "./types";
+import { BuilderConfig, ClientConfigBuilder } from "./types";
 
 import {
   CoreClientConfig,
@@ -8,7 +8,7 @@ import {
 } from "@polywrap/core-js";
 import { UriResolverLike } from "@polywrap/uri-resolvers-js";
 
-export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
+export abstract class BaseClientConfigBuilder implements ClientConfigBuilder {
   protected _config: BuilderConfig = {
     envs: {},
     interfaces: {},
@@ -18,28 +18,28 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
     resolvers: [],
   };
 
-  abstract addDefaults(): IClientConfigBuilder;
+  abstract addDefaults(): ClientConfigBuilder;
   abstract build(): CoreClientConfig;
 
   get config(): BuilderConfig {
     return this._config;
   }
 
-  add(config: Partial<BuilderConfig>): IClientConfigBuilder {
+  add(config: Partial<BuilderConfig>): ClientConfigBuilder {
     if (config.envs) {
       this.addEnvs(config.envs);
     }
 
     if (config.redirects) {
-      this.addRedirects(config.redirects);
+      this.setRedirects(config.redirects);
     }
 
     if (config.wrappers) {
-      this.addWrappers(config.wrappers);
+      this.setWrappers(config.wrappers);
     }
 
     if (config.packages) {
-      this.addPackages(config.packages);
+      this.setPackages(config.packages);
     }
 
     if (config.interfaces) {
@@ -57,47 +57,47 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
     return this;
   }
 
-  addWrapper(uri: string, wrapper: Wrapper): IClientConfigBuilder {
+  setWrapper(uri: string, wrapper: Wrapper): ClientConfigBuilder {
     this._config.wrappers[this.sanitizeUri(uri)] = wrapper;
 
     return this;
   }
 
-  addWrappers(uriWrappers: Record<string, Wrapper>): IClientConfigBuilder {
+  setWrappers(uriWrappers: Record<string, Wrapper>): ClientConfigBuilder {
     for (const uri in uriWrappers) {
-      this.addWrapper(this.sanitizeUri(uri), uriWrappers[uri]);
+      this.setWrapper(this.sanitizeUri(uri), uriWrappers[uri]);
     }
 
     return this;
   }
 
-  removeWrapper(uri: string): IClientConfigBuilder {
+  removeWrapper(uri: string): ClientConfigBuilder {
     delete this._config.wrappers[this.sanitizeUri(uri)];
 
     return this;
   }
 
-  addPackage(uri: string, wrapPackage: IWrapPackage): IClientConfigBuilder {
+  setPackage(uri: string, wrapPackage: IWrapPackage): ClientConfigBuilder {
     this._config.packages[this.sanitizeUri(uri)] = wrapPackage;
 
     return this;
   }
 
-  addPackages(uriPackages: Record<string, IWrapPackage>): IClientConfigBuilder {
+  setPackages(uriPackages: Record<string, IWrapPackage>): ClientConfigBuilder {
     for (const uri in uriPackages) {
-      this.addPackage(this.sanitizeUri(uri), uriPackages[uri]);
+      this.setPackage(this.sanitizeUri(uri), uriPackages[uri]);
     }
 
     return this;
   }
 
-  removePackage(uri: string): IClientConfigBuilder {
+  removePackage(uri: string): ClientConfigBuilder {
     delete this._config.packages[this.sanitizeUri(uri)];
 
     return this;
   }
 
-  addEnv(uri: string, env: Record<string, unknown>): IClientConfigBuilder {
+  addEnv(uri: string, env: Record<string, unknown>): ClientConfigBuilder {
     const sanitizedUri = this.sanitizeUri(uri);
     this._config.envs[sanitizedUri] = {
       ...this._config.envs[sanitizedUri],
@@ -107,7 +107,7 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
     return this;
   }
 
-  addEnvs(envs: Record<string, Record<string, unknown>>): IClientConfigBuilder {
+  addEnvs(envs: Record<string, Record<string, unknown>>): ClientConfigBuilder {
     for (const [uri, env] of Object.entries(envs)) {
       this.addEnv(this.sanitizeUri(uri), env);
     }
@@ -115,13 +115,13 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
     return this;
   }
 
-  removeEnv(uri: string): IClientConfigBuilder {
+  removeEnv(uri: string): ClientConfigBuilder {
     delete this._config.envs[this.sanitizeUri(uri)];
 
     return this;
   }
 
-  setEnv(uri: string, env: Record<string, unknown>): IClientConfigBuilder {
+  setEnv(uri: string, env: Record<string, unknown>): ClientConfigBuilder {
     this._config.envs[this.sanitizeUri(uri)] = env;
 
     return this;
@@ -130,7 +130,7 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
   addInterfaceImplementation(
     interfaceUri: string,
     implementationUri: string
-  ): IClientConfigBuilder {
+  ): ClientConfigBuilder {
     const existingInterface = this._config.interfaces[
       this.sanitizeUri(interfaceUri)
     ];
@@ -149,7 +149,7 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
   addInterfaceImplementations(
     interfaceUri: string,
     implementationUris: Array<string> | Set<string>
-  ): IClientConfigBuilder {
+  ): ClientConfigBuilder {
     const existingInterface = this._config.interfaces[
       this.sanitizeUri(interfaceUri)
     ];
@@ -173,7 +173,7 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
   removeInterfaceImplementation(
     interfaceUri: string,
     implementationUri: string
-  ): IClientConfigBuilder {
+  ): ClientConfigBuilder {
     const existingInterface = this._config.interfaces[
       this.sanitizeUri(interfaceUri)
     ];
@@ -193,33 +193,33 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
     return this;
   }
 
-  addRedirect(from: string, to: string): IClientConfigBuilder {
+  setRedirect(from: string, to: string): ClientConfigBuilder {
     this._config.redirects[this.sanitizeUri(from)] = this.sanitizeUri(to);
 
     return this;
   }
 
-  addRedirects(redirects: Record<string, string>): IClientConfigBuilder {
+  setRedirects(redirects: Record<string, string>): ClientConfigBuilder {
     for (const uri in redirects) {
-      this.addRedirect(this.sanitizeUri(uri), this.sanitizeUri(redirects[uri]));
+      this.setRedirect(this.sanitizeUri(uri), this.sanitizeUri(redirects[uri]));
     }
 
     return this;
   }
 
-  removeRedirect(from: string): IClientConfigBuilder {
+  removeRedirect(from: string): ClientConfigBuilder {
     delete this._config.redirects[this.sanitizeUri(from)];
 
     return this;
   }
 
-  addResolver(resolver: UriResolverLike): IClientConfigBuilder {
+  addResolver(resolver: UriResolverLike): ClientConfigBuilder {
     this._config.resolvers.push(resolver);
 
     return this;
   }
 
-  addResolvers(resolvers: UriResolverLike[]): IClientConfigBuilder {
+  addResolvers(resolvers: UriResolverLike[]): ClientConfigBuilder {
     for (const resolver of resolvers) {
       this.addResolver(resolver);
     }

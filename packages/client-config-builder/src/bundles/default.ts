@@ -1,4 +1,4 @@
-import { ClientConfigBuilder } from "../ClientConfigBuilder";
+import { PolywrapClientConfigBuilder } from "../PolywrapClientConfigBuilder";
 import { BuilderConfig } from "../types";
 import * as ipfsHttpClient from "./embeds/ipfs-http-client/wrap";
 import * as ipfsResolver from "./embeds/async-ipfs-resolver/wrap";
@@ -138,14 +138,14 @@ export const plugins: IDefaultPlugins = {
 };
 
 export function getConfig(): BuilderConfig {
-  const builder = new ClientConfigBuilder();
+  const builder = new PolywrapClientConfigBuilder();
 
   // Add all embedded packages
   for (const embed of Object.values(embeds)) {
-    builder.addPackage(embed.uri.uri, embed.package);
+    builder.setPackage(embed.uri.uri, embed.package);
 
     // Add source redirect
-    builder.addRedirect(embed.source.uri, embed.uri.uri);
+    builder.setRedirect(embed.source.uri, embed.uri.uri);
 
     // Add source implementation
     builder.addInterfaceImplementation(embed.source.uri, embed.uri.uri);
@@ -153,12 +153,12 @@ export function getConfig(): BuilderConfig {
 
   // Add all plugin packages
   for (const plugin of Object.values(plugins)) {
-    builder.addPackage(plugin.uri.uri, plugin.plugin);
+    builder.setPackage(plugin.uri.uri, plugin.plugin);
 
     // Add all interface implementations & redirects
     for (const interfaceUri of plugin.implements) {
       builder.addInterfaceImplementation(interfaceUri.uri, plugin.uri.uri);
-      builder.addRedirect(interfaceUri.uri, plugin.uri.uri);
+      builder.setRedirect(interfaceUri.uri, plugin.uri.uri);
     }
   }
 
@@ -171,7 +171,7 @@ export function getConfig(): BuilderConfig {
       ...uriResolverExts.slice(2).map((x: Uri) => x.uri),
     ]
   );
-  builder.addRedirect(uriResolverExts[1].from.uri, uriResolverExts[1].to.uri);
+  builder.setRedirect(uriResolverExts[1].from.uri, uriResolverExts[1].to.uri);
 
   // Configure the ipfs-uri-resolver provider endpoints & retry counts
   builder.addEnv(embeds.ipfsResolver.source.uri, {
