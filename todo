@@ -1,5 +1,3 @@
-dep-graph...?
-
 addDefaults(default="node") ->
   -> addBundle("sys-node")
   -> addBundle("web")
@@ -36,3 +34,8 @@ x web3:
   resolvers:
     ipfs-resolver
     ens-resolver
+
+TODO:
+- bundle READMEs
+- document breaking change (PolywrapClient.from(...))
+- Update tests
