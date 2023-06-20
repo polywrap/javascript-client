@@ -7,6 +7,11 @@ export type BundleName =
   | "web"
   | "web3";
 
+export type SystemName =
+  | "node"
+  | "browser";
+
+
 export const bundlePackages: Record<BundleName, string> = {
   "sys": "@polywrap/sys-config-bundle-js",
   "sys-node": "@polywrap/sys-node-config-bundle-js",

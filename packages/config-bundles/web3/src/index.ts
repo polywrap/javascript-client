@@ -110,7 +110,7 @@ export function getBundleConfig(): BuilderConfig {
     [
       uriResolverExts[0].source,
       uriResolverExts[1].from,
-      ...uriResolverExts.slice(2),
+      ...(uriResolverExts.slice(2) as string[]),
     ]
   );
   builder.addRedirect(uriResolverExts[1].from, uriResolverExts[1].to);

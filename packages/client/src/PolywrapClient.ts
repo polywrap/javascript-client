@@ -1,4 +1,5 @@
 import { InvokerOptions, TryResolveUriOptions } from "./types";
+import { SystemName, BundleName, ClientConfigBuilder } from "."
 
 import { PolywrapCoreClient } from "@polywrap/core-client-js";
 import {
@@ -24,7 +25,6 @@ import {
   WrapManifest,
 } from "@polywrap/wrap-manifest-types-js";
 import { Tracer, TracerConfig } from "@polywrap/tracing-js";
-import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 
 export class PolywrapClient extends PolywrapCoreClient {
   // $start: PolywrapClient-constructor
@@ -33,8 +33,28 @@ export class PolywrapClient extends PolywrapCoreClient {
    *
    * @param config - a client configuration
    */
-  constructor(config?: CoreClientConfig) /* $ */ {
-    super(config ?? new ClientConfigBuilder().addDefaults().build());
+  constructor(config: CoreClientConfig) /* $ */ {
+    super(config);
+  }
+
+  // $start: PolywrapClient-from
+  /**
+   * Instantiate a PolywrapClient from a system or bundle(s)
+   *
+   * @param systemOrBundles - Either a system name, or bundle names
+   */
+  static async from(systemOrBundles: SystemName | BundleName[]): Promise<PolywrapClient> /* $ */ {
+    const builder = new ClientConfigBuilder();
+
+    if (typeof systemOrBundles === "string") {
+      await builder.addDefaults(systemOrBundles);
+    } else if (Array.isArray(systemOrBundles)) {
+      for (const bundle of systemOrBundles) {
+        await builder.addBundle(bundle);
+      }
+    }
+
+    return new PolywrapClient(builder.build());
   }
 
   /**

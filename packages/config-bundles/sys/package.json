@@ -1,12 +1,33 @@
 {
   "name": "@polywrap/sys-config-bundle-js",
   "version": "0.10.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polywrap/javascript-client.git"
+  },
+  "main": "build/index.js",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "rimraf ./build && tsc",
+    "lint": "eslint --color -c ../../../.eslintrc.js src/"
+  },
   "dependencies": {
-    "@polywrap/concurrent-plugin-js": "0.10.1",
-    "@polywrap/datetime-plugin-js": "0.10.1",
-    "@polywrap/logger-plugin-js": "0.10.1"
+    "@polywrap/client-config-builder-js": "~0.10.1",
+    "@polywrap/concurrent-plugin-js": "~0.10.0",
+    "@polywrap/datetime-plugin-js": "~0.10.0",
+    "@polywrap/logger-plugin-js": "~0.10.0"
   },
   "peerDependencies": {
     "@polywrap/client-config-builder-js": "0.10.x"
+  },
+  "devDependencies": {
+    "rimraf": "3.0.2",
+    "typescript": "4.9.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

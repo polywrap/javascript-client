@@ -51,7 +51,6 @@
     "typescript": "4.9.5",
     "yaml": "2.1.3"
   },
-  "gitHead": "7346adaf5adb7e6bbb70d9247583e995650d390a",
   "publishConfig": {
     "access": "public"
   },

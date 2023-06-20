@@ -53,9 +53,11 @@ export function getBundleConfig(): BuilderConfig {
 
   // Add all uri-resolver-ext interface implementations
   builder.addInterfaceImplementations(
-    ExtendableUriResolver.defaultExtInterfaceUris[0],
+    ExtendableUriResolver.defaultExtInterfaceUris[0].uri,
     [
       uriResolverExts[0].source
     ]
   );
+
+  return builder.config;
 }
