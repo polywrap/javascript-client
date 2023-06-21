@@ -22,11 +22,11 @@ describe("Embedded wrapper", () => {
       wasmModuleBuffer
     );
 
-    const config = new ClientConfigBuilder()
-      .addDefaults()
-      .addWrapper(simpleWrapperUri, wrapper)
-      .build();
+    const builder = new ClientConfigBuilder();
+    await builder.addDefaults("node");
+    builder.addWrapper(simpleWrapperUri, wrapper);
 
+    const config = builder.build();
     const client = new PolywrapClient(config);
 
     const result = await client.invoke<string>({
@@ -136,11 +136,11 @@ const testEmbeddedWrapperWithFile = async (
   filePath: string,
   fileText: string
 ) => {
-  const config = new ClientConfigBuilder()
-    .addDefaults()
-    .addWrapper(simpleWrapperUri, wrapper)
-    .build();
+  const builder = new ClientConfigBuilder();
+  await builder.addDefaults("node");
+  builder.addWrapper(simpleWrapperUri, wrapper);
 
+  const config = builder.build();
   const client = new PolywrapClient(config);
 
   const expectedManifest = await fs.promises.readFile(

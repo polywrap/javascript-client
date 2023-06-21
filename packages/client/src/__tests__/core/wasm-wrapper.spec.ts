@@ -25,7 +25,7 @@ describe("wasm-wrapper", () => {
   };
 
   test("can invoke with string URI", async () => {
-    const client = new PolywrapClient();
+    const client = await PolywrapClient.default("node");
     const result = await client.invoke<number>({
       uri: wrapperUri.uri,
       method: "add",
@@ -42,7 +42,7 @@ describe("wasm-wrapper", () => {
   });
 
   test("can invoke with typed URI", async () => {
-    const client = new PolywrapClient();
+    const client = await PolywrapClient.default("node");
     const result = await client.invoke<number, Uri>({
       uri: wrapperUri,
       method: "add",
@@ -59,7 +59,7 @@ describe("wasm-wrapper", () => {
   });
 
   test("invoke with decode defaulted to true works as expected", async () => {
-    const client = new PolywrapClient();
+    const client = await PolywrapClient.default("node");
     const result = await client.invoke<number>({
       uri: wrapperUri.uri,
       method: "add",
@@ -76,7 +76,7 @@ describe("wasm-wrapper", () => {
   });
 
   test("invoke with decode set to false works as expected", async () => {
-    const client = new PolywrapClient();
+    const client = await PolywrapClient.default("node");
     const result = await client.invoke({
       uri: wrapperUri,
       method: "add",
@@ -94,12 +94,12 @@ describe("wasm-wrapper", () => {
   });
 
   it("should invoke wrapper with custom redirects", async () => {
-    const config = new ClientConfigBuilder()
-      .addDefaults()
-      .addRedirect(wrapperUri.uri, "wrap://ens/mock.polywrap.eth")
-      .addPackage("wrap://ens/mock.polywrap.eth", mockPlugin())
-      .build();
+    const builder = new ClientConfigBuilder();
+    await builder.addDefaults("node");
+    builder.addRedirect(wrapperUri.uri, "wrap://ens/mock.polywrap.eth");
+    builder.addPackage("wrap://ens/mock.polywrap.eth", mockPlugin());
 
+    const config = builder.build();
     const client = new PolywrapClient(config);
 
     const result = await client.invoke({
@@ -117,11 +117,11 @@ describe("wasm-wrapper", () => {
   });
 
   it("should allow clone + reconfigure of redirects", async () => {
-    let builder = new ClientConfigBuilder()
+    let builder = await new ClientConfigBuilder()
       .add({
         packages: { "wrap://ens/mock.polywrap.eth": mockPlugin() },
       })
-      .addDefaults();
+      .addDefaults("node");
 
     const client = new PolywrapClient(builder.build());
 
@@ -161,7 +161,7 @@ describe("wasm-wrapper", () => {
   });
 
   test("get file from wrapper", async () => {
-    const client = new PolywrapClient();
+    const client = await PolywrapClient.default("node");
 
     const expectedManifest = new Uint8Array(
       await fs.promises.readFile(`${wrapperPath}/wrap.info`)

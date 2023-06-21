@@ -1,4 +1,4 @@
-import { loadBundleConfig, BundleName } from "./bundles";
+import { loadBundleConfig, BundleName, RuntimeName } from "./bundles";
 import { BaseClientConfigBuilder } from "./BaseClientConfigBuilder";
 import { BuildOptions, IClientConfigBuilder, BuilderConfig } from "./types";
 
@@ -31,11 +31,8 @@ export class ClientConfigBuilder extends BaseClientConfigBuilder {
   }
 
   async addDefaults(
-    runtime: "node" | "browser" = "node"
+    runtime: RuntimeName = "node"
   ): Promise<IClientConfigBuilder> {
-    await this.addBundle("web");
-    await this.addBundle("web3");
-
     switch (runtime) {
       case "node":
         await this.addBundle("sys-node");
@@ -46,6 +43,9 @@ export class ClientConfigBuilder extends BaseClientConfigBuilder {
       default:
         throw Error(`Unknown JS runtime '${runtime}'`);
     }
+
+    await this.addBundle("web");
+    await this.addBundle("web3");
 
     return this;
   }

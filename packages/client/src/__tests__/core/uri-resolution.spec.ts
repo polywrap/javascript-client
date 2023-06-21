@@ -31,7 +31,7 @@ describe("URI resolution", () => {
   it("sanity", async () => {
     const uri = new Uri("ens/wraps.eth:uri-resolver-ext@1.1.0");
 
-    const client = new PolywrapClient();
+    const client = await PolywrapClient.default("node");
 
     const resolutionContext = new UriResolutionContext();
     const result = await client.tryResolveUri({ uri, resolutionContext });
@@ -54,19 +54,19 @@ describe("URI resolution", () => {
     const fromUri = new Uri(`test/from.eth`);
     const redirectUri = new Uri(`test/to.eth`);
 
-    const config = new ClientConfigBuilder()
-      .addDefaults()
-      .addResolver({
-        tryResolveUri: async (uri: Uri) => {
-          if (uri.uri === fromUri.uri) {
-            return UriResolutionResult.ok(redirectUri);
-          }
+    const builder = new ClientConfigBuilder();
+    await builder.addDefaults("node");
+    builder.addResolver({
+      tryResolveUri: async (uri: Uri) => {
+        if (uri.uri === fromUri.uri) {
+          return UriResolutionResult.ok(redirectUri);
+        }
 
-          return UriResolutionResult.ok(uri);
-        },
-      })
-      .build();
+        return UriResolutionResult.ok(uri);
+      },
+    });
 
+    const config = builder.build();
     const client = new PolywrapClient(config);
 
     const result = await client.tryResolveUri({

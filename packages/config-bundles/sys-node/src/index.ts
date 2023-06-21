@@ -8,26 +8,27 @@ import {
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
 import { fileSystemPlugin } from "@polywrap/file-system-plugin-js";
 
+export const plugins = {
+  fileSystem: {
+    uri: "plugin/file-system@1.0.0",
+    plugin: fileSystemPlugin({}),
+    implements: ["ens/wraps.eth:file-system@1.0.0"],
+  },
+};
+
+export const embeds = {
+  fsResolver: {
+    uri: "embed/file-system-uri-resolver-ext@1.0.1",
+    package: fsResolver.wasmPackage,
+    source: "ens/wraps.eth:file-system-uri-resolver-ext@1.0.1",
+  },
+};
+
+export const uriResolverExts = [embeds.fsResolver];
+
+export const baseConfig = Sys.getBundleConfig();
+
 export function getBundleConfig(): BuilderConfig {
-  const plugins = {
-    fileSystem: {
-      uri: "plugin/file-system@1.0.0",
-      plugin: fileSystemPlugin({}),
-      implements: ["ens/wraps.eth:file-system@1.0.0"],
-    },
-  };
-
-  const embeds = {
-    fsResolver: {
-      uri: "embed/file-system-uri-resolver-ext@1.0.1",
-      package: fsResolver.wasmPackage,
-      source: "ens/wraps.eth:file-system-uri-resolver-ext@1.0.1",
-    },
-  };
-
-  const uriResolverExts = [embeds.fsResolver];
-
-  const baseConfig = Sys.getBundleConfig();
   const builder = new ClientConfigBuilder();
 
   // Add the base "sys" config

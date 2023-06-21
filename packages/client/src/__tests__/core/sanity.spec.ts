@@ -6,15 +6,15 @@ import { IUriPackage, IUriRedirect } from "@polywrap/core-js";
 import { ResultErr } from "@polywrap/result";
 import { StaticResolver, UriResolverLike } from "@polywrap/uri-resolvers-js";
 import { WasmPackage } from "@polywrap/wasm-js";
-import { ClientConfigBuilder, DefaultBundle } from "@polywrap/client-config-builder-js";
+import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { CoreClientConfig } from "@polywrap/core-js";
 
 jest.setTimeout(200000);
 
 describe("sanity", () => {
-  test("default client config", () => {
-    const clientConfig = new PolywrapClient().getConfig();
-    const expectedConfig = new ClientConfigBuilder().add(DefaultBundle.getConfig()).build();
+  test("default client config", async () => {
+    const clientConfig = (await PolywrapClient.default("node")).getConfig();
+    const expectedConfig = (await new ClientConfigBuilder().addDefaults("node")).build();
 
     expect(
       JSON.stringify(clientConfig, null, 2)

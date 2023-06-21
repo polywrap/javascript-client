@@ -6,25 +6,25 @@ import { loggerPlugin } from "@polywrap/logger-plugin-js";
 import { dateTimePlugin } from "@polywrap/datetime-plugin-js";
 import { concurrentPromisePlugin } from "@polywrap/concurrent-plugin-js";
 
-export function getBundleConfig(): BuilderConfig {
-  const plugins = {
-    logger: {
-      uri: "plugin/logger@1.0.0",
-      plugin: loggerPlugin({}),
-      implements: ["ens/wraps.eth:logger@1.0.0"],
-    },
-    datetime: {
-      uri: "plugin/datetime@1.0.0",
-      plugin: dateTimePlugin({}),
-      implements: ["ens/wraps.eth:datetime@1.0.0"],
-    },
-    concurrent: {
-      uri: "plugin/concurrent@1.0.0",
-      plugin: concurrentPromisePlugin({}),
-      implements: ["ens/wraps.eth:concurrent@1.0.0"],
-    },
-  };
+export const plugins = {
+  logger: {
+    uri: "plugin/logger@1.0.0",
+    plugin: loggerPlugin({}),
+    implements: ["ens/wraps.eth:logger@1.0.0"],
+  },
+  datetime: {
+    uri: "plugin/datetime@1.0.0",
+    plugin: dateTimePlugin({}),
+    implements: ["ens/wraps.eth:datetime@1.0.0"],
+  },
+  concurrent: {
+    uri: "plugin/concurrent@1.0.0",
+    plugin: concurrentPromisePlugin({}),
+    implements: ["ens/wraps.eth:concurrent@1.0.0"],
+  },
+};
 
+export function getBundleConfig(): BuilderConfig {
   const builder = new ClientConfigBuilder();
 
   // Add all plugin packages

@@ -1,5 +1,5 @@
 import { BuilderConfig, IClientConfigBuilder } from "./types";
-import { BundleName, SystemName } from "./bundles";
+import { BundleName, RuntimeName } from "./bundles";
 
 import {
   CoreClientConfig,
@@ -19,7 +19,7 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
     resolvers: [],
   };
 
-  abstract addDefaults(system: SystemName): Promise<IClientConfigBuilder>;
+  abstract addDefaults(runtime: RuntimeName): Promise<IClientConfigBuilder>;
   abstract addBundle(bundle: BundleName): Promise<IClientConfigBuilder>;
   abstract build(): CoreClientConfig;
 

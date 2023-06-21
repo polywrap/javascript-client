@@ -3,7 +3,7 @@ import { Uri } from "@polywrap/core-js";
 import { WrapManifest } from "@polywrap/wrap-manifest-types-js";
 import { PluginPackage, PluginModule } from "@polywrap/plugin-js";
 import { UriResolver } from "@polywrap/uri-resolvers-js";
-import { DefaultBundle } from "@polywrap/client-config-builder-js";
+import * as WebBundle from "@polywrap/web-config-bundle-js"
 
 jest.setTimeout(200000);
 
@@ -81,11 +81,11 @@ describe("plugin-wrapper", () => {
     const client = new PolywrapClient(
       {
         resolver: UriResolver.from([
-          { uri: DefaultBundle.plugins.http.uri, package: DefaultBundle.plugins.http.plugin },
+          { uri: Uri.from(WebBundle.plugins.http.uri), package: WebBundle.plugins.http.plugin },
         ]),
       }
     );
-    const manifest = await client.getManifest(DefaultBundle.plugins.http.uri);
+    const manifest = await client.getManifest(WebBundle.plugins.http.uri);
     if (!manifest.ok) fail(manifest.error);
     expect(manifest.value.type).toEqual("plugin");
     expect(manifest.value.name).toEqual("Http");

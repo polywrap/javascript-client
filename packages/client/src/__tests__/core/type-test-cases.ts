@@ -9,7 +9,8 @@ export const typeTestCases = (implementation: string) => {
   describe("types test cases", () => {
     test(`asyncify ${implementation}`, async () => {
       const builder = new ClientConfigBuilder();
-      builder.addDefaults().addPackage(
+      await builder.addDefaults("node");
+      builder.addPackage(
         "wrap://ens/memory-storage.polywrap.eth",
         memoryStoragePlugin()
       );
@@ -132,7 +133,7 @@ export const typeTestCases = (implementation: string) => {
 
     test(`bigint-type ${implementation}`, async () => {
       const uri = `fs/${GetPathToTestWrappers()}/bigint-type/implementations/${implementation}`;
-      const client = new PolywrapClient();
+      const client = await PolywrapClient.default("node");
       let response = await client.invoke({
         uri,
         method: "method",
@@ -174,7 +175,7 @@ export const typeTestCases = (implementation: string) => {
 
     test(`bignumber-type ${implementation}`, async () => {
       const uri = `fs/${GetPathToTestWrappers()}/bignumber-type/implementations/${implementation}`;
-      const client = new PolywrapClient();
+      const client = await PolywrapClient.default("node");
       let response = await client.invoke({
         uri,
         method: "method",
@@ -220,7 +221,7 @@ export const typeTestCases = (implementation: string) => {
 
     test(`bytes-type ${implementation}`, async () => {
       const uri = `fs/${GetPathToTestWrappers()}/bytes-type/implementations/${implementation}`;
-      const client = new PolywrapClient();
+      const client = await PolywrapClient.default("node");
       const response = await client.invoke({
         uri,
         method: "bytesMethod",
@@ -240,7 +241,7 @@ export const typeTestCases = (implementation: string) => {
 
     test(`enum-type ${implementation}`, async () => {
       const uri = `fs/${GetPathToTestWrappers()}/enum-type/implementations/${implementation}`;
-      const client = new PolywrapClient();
+      const client = await PolywrapClient.default("node");
 
       let method1a = await client.invoke({
         uri,
@@ -299,7 +300,7 @@ export const typeTestCases = (implementation: string) => {
 
     test(`invalid-types ${implementation}`, async () => {
       const uri = `fs/${GetPathToTestWrappers()}/invalid-type/implementations/${implementation}`;
-      const client = new PolywrapClient();
+      const client = await PolywrapClient.default("node");
       let invalidBoolIntSent = await client.invoke({
         uri,
         method: "boolMethod",
@@ -372,7 +373,7 @@ export const typeTestCases = (implementation: string) => {
 
     test(`json-type ${implementation}`, async () => {
       const uri = `fs/${GetPathToTestWrappers()}/json-type/implementations/${implementation}`;
-      const client = new PolywrapClient();
+      const client = await PolywrapClient.default("node");
       type Json = string;
       const value = JSON.stringify({ foo: "bar", bar: "bar" });
       const parseResponse = await client.invoke<Json>({
@@ -471,7 +472,7 @@ export const typeTestCases = (implementation: string) => {
 
     test(`numbers-type ${implementation}`, async () => {
       const uri = `fs/${GetPathToTestWrappers()}/numbers-type/implementations/${implementation}`;
-      const client = new PolywrapClient();
+      const client = await PolywrapClient.default("node");
       let i8Underflow = await client.invoke({
         uri,
         method: "i8Method",
@@ -560,7 +561,7 @@ export const typeTestCases = (implementation: string) => {
 
     test(`object-type ${implementation}`, async () => {
       const uri = `fs/${GetPathToTestWrappers()}/object-type/implementations/${implementation}`;
-      const client = new PolywrapClient();
+      const client = await PolywrapClient.default("node");
       const method1a = await client.invoke({
         uri,
         method: "method1",
@@ -712,7 +713,7 @@ export const typeTestCases = (implementation: string) => {
 
     test(`map-type ${implementation}`, async () => {
       const uri = `fs/${GetPathToTestWrappers()}/map-type/implementations/${implementation}`;
-      const client = new PolywrapClient();
+      const client = await PolywrapClient.default("node");
       const mapClass = new Map<string, number>()
         .set("Hello", 1)
         .set("Heyo", 50);

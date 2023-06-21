@@ -2,7 +2,7 @@ import { BuilderConfig } from "../types";
 
 export type BundleName = "sys" | "sys-node" | "sys-browser" | "web" | "web3";
 
-export type SystemName = "node" | "browser";
+export type RuntimeName = "node" | "browser";
 
 export const bundlePackages: Record<BundleName, string> = {
   sys: "@polywrap/sys-config-bundle-js",

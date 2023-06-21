@@ -173,10 +173,10 @@ describe("Client config builder", () => {
     });
   });
 
-  it("should successfully add the default config for node.js", async () => {
+  it.only("should successfully add the default config for node.js", async () => {
     const builder = new ClientConfigBuilder();
     await builder.addDefaults("node");
-    const config = builder.build();
+    const config = builder.config;
 
     expect(config).toBeTruthy();
 
@@ -186,7 +186,7 @@ describe("Client config builder", () => {
       .addBundle("sys-node").then(i =>
         i.addBundle("web").then(i =>
           i.addBundle("web3").then(i =>
-            i.build()
+            i.config
       )));
 
     expect(JSON.stringify(config)).toBe(

@@ -7,25 +7,25 @@ import {
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
 import { httpPlugin } from "@polywrap/http-plugin-js";
 
+export const plugins = {
+  http: {
+    uri: "plugin/http@1.1.0",
+    plugin: httpPlugin({}),
+    implements: ["ens/wraps.eth:http@1.1.0", "ens/wraps.eth:http@1.0.0"],
+  },
+};
+
+export const embeds = {
+  httpResolver: {
+    uri: "embed/http-uri-resolver-ext@1.0.1",
+    package: httpResolver.wasmPackage,
+    source: "ens/wraps.eth:http-uri-resolver-ext@1.0.1",
+  },
+};
+
+export const uriResolverExts = [embeds.httpResolver];
+
 export function getBundleConfig(): BuilderConfig {
-  const plugins = {
-    http: {
-      uri: "plugin/http@1.1.0",
-      plugin: httpPlugin({}),
-      implements: ["ens/wraps.eth:http@1.1.0", "ens/wraps.eth:http@1.0.0"],
-    },
-  };
-
-  const embeds = {
-    httpResolver: {
-      uri: "embed/http-uri-resolver-ext@1.0.1",
-      package: httpResolver.wasmPackage,
-      source: "ens/wraps.eth:http-uri-resolver-ext@1.0.1",
-    },
-  };
-
-  const uriResolverExts = [embeds.httpResolver];
-
   const builder = new ClientConfigBuilder();
 
   // Add all plugin packages
