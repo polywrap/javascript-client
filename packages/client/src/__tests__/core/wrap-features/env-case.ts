@@ -2,7 +2,7 @@ import { PluginPackage } from "@polywrap/plugin-js";
 import { RecursiveResolver } from "@polywrap/uri-resolvers-js";
 import { PolywrapClient } from "../../../PolywrapClient";
 import { mockPluginRegistration } from "../../helpers";
-import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { Uri, UriMap } from "@polywrap/core-js";
 import { GetPathToTestWrappers } from "@polywrap/test-cases";
 
@@ -14,7 +14,7 @@ export const envTestCases = (implementation: string) => {
       const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder.addDefaults();
       
       const client = new PolywrapClient(builder.build());
@@ -51,7 +51,7 @@ export const envTestCases = (implementation: string) => {
         [wrapperUri.uri]: env
       };
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder
         .addDefaults()
         .addEnvs(envs);
@@ -107,7 +107,7 @@ export const envTestCases = (implementation: string) => {
         [wrapperUri.uri]: env
       };
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder
         .addDefaults()
         .addEnvs(envs);
@@ -127,7 +127,7 @@ export const envTestCases = (implementation: string) => {
       const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder
         .addDefaults();
 
@@ -179,7 +179,7 @@ export const envTestCases = (implementation: string) => {
         [wrapperUri.uri]: env
       };
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder
         .addDefaults()
         .addEnvs(envs);
@@ -199,7 +199,7 @@ export const envTestCases = (implementation: string) => {
       const wrapperPath = `${GetPathToTestWrappers()}/env-type/00-main/implementations/${implementation}`;
       const wrapperUri = Uri.from(`file/${wrapperPath}`);
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder
         .addDefaults();
 
@@ -253,11 +253,11 @@ export const envTestCases = (implementation: string) => {
           [envUri.uri]: env
         };
         
-        const builder = new ClientConfigBuilder();
+        const builder = new PolywrapClientConfigBuilder();
         builder
           .addDefaults()
           .addEnvs(envs)
-          .addRedirect(redirectFromUri.uri, wrapperUri.uri);
+          .setRedirect(redirectFromUri.uri, wrapperUri.uri);
   
         const client = new PolywrapClient(builder.build());
         
@@ -282,9 +282,9 @@ export const envTestCases = (implementation: string) => {
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder.addDefaults()
-        .addRedirect("mock/main", subinvokedUri);
+        .setRedirect("mock/main", subinvokedUri);
       
       const client = new PolywrapClient(builder.build());
       
@@ -322,9 +322,9 @@ export const envTestCases = (implementation: string) => {
         "mock/main": subinvokedEnv
       };
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder.addDefaults()
-        .addRedirect("mock/main", subinvokedUri)
+        .setRedirect("mock/main", subinvokedUri)
         .addEnvs(envs);
 
       const client = new PolywrapClient(builder.build());
@@ -380,9 +380,9 @@ export const envTestCases = (implementation: string) => {
         "mock/main": subinvokedEnv
       };
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder.addDefaults()
-        .addRedirect("mock/main", subinvokedUri)
+        .setRedirect("mock/main", subinvokedUri)
         .addEnvs(envs);
 
       const client = new PolywrapClient(builder.build());
@@ -402,9 +402,9 @@ export const envTestCases = (implementation: string) => {
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder.addDefaults()
-        .addRedirect("mock/main", subinvokedUri);
+        .setRedirect("mock/main", subinvokedUri);
 
       const client = new PolywrapClient(builder.build());
       
@@ -456,9 +456,9 @@ export const envTestCases = (implementation: string) => {
         "mock/main": subinvokedEnv
       };
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder.addDefaults()
-        .addRedirect("mock/main", subinvokedUri)
+        .setRedirect("mock/main", subinvokedUri)
         .addEnvs(envs);
 
       const client = new PolywrapClient(builder.build());
@@ -478,9 +478,9 @@ export const envTestCases = (implementation: string) => {
       const { uri: subinvokerUri } = Uri.from(`file/${subinvokerPath}`);
       const { uri: subinvokedUri } = Uri.from(`file/${subinvokedPath}`);
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder.addDefaults()
-        .addRedirect("mock/main", subinvokedUri);
+        .setRedirect("mock/main", subinvokedUri);
 
       const client = new PolywrapClient(builder.build());
       
@@ -543,9 +543,9 @@ export const envTestCases = (implementation: string) => {
         "mock/main": subinvokedEnv
       };
 
-      const builder = new ClientConfigBuilder();
+      const builder = new PolywrapClientConfigBuilder();
       builder.addDefaults()
-        .addRedirect("mock/main", subinvokedUri)
+        .setRedirect("mock/main", subinvokedUri)
         .addEnvs(envs);
 
       const client = new PolywrapClient(builder.build());

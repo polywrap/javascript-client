@@ -2,14 +2,14 @@ import { memoryStoragePlugin, ErrResult } from "../helpers";
 import { PolywrapClient } from "../../PolywrapClient";
 
 import BigNumber from "bignumber.js";
-import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { GetPathToTestWrappers } from "@polywrap/test-cases";
 
 export const typeTestCases = (implementation: string) => {
   describe("types test cases", () => {
     test(`asyncify ${implementation}`, async () => {
-      const builder = new ClientConfigBuilder();
-      builder.addDefaults().addPackage(
+      const builder = new PolywrapClientConfigBuilder();
+      builder.addDefaults().setPackage(
         "wrap://ens/memory-storage.polywrap.eth",
         memoryStoragePlugin()
       );

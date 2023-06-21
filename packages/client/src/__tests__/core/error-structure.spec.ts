@@ -8,7 +8,7 @@ import { WrapError, WrapErrorCode } from "@polywrap/core-js";
 import { mockPluginRegistration } from "../helpers";
 import { msgpackDecode, msgpackEncode } from "@polywrap/msgpack-js";
 import {
-  ClientConfigBuilder,
+  PolywrapClientConfigBuilder,
   DefaultBundle,
 } from "@polywrap/client-config-builder-js";
 
@@ -160,9 +160,9 @@ describe("Error structure", () => {
       });
 
       test("Subinvoke error two layers deep", async () => {
-        const config = new ClientConfigBuilder()
+        const config = new PolywrapClientConfigBuilder()
           .addDefaults()
-          .addRedirects({
+          .setRedirects({
             "ens/imported-invoke.eth": asInvokeWrapperUri.uri,
             "ens/imported-subinvoke.eth": asSubinvokeWrapperUri.uri,
           });
@@ -335,9 +335,9 @@ describe("Error structure", () => {
       });
 
       test("Subinvoke error two layers deep", async () => {
-        const config = new ClientConfigBuilder()
+        const config = new PolywrapClientConfigBuilder()
           .addDefaults()
-          .addRedirects({
+          .setRedirects({
             "ens/imported-invoke.eth": rsInvokeWrapperUri.uri,
             "ens/imported-subinvoke.eth": rsSubinvokeWrapperUri.uri,
           });
@@ -400,8 +400,8 @@ describe("Error structure", () => {
 
     describe("Plugin wrapper", () => {
       const mockPlugin = mockPluginRegistration("plugin/mock")
-      const config = new ClientConfigBuilder()
-        .addDefaults().addPackage(mockPlugin.uri.uri, mockPlugin.package)
+      const config = new PolywrapClientConfigBuilder()
+        .addDefaults().setPackage(mockPlugin.uri.uri, mockPlugin.package)
       const client = new PolywrapClient(config.build());
       test("Invoke a plugin wrapper with malformed args", async () => {
         const result = await client.invoke<Uint8Array>({
