@@ -10,7 +10,6 @@ import {
   Wrapper,
 } from "@polywrap/core-js";
 import { Result } from "@polywrap/result";
-import { DefaultBundle } from "../bundles";
 
 class MockUriResolver implements IUriResolver {
   private uri: string;
@@ -174,17 +173,45 @@ describe("Client config builder", () => {
     });
   });
 
-  it("should successfully add the default config", () => {
-    const builder = new ClientConfigBuilder().addDefaults();
+  it("should successfully add the default config for node.js", async () => {
+    const builder = new ClientConfigBuilder();
+    await builder.addDefaults("node");
+    const config = builder.build();
 
-    const clientConfig = builder.build();
-    const builderConfig = builder.config;
+    expect(config).toBeTruthy();
 
-    expect(clientConfig).toBeTruthy();
+    // Expect the "node" default config to have the following bundles:
+    // "sys-node", "web", "web3"
+    const expectedConfig = await new ClientConfigBuilder()
+      .addBundle("sys-node").then(i =>
+        i.addBundle("web").then(i =>
+          i.addBundle("web3").then(i =>
+            i.build()
+      )));
 
-    const expectedBuilderConfig = DefaultBundle.getConfig();
-    expect(JSON.stringify(builderConfig)).toBe(
-      JSON.stringify(expectedBuilderConfig)
+    expect(JSON.stringify(config)).toBe(
+      JSON.stringify(expectedConfig)
+    );
+  });
+
+  it("should successfully add the default config for browser", async () => {
+    const builder = new ClientConfigBuilder();
+    await builder.addDefaults("browser");
+    const config = builder.build();
+
+    expect(config).toBeTruthy();
+
+    // Expect the "browser" default config to have the following bundles:
+    // "sys-browser", "web", "web3"
+    const expectedConfig = await new ClientConfigBuilder()
+      .addBundle("sys-browser").then(i =>
+        i.addBundle("web").then(i =>
+          i.addBundle("web3").then(i =>
+            i.build()
+      )));
+
+    expect(JSON.stringify(config)).toBe(
+      JSON.stringify(expectedConfig)
     );
   });
 
