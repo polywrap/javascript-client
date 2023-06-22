@@ -1,20 +1,20 @@
-import { plugins, getBundleConfig } from "../";
+import { embeds, getBundleConfig } from "../";
 
 import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { PolywrapClient, Uri } from "@polywrap/client-js"
 
-describe("web config bundle plugins", () => {
+describe("sys config bundle embeds", () => {
   const client = new PolywrapClient(
     new ClientConfigBuilder()
       .add(getBundleConfig())
       .build()
   );
 
-  for (const [name, data] of Object.entries(plugins)) {
-    describe(`Plugin: ${name}`, () => {
+  for (const [name, data] of Object.entries(embeds)) {
+    describe(`Embed: ${name}`, () => {
       const uris = [
         Uri.from(data.uri),
-        ...data.implements.map(x => Uri.from(x))
+        Uri.from(data.source)
       ];
 
       for (const uri of uris) {

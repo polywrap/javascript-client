@@ -1,3 +1,12 @@
+TODO:
+x Update tests
+- move "web" into "sys"
+- look into using "if browser" and having async import happen internally? user would just deal with "sys" package.
+- create simple browser test to make sure it works (create react app probs)
+- PR description
+- bundle READMEs
+- document breaking change (PolywrapClient.from(...))
+
 addDefaults(default="node") ->
   -> addBundle("sys-node")
   -> addBundle("web")
@@ -15,6 +24,7 @@ x sys:
   datetime
 
 x sys-node:
+  sys
   file-system
   file-system-uri-resolver
 
@@ -34,8 +44,3 @@ x web3:
   resolvers:
     ipfs-resolver
     ens-resolver
-
-TODO:
-- bundle READMEs
-- document breaking change (PolywrapClient.from(...))
-- Update tests

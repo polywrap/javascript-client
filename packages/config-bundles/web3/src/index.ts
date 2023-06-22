@@ -2,7 +2,6 @@ import * as ipfsHttpClient from "./embeds/ipfs-http-client/wrap";
 import * as ipfsResolver from "./embeds/async-ipfs-resolver/wrap";
 
 import * as Sys from "@polywrap/sys-config-bundle-js";
-import * as Web from "@polywrap/web-config-bundle-js";
 import {
   ClientConfigBuilder,
   BuilderConfig,
@@ -31,7 +30,7 @@ export const ipfsProviders: string[] = [
 
 export const plugins = {
   concurrent: Sys.plugins.concurrent,
-  http: Web.plugins.http,
+  http: Sys.plugins.http,
   ethereumProviderV1: {
     uri: "plugin/ethereum-provider@1.1.0",
     plugin: EthProviderV1.plugin({

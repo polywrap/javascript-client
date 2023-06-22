@@ -21,7 +21,6 @@
     "@polywrap/ethereum-provider-js": "npm:@polywrap/ethereum-provider-js@~0.3.1",
     "@polywrap/ethereum-provider-js-v1": "npm:@polywrap/ethereum-provider-js@~0.2.4",
     "@polywrap/sys-config-bundle-js": "~0.10.1",
-    "@polywrap/web-config-bundle-js": "~0.10.1",
     "@polywrap/uri-resolver-extensions-js": "~0.10.1",
     "@polywrap/wasm-js": "~0.10.1",
     "base64-to-uint8array": "1.0.0"
