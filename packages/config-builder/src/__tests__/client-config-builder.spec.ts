@@ -180,11 +180,12 @@ describe("Client config builder", () => {
 
     expect(config).toBeTruthy();
 
-    // Expect the "node" default config to have the following bundles:
+    // Expect the default config to have the following bundles:
     // "sys", "web3"
     const expectedConfig = new ClientConfigBuilder()
       .addBundle("sys")
-      .addBundle("web3");
+      .addBundle("web3")
+      .config;
 
     expect(JSON.stringify(config)).toBe(
       JSON.stringify(expectedConfig)
