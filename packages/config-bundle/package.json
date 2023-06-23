@@ -1,5 +1,5 @@
 {
-  "name": "@polywrap/sys-config-bundle-js",
+  "name": "@polywrap/config-bundle-types-js",
   "version": "0.10.1",
   "license": "MIT",
   "repository": {
@@ -7,7 +7,6 @@
     "url": "https://github.com/polywrap/javascript-client.git"
   },
   "main": "build/index.js",
-  "browser": "build/browser.js",
   "files": [
     "build"
   ],
@@ -16,14 +15,7 @@
     "lint": "eslint --color -c ../../../.eslintrc.js src/"
   },
   "dependencies": {
-    "@polywrap/config-bundle-types-js": "~0.10.1",
-    "@polywrap/concurrent-plugin-js": "~0.10.0",
-    "@polywrap/datetime-plugin-js": "~0.10.0",
-    "@polywrap/http-plugin-js": "~0.10.0",
-    "@polywrap/logger-plugin-js": "~0.10.0",
-    "@polywrap/sys-node-config-bundle-js": "~0.10.1",
-    "@polywrap/uri-resolver-extensions-js": "~0.10.1",
-    "base64-to-uint8array": "1.0.0"
+    "@polywrap/core-js": "~0.10.1"
   },
   "devDependencies": {
     "rimraf": "3.0.2",

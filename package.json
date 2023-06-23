@@ -45,10 +45,5 @@
     "prettier": "2.2.1",
     "ts-node": "10.9.1",
     "rimraf": "3.0.2"
-  },
-  "resolutions": {
-    "@types/react": "16.9.0",
-    "@types/react-dom": "16.9.0"
   }
 }
-

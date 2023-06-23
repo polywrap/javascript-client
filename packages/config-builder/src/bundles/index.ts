@@ -1,44 +1,56 @@
-import { BuilderConfig } from "../types";
+import { IClientConfigBuilder } from "../";
 
-import { MaybeAsync } from "@polywrap/core-js";
+import { Sys } from "./sys"; 
+import { Web3 } from "./web3";
+
+import { Bundle } from "@polywrap/config-bundle-types-js";
+
+export {
+  Sys,
+  Web3
+};
 
 export type BundleName = "sys" | "web3";
 
-export const bundlePackages: Record<BundleName, string> = {
-  sys: "@polywrap/sys-config-bundle-js",
-  web3: "@polywrap/web3-config-bundle-js",
-};
-
-export interface BundleModule {
-  getBundleConfig(): MaybeAsync<BuilderConfig>;
+export function getBundle(name: BundleName): Bundle {
+  switch (name) {
+    case "sys":
+      return Sys.bundle;
+    case "web3":
+      return Web3.bundle;
+    default:
+      throw Error(`Unknown bundle name "${name}".`);
+  }
 }
 
-export async function loadBundleConfig(
-  name: BundleName
-): Promise<BuilderConfig> {
-  const packageName = bundlePackages[name];
+export function addBundle(name: BundleName, builder: IClientConfigBuilder): IClientConfigBuilder {
+  const bundle = getBundle(name);
 
-  if (!packageName) {
-    throw Error(
-      `Unknown bundle name "${name}". Supported bundle names: ${Object.keys(
-        bundlePackages
-      ).join(", ")}`
-    );
+  for (const bundlePackage of Object.values(bundle)) {
+    // Add package
+    if (bundlePackage.package) {
+      builder.addPackage(bundlePackage.uri, bundlePackage.package);
+    }
+
+    // Add interface implementations
+    if (bundlePackage.implements) {
+      for (const interfaceUri of bundlePackage.implements) {
+        builder.addInterfaceImplementation(interfaceUri, bundlePackage.uri);
+      }
+    }
+
+    // Add all redirects
+    if (bundlePackage.redirectFrom) {
+      for (const redirectFrom of bundlePackage.redirectFrom) {
+        builder.addRedirect(redirectFrom, bundlePackage.uri);
+      }
+    }
+
+    // Add environment
+    if (bundlePackage.env) {
+      builder.addEnv(bundlePackage.uri, bundlePackage.env);
+    }
   }
 
-  const bundleModule: BundleModule = await import(packageName);
-
-  if (!bundleModule) {
-    throw Error(
-      `Bundle ${name} at ${packageName} cannot be found, is it installed? Try 'npm i ${packageName}'`
-    );
-  }
-
-  if (!bundleModule.getBundleConfig) {
-    throw Error(
-      `Bundle ${name} at ${packageName} is incompatible with the BundleModule interface, please ensure it uses the correct version of the client-config-builde package.`
-    );
-  }
-
-  return await bundleModule.getBundleConfig();
+  return builder;
 }

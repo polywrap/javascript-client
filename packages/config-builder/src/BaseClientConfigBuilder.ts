@@ -19,8 +19,8 @@ export abstract class BaseClientConfigBuilder implements IClientConfigBuilder {
     resolvers: [],
   };
 
-  abstract addDefaults(): Promise<IClientConfigBuilder>;
-  abstract addBundle(bundle: BundleName): Promise<IClientConfigBuilder>;
+  abstract addDefaults(): IClientConfigBuilder;
+  abstract addBundle(bundle: BundleName): IClientConfigBuilder;
   abstract build(): CoreClientConfig;
 
   get config(): BuilderConfig {

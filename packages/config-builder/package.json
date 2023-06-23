@@ -23,9 +23,12 @@
   },
   "dependencies": {
     "@polywrap/core-js": "0.10.1",
+    "@polywrap/config-bundle-types-js": "0.10.1",
+    "@polywrap/sys-config-bundle-js": "0.10.1",
     "@polywrap/uri-resolver-extensions-js": "0.10.1",
     "@polywrap/uri-resolvers-js": "0.10.1",
-    "@polywrap/wasm-js": "0.10.1"
+    "@polywrap/wasm-js": "0.10.1",
+    "@polywrap/web3-config-bundle-js": "0.10.1"
   },
   "devDependencies": {
     "@types/jest": "29.5.0",

@@ -5,32 +5,25 @@ x create simple browser test to make sure it works (create react app probs)
 x migrate away from bad json-schema package
 x test react-app w/ "browser" and make sure it fails
 x look into using "if browser" and having async import happen internally? user would just deal with "sys" package.
-- refine dependency graph & user import experience
+x try to remove async
+x refine dependency graph & user import experience
 - remove tracing
 - PR description
 - bundle READMEs
-- document breaking change (PolywrapClient.from(...))
+- document changes
 
 x sys:
   logger
   concurrent
   random
   datetime
+  http
+  http-resolver
+  ?sys-node?
 
 x sys-node:
-  sys
   file-system
   file-system-uri-resolver
-
-x sys-browser:
-  sys
-
-x web:
-  http
-  ws
-  resolvers:
-    http-resolver
-    ws-resolver
 
 x web3:
   ethereum-wallet

@@ -33,18 +33,8 @@ export class PolywrapClient extends PolywrapCoreClient {
    *
    * @param config - a client configuration
    */
-  constructor(config: CoreClientConfig) /* $ */ {
-    super(config);
-  }
-
-  // $start: PolywrapClient-default
-  /**
-   * Instantiate a default PolywrapClient, including all default bundles.
-   */
-  static async default(): Promise<PolywrapClient> /* $ */ {
-    const builder = new ClientConfigBuilder();
-    await builder.addDefaults();
-    return new PolywrapClient(builder.build());
+  constructor(config?: CoreClientConfig) /* $ */ {
+    super(config ?? new ClientConfigBuilder().addDefaults().build());
   }
 
   /**

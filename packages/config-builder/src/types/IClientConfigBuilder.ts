@@ -35,7 +35,7 @@ export interface IClientConfigBuilder {
    *
    * @returns IClientConfigBuilder (mutated self)
    */
-  addDefaults(): Promise<IClientConfigBuilder>;
+  addDefaults(): IClientConfigBuilder;
   // $end
 
   // $start: IClientConfigBuilder-addBundle
@@ -44,7 +44,7 @@ export interface IClientConfigBuilder {
    *
    * @returns Promise<IClientConfigBuilder> (mutated self)
    */
-  addBundle(bundle: BundleName): Promise<IClientConfigBuilder>;
+  addBundle(bundle: BundleName): IClientConfigBuilder;
   // $end
 
   // $start: IClientConfigBuilder-addWrapper

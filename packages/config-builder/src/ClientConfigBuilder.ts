@@ -1,4 +1,4 @@
-import { loadBundleConfig, BundleName } from "./bundles";
+import { addBundle, BundleName } from "./bundles";
 import { BaseClientConfigBuilder } from "./BaseClientConfigBuilder";
 import { BuildOptions, IClientConfigBuilder, BuilderConfig } from "./types";
 
@@ -30,14 +30,14 @@ export class ClientConfigBuilder extends BaseClientConfigBuilder {
     super();
   }
 
-  async addDefaults(): Promise<IClientConfigBuilder> {
-    await this.addBundle("sys");
-    await this.addBundle("web3");
+  addDefaults(): IClientConfigBuilder {
+    this.addBundle("sys");
+    this.addBundle("web3");
     return this;
   }
 
-  async addBundle(bundle: BundleName): Promise<IClientConfigBuilder> {
-    return this.add(await loadBundleConfig(bundle));
+  addBundle(bundle: BundleName): IClientConfigBuilder {
+    return addBundle(bundle, this);
   }
 
   build(options?: BuildOptions): CoreClientConfig {
