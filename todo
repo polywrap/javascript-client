@@ -7,10 +7,10 @@ x test react-app w/ "browser" and make sure it fails
 x look into using "if browser" and having async import happen internally? user would just deal with "sys" package.
 x try to remove async
 x refine dependency graph & user import experience
-- remove tracing
-- PR description
+x PR description
 - bundle READMEs
 - document changes
+- remove tracing
 
 x sys:
   logger

@@ -153,6 +153,11 @@ $snippet: IClientConfigBuilder-addResolvers
 $snippet: IClientConfigBuilder-addDefaults
 ```
 
+### addBundle
+```ts
+$snippet: IClientConfigBuilder-addBundle
+```
+
 ### build
 ```ts
 $snippet: IClientConfigBuilder-build
@@ -160,7 +165,8 @@ $snippet: IClientConfigBuilder-build
 
 ## Bundles
 
-### Bundle: DefaultConfig
 ```ts
-$snippet: getDefaultConfig
+$snippet: Bundles-bundleNames
 ```
+* [sys](https://www.npmjs.com/package/@polywrap/sys-config-bundle-js)
+* [web3](https://www.npmjs.com/package/@polywrap/web3-config-bundle-js)

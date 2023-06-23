@@ -28,7 +28,7 @@ export const envTestCases = (implementation: string) => {
         },
       });
 
-      if (!result.ok) throw result.error;
+      if (!result.ok) fail(result.error);
       expect(result.value).toEqual("test");
     });
 

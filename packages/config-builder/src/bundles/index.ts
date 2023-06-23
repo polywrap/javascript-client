@@ -6,7 +6,9 @@ import { Bundle } from "@polywrap/config-bundle-types-js";
 
 export { Sys, Web3 };
 
+// $start: Bundles-bundleNames
 export type BundleName = "sys" | "web3";
+/* $ */
 
 export function getBundle(name: BundleName): Bundle {
   switch (name) {

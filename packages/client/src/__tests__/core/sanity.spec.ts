@@ -12,8 +12,8 @@ import { CoreClientConfig } from "@polywrap/core-js";
 jest.setTimeout(200000);
 
 describe("sanity", () => {
-  test("default client config", async () => {
-    const clientConfig = (new PolywrapClient()).getConfig();
+  test("default client config", () => {
+    const clientConfig = new PolywrapClient().getConfig();
     const expectedConfig = new ClientConfigBuilder().addDefaults().build();
 
     expect(
