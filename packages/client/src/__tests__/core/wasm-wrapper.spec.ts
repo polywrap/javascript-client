@@ -99,7 +99,6 @@ describe("wasm-wrapper", () => {
       .addRedirect(wrapperUri.uri, "wrap://ens/mock.polywrap.eth")
       .addPackage("wrap://ens/mock.polywrap.eth", mockPlugin())
       .build();
-
     const client = new PolywrapClient(config);
 
     const result = await client.invoke({

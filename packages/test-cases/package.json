@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "build": "rimraf ./build && tsc --project tsconfig.build.json",
-    "generate:wrappers": "ts-node -e \"import { fetchWrappers } from './'; (async () => await fetchWrappers())()\""
+    "generate:wraps": "ts-node -e \"import { fetchWrappers } from './'; (async () => await fetchWrappers())()\""
   },
   "dependencies": {
     "@polywrap/os-js": "~0.10.0"

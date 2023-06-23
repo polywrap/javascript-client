@@ -8,12 +8,14 @@ import { GetPathToTestWrappers } from "@polywrap/test-cases";
 export const typeTestCases = (implementation: string) => {
   describe("types test cases", () => {
     test(`asyncify ${implementation}`, async () => {
-      const builder = new ClientConfigBuilder();
-      builder.addDefaults().addPackage(
-        "wrap://ens/memory-storage.polywrap.eth",
-        memoryStoragePlugin()
-      );
-      const client = new PolywrapClient(builder.build());
+      const config = new ClientConfigBuilder()
+        .addDefaults()
+        .addPackage(
+          "wrap://ens/memory-storage.polywrap.eth",
+          memoryStoragePlugin()
+        )
+        .build();
+      const client = new PolywrapClient(config);
 
       const uri = `fs/${GetPathToTestWrappers()}/asyncify/implementations/${implementation}`;
       const subsequentInvokes = await client.invoke({

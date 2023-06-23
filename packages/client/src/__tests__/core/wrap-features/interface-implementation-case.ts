@@ -20,8 +20,9 @@ export const interfaceInvokeCase = (implementation: string) => {
 
       const config = new ClientConfigBuilder()
         .addDefaults()
-        .addInterfaceImplementation(interfaceUri, implementationUri);
-      const client = new PolywrapClient(config.build());
+        .addInterfaceImplementation(interfaceUri, implementationUri)
+        .build();
+      const client = new PolywrapClient(config);
 
       const wrapperPath = `${GetPathToTestWrappers()}/interface-invoke/02-wrapper/implementations/${implementation}`;
       const wrapperUri = `fs/${wrapperPath}`;
@@ -165,7 +166,6 @@ export const interfaceInvokeCase = (implementation: string) => {
           implementationUri2.uri,
         ])
         .build();
-
       const client = new PolywrapClient(config);
 
       const implementationUris = (client.getInterfaces() || new UriMap<Uri[]>).get(interfaceUri);
@@ -188,13 +188,11 @@ export const interfaceInvokeCase = (implementation: string) => {
           implementationUri2.uri,
         ])
         .build();
-
       const client = new PolywrapClient(config);
 
       const implementationUris = (client.getInterfaces() ?? new UriMap<Uri[]>).get(interfaceUri);
 
-      const builder = new ClientConfigBuilder();
-      const defaultClientConfig = builder.addDefaults().build();
+      const defaultClientConfig = new ClientConfigBuilder().addDefaults().build();
 
       expect(implementationUris).toEqual([
         ...((defaultClientConfig.interfaces ?? new UriMap<Uri[]>).get(interfaceUri) || []),
