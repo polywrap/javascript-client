@@ -1,5 +1,5 @@
 {
-  "name": "test-integrations-react-app",
+  "name": "integration-test-react-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
