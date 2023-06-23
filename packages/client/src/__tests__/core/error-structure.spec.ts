@@ -35,7 +35,7 @@ const rsConsumerWrapperUri = new Uri(`fs/${rsConsumerWrapperPath}`);
 describe("Error structure", () => {
   describe("URI resolution", () => {
     test("Invoke a wrapper that is not found", async () => {
-      const client = await PolywrapClient.default("node");
+      const client = new PolywrapClient();
       const result = await client.invoke<string>({
         uri: asSubinvokeWrapperUri.uri + "-not-found",
         method: "simpleMethod",
@@ -59,7 +59,7 @@ describe("Error structure", () => {
     });
 
     test("Subinvoke a wrapper that is not found", async () => {
-      const client = await PolywrapClient.default("node");
+      const client = new PolywrapClient();
       const result = await client.invoke<number>({
         uri: asConsumerWrapperUri.uri,
         method: "throwError",
@@ -97,7 +97,7 @@ describe("Error structure", () => {
 
     describe("Wasm wrapper - Assemblyscript", () => {
       test("Invoke a wrapper with malformed arguments", async () => {
-        const client = await PolywrapClient.default("node");
+        const client = new PolywrapClient();
         const result = await client.invoke<string>({
           uri: asSubinvokeWrapperUri.uri,
           method: "add",
@@ -128,7 +128,7 @@ describe("Error structure", () => {
       });
 
       test("Invoke a wrapper method that doesn't exist", async () => {
-        const client = await PolywrapClient.default("node");
+        const client = new PolywrapClient();
         const result = await client.invoke<string>({
           uri: asSubinvokeWrapperUri.uri,
           method: "notExistingMethod",
@@ -162,13 +162,14 @@ describe("Error structure", () => {
       });
 
       test("Subinvoke error two layers deep", async () => {
-        const config = new ClientConfigBuilder();
-        await config.addDefaults();
-        config.addRedirects({
-          "ens/imported-invoke.eth": asInvokeWrapperUri.uri,
-          "ens/imported-subinvoke.eth": asSubinvokeWrapperUri.uri,
-        });
-        const client = new PolywrapClient(config.build());
+        const config = new ClientConfigBuilder()
+          .addDefaults()
+          .addRedirects({
+            "ens/imported-invoke.eth": asInvokeWrapperUri.uri,
+            "ens/imported-subinvoke.eth": asSubinvokeWrapperUri.uri,
+          })
+          .build();
+        const client = new PolywrapClient(config);
         const result = await client.invoke<boolean>({
           uri: asConsumerWrapperUri.uri,
           method: "throwError",
@@ -247,7 +248,7 @@ describe("Error structure", () => {
           fs.writeFileSync("tmp/wrap.wasm", wasmModuleBuffer);
         });
         test("Invoke a wrapper with incompatible version", async () => {
-          const client = await PolywrapClient.default("node");
+          const client = new PolywrapClient();
           const result = await client.invoke<string>({
             uri: "wrap://fs/tmp",
             method: "simpleMethod",
@@ -272,7 +273,7 @@ describe("Error structure", () => {
 
     describe("Wasm wrapper - Rust", () => {
       test("Invoke a wrapper with malformed arguments", async () => {
-        const client = await PolywrapClient.default("node");
+        const client = new PolywrapClient();
         const result = await client.invoke<string>({
           uri: rsSubinvokeWrapperUri.uri,
           method: "add",
@@ -303,7 +304,7 @@ describe("Error structure", () => {
       });
 
       test("Invoke a wrapper method that doesn't exist", async () => {
-        const client = await PolywrapClient.default("node");
+        const client = new PolywrapClient();
         const result = await client.invoke<string>({
           uri: rsSubinvokeWrapperUri.uri,
           method: "notExistingMethod",
@@ -337,14 +338,15 @@ describe("Error structure", () => {
       });
 
       test("Subinvoke error two layers deep", async () => {
-        const config = new ClientConfigBuilder();
-        await config.addDefaults();
-        config.addRedirects({
-          "ens/imported-invoke.eth": rsInvokeWrapperUri.uri,
-          "ens/imported-subinvoke.eth": rsSubinvokeWrapperUri.uri,
-        });
+        const config = new ClientConfigBuilder()
+          .addDefaults()
+          .addRedirects({
+            "ens/imported-invoke.eth": rsInvokeWrapperUri.uri,
+            "ens/imported-subinvoke.eth": rsSubinvokeWrapperUri.uri,
+          })
+          .build();
 
-        const client = new PolywrapClient(config.build());
+        const client = new PolywrapClient(config);
         const result = await client.invoke<number>({
           uri: rsConsumerWrapperUri.uri,
           method: "throwError",
@@ -403,10 +405,11 @@ describe("Error structure", () => {
     describe("Plugin wrapper", () => {
       const createClient = async () => {
         const mockPlugin = mockPluginRegistration("plugin/mock")
-        const config = new ClientConfigBuilder();
-        await config.addDefaults();
-        config.addPackage(mockPlugin.uri.uri, mockPlugin.package);
-        return new PolywrapClient(config.build());
+        const config = new ClientConfigBuilder()
+          .addDefaults()
+          .addPackage(mockPlugin.uri.uri, mockPlugin.package)
+          .build();
+        return new PolywrapClient(config);
       };
 
       test("Invoke a plugin wrapper with malformed args", async () => {

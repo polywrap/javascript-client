@@ -20,10 +20,10 @@ describe("Embedded package", () => {
     );
 
     let wrapPackage = WasmPackage.from(manifestBuffer, wasmModuleBuffer);
-    const builder = new ClientConfigBuilder();
-    await builder.addDefaults();
-    builder.addPackage(wrapperUri, wrapPackage)
-    const config = builder.build();
+    const config = new ClientConfigBuilder()
+      .addDefaults()
+      .addPackage(wrapperUri, wrapPackage)
+      .build();
     const client = new PolywrapClient(config);
 
     const result = await client.invoke<string>({
@@ -141,11 +141,11 @@ const testEmbeddedPackageWithFile = async (
   filePath: string,
   fileText: string
 ) => {
-  const builder = new ClientConfigBuilder();
-  await builder.addDefaults();
-  builder.addPackage(wrapperUri, wrapPackage);
+  const config = new ClientConfigBuilder()
+    .addDefaults()
+    .addPackage(wrapperUri, wrapPackage)
+    .build();
 
-  const config = builder.build();
   const client = new PolywrapClient(config);
 
   const expectedManifest = await fs.promises.readFile(
