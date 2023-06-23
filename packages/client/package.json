@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@polywrap/cli-js": "~0.10.0",
+    "@polywrap/sys-config-bundle-js": "0.10.1",
     "@polywrap/test-cases": "0.10.1",
     "@types/jest": "29.5.0",
     "@types/prettier": "2.6.0",
