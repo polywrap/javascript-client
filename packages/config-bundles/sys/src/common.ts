@@ -12,7 +12,7 @@ export const bundle: Bundle = {
     uri: "plugin/logger@1.0.0",
     package: loggerPlugin({}),
     implements: ["ens/wraps.eth:logger@1.0.0"],
-    redirectFrom: ["ens/wraps.eth:logger@1.0.0"]
+    redirectFrom: ["ens/wraps.eth:logger@1.0.0"],
   },
   datetime: {
     uri: "plugin/datetime@1.0.0",
@@ -37,8 +37,8 @@ export const bundle: Bundle = {
     package: httpResolver.wasmPackage,
     implements: [
       "ens/wraps.eth:http-uri-resolver-ext@1.0.1",
-      ExtendableUriResolver.defaultExtInterfaceUris[0].uri
+      ExtendableUriResolver.defaultExtInterfaceUris[0].uri,
     ],
-    redirectFrom: ["ens/wraps.eth:http-uri-resolver-ext@1.0.1"]
+    redirectFrom: ["ens/wraps.eth:http-uri-resolver-ext@1.0.1"],
   },
 };

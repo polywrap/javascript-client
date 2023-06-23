@@ -5,5 +5,5 @@ import * as Node from "@polywrap/sys-node-config-bundle-js";
 
 export const bundle: Bundle = {
   ...Common.bundle,
-  ...Node.bundle
+  ...Node.bundle,
 };

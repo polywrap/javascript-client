@@ -7,7 +7,7 @@ export interface Bundle {
     implements?: string[];
     redirectFrom?: string[];
     env?: {
-      [prop: string]: unknown
+      [prop: string]: unknown;
     };
-  }
+  };
 }

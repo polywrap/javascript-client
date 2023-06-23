@@ -9,15 +9,15 @@ export const bundle: Bundle = {
     uri: "plugin/file-system@1.0.0",
     package: fileSystemPlugin({}),
     implements: ["ens/wraps.eth:file-system@1.0.0"],
-    redirectFrom: ["ens/wraps.eth:file-system@1.0.0"]
+    redirectFrom: ["ens/wraps.eth:file-system@1.0.0"],
   },
   fileSystemResolver: {
     uri: "embed/file-system-uri-resolver-ext@1.0.1",
     package: fsResolver.wasmPackage,
     implements: [
       "ens/wraps.eth:file-system-uri-resolver-ext@1.0.1",
-      ExtendableUriResolver.defaultExtInterfaceUris[0].uri
+      ExtendableUriResolver.defaultExtInterfaceUris[0].uri,
     ],
-    redirectFrom: ["ens/wraps.eth:file-system-uri-resolver-ext@1.0.1"]
+    redirectFrom: ["ens/wraps.eth:file-system-uri-resolver-ext@1.0.1"],
   },
 };

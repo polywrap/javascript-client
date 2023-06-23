@@ -70,33 +70,29 @@ export const bundle: Bundle = {
     package: ipfsResolver.wasmPackage,
     implements: [
       "ens/wraps.eth:async-ipfs-uri-resolver-ext@1.0.1",
-      ExtendableUriResolver.defaultExtInterfaceUris[0].uri
+      ExtendableUriResolver.defaultExtInterfaceUris[0].uri,
     ],
     redirectFrom: ["ens/wraps.eth:async-ipfs-uri-resolver-ext@1.0.1"],
     env: {
       provider: ipfsProviders[0],
       fallbackProviders: ipfsProviders.slice(1),
       retries: { tryResolveUri: 2, getFile: 2 },
-    }
+    },
   },
   ensTextRecordResolver: {
     uri: "ipfs/QmXcHWtKkfrFmcczdMSXH7udsSyV3UJeoWzkaUqGBm1oYs",
     implements: [
       "ens/wraps.eth:ens-text-record-uri-resolver-ext@1.0.1",
-      ExtendableUriResolver.defaultExtInterfaceUris[0].uri
+      ExtendableUriResolver.defaultExtInterfaceUris[0].uri,
     ],
-    redirectFrom: ["ens/wraps.eth:ens-text-record-uri-resolver-ext@1.0.1"]
+    redirectFrom: ["ens/wraps.eth:ens-text-record-uri-resolver-ext@1.0.1"],
   },
   ensResolver: {
     uri: "ens/wraps.eth:ens-uri-resolver-ext@1.0.1",
-    implements: [
-      ExtendableUriResolver.defaultExtInterfaceUris[0].uri
-    ]
+    implements: [ExtendableUriResolver.defaultExtInterfaceUris[0].uri],
   },
   ensIpfsContenthashResolver: {
     uri: "ens/wraps.eth:ens-ipfs-contenthash-uri-resolver-ext@1.0.1",
-    implements: [
-      ExtendableUriResolver.defaultExtInterfaceUris[0].uri
-    ]
-  }
+    implements: [ExtendableUriResolver.defaultExtInterfaceUris[0].uri],
+  },
 };

@@ -1,14 +1,10 @@
 import { IClientConfigBuilder } from "../";
-
-import { Sys } from "./sys"; 
+import { Sys } from "./sys";
 import { Web3 } from "./web3";
 
 import { Bundle } from "@polywrap/config-bundle-types-js";
 
-export {
-  Sys,
-  Web3
-};
+export { Sys, Web3 };
 
 export type BundleName = "sys" | "web3";
 
@@ -23,7 +19,10 @@ export function getBundle(name: BundleName): Bundle {
   }
 }
 
-export function addBundle(name: BundleName, builder: IClientConfigBuilder): IClientConfigBuilder {
+export function addBundle(
+  name: BundleName,
+  builder: IClientConfigBuilder
+): IClientConfigBuilder {
   const bundle = getBundle(name);
 
   for (const bundlePackage of Object.values(bundle)) {

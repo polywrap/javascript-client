@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "rimraf ./build && tsc",
-    "lint": "eslint --color -c ../../../.eslintrc.js src/"
+    "lint": "eslint --color -c ../../.eslintrc.js src/"
   },
   "dependencies": {
     "@polywrap/core-js": "~0.10.1"
