@@ -1,5 +1,4 @@
 import { InvokerOptions, TryResolveUriOptions } from "./types";
-import { ClientConfigBuilder } from ".";
 
 import { PolywrapCoreClient } from "@polywrap/core-client-js";
 import {
@@ -25,6 +24,7 @@ import {
   WrapManifest,
 } from "@polywrap/wrap-manifest-types-js";
 import { Tracer, TracerConfig } from "@polywrap/tracing-js";
+import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 
 export class PolywrapClient extends PolywrapCoreClient {
   // $start: PolywrapClient-constructor

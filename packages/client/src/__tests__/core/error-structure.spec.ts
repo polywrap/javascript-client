@@ -266,7 +266,7 @@ describe("Error structure", () => {
         });
 
         afterAll(() => {
-          fs.rmdirSync("tmp", { recursive: true });
+          fs.rmSync("tmp", { recursive: true });
         });
       });
     });
@@ -415,7 +415,7 @@ describe("Error structure", () => {
       test("Invoke a plugin wrapper with malformed args", async () => {
         const client = await createClient();
         const result = await client.invoke<Uint8Array>({
-          uri: SysNodeBundle.plugins.fileSystem.uri,
+          uri: SysNodeBundle.bundle.fileSystem.uri,
           method: "readFile",
           args: {
             pathh: "packages/client/src/__tests__/core/index.ts",
@@ -432,7 +432,7 @@ describe("Error structure", () => {
         expect(result.error?.reason).toEqual(
           'The "path" argument must be of type string or an instance of Buffer or URL. Received undefined'
         );
-        expect(result.error?.uri).toEqual(Uri.from(SysNodeBundle.plugins.fileSystem.uri).uri);
+        expect(result.error?.uri).toEqual(Uri.from(SysNodeBundle.bundle.fileSystem.uri).uri);
         expect(result.error?.method).toEqual("readFile");
         expect(result.error?.args).toContain(
           '{\n  "pathh": "packages/client/src/__tests__/core/index.ts"\n}'
@@ -445,7 +445,7 @@ describe("Error structure", () => {
       test("Invoke a plugin wrapper with a method that doesn't exist", async () => {
         const client = await createClient();
         const result = await client.invoke<Uint8Array>({
-          uri: SysNodeBundle.plugins.fileSystem.uri,
+          uri: SysNodeBundle.bundle.fileSystem.uri,
           method: "readFileNotFound",
           args: {
             path: __dirname + "/index.ts",
@@ -462,7 +462,7 @@ describe("Error structure", () => {
         expect(
           result.error?.reason.startsWith("Plugin missing method ")
         ).toBeTruthy();
-        expect(result.error?.uri).toEqual(Uri.from(SysNodeBundle.plugins.fileSystem.uri).uri);
+        expect(result.error?.uri).toEqual(Uri.from(SysNodeBundle.bundle.fileSystem.uri).uri);
         expect(result.error?.method).toEqual("readFileNotFound");
       });
 
@@ -494,7 +494,7 @@ describe("Error structure", () => {
       test("Invoke a plugin wrapper that throws unexpectedly", async () => {
         const client = await createClient();
         const result = await client.invoke<Uint8Array>({
-          uri: SysNodeBundle.plugins.fileSystem.uri,
+          uri: SysNodeBundle.bundle.fileSystem.uri,
           method: "readFile",
           args: {
             path: "./this/path/does/not/exist.ts",
@@ -511,7 +511,7 @@ describe("Error structure", () => {
         expect(
           result.error?.reason.startsWith("ENOENT: no such file or directory")
         ).toBeTruthy();
-        expect(result.error?.uri).toEqual(Uri.from(SysNodeBundle.plugins.fileSystem.uri).uri);
+        expect(result.error?.uri).toEqual(Uri.from(SysNodeBundle.bundle.fileSystem.uri).uri);
         expect(result.error?.method).toEqual("readFile");
         expect(result.error?.args).toEqual(
           '{\n  "path": "./this/path/does/not/exist.ts"\n}'

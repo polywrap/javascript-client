@@ -13,7 +13,7 @@ import {
 
 import Ajv, { Schema } from "ajv";
 
-const ajv = new Ajv();
+const ajv = new Ajv({ strict: false });
 
 type WrapManifestSchemas = {
   [key in WrapManifestVersions]: Schema | undefined
