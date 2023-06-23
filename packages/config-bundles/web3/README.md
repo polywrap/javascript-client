@@ -1,8 +1,10 @@
-/* eslint-disable */
-import { Bundle } from "@polywrap/config-bundle-types-js";
-import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
+# Web3 Config Bundle
 
-// $start: bundle
+A collection of Web3 configurations.
+
+## Bundle
+
+```typescript
 import * as Sys from "@polywrap/sys-config-bundle-js";
 import * as EthProviderV1 from "@polywrap/ethereum-provider-js-v1";
 import * as EthProvider from "@polywrap/ethereum-provider-js";
@@ -98,4 +100,4 @@ export const bundle: Bundle = {
     implements: [ExtendableUriResolver.defaultExtInterfaceUris[0].uri],
   },
 };
-// $end
+```

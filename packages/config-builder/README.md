@@ -69,7 +69,7 @@ Finally, build a ClientConfig or CoreClientConfig to pass to the PolywrapClient 
 
 A complete example using all or most of the available methods.
 
-```typescript=
+```typescript
   // init
   const builder = new ClientConfigBuilder();
 

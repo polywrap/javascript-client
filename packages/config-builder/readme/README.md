@@ -40,7 +40,7 @@ $snippet: quickstart-build
 
 A complete example using all or most of the available methods.
 
-```typescript=
+```typescript
 $snippet: quickstart-example
 ```
 
