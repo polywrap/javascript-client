@@ -1,29 +1,47 @@
-import * as fsResolver from "./embeds/file-system-resolver/wrap";
+import * as httpResolver from "./embeds/http-resolver/wrap";
 
 import {
   ClientConfigBuilder,
   BuilderConfig,
 } from "@polywrap/client-config-builder-js";
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
-import { fileSystemPlugin } from "@polywrap/file-system-plugin-js";
+import { loggerPlugin } from "@polywrap/logger-plugin-js";
+import { dateTimePlugin } from "@polywrap/datetime-plugin-js";
+import { concurrentPromisePlugin } from "@polywrap/concurrent-plugin-js";
+import { httpPlugin } from "@polywrap/http-plugin-js";
 
 export const plugins = {
-  fileSystem: {
-    uri: "plugin/file-system@1.0.0",
-    plugin: fileSystemPlugin({}),
-    implements: ["ens/wraps.eth:file-system@1.0.0"],
+  logger: {
+    uri: "plugin/logger@1.0.0",
+    plugin: loggerPlugin({}),
+    implements: ["ens/wraps.eth:logger@1.0.0"],
+  },
+  datetime: {
+    uri: "plugin/datetime@1.0.0",
+    plugin: dateTimePlugin({}),
+    implements: ["ens/wraps.eth:datetime@1.0.0"],
+  },
+  concurrent: {
+    uri: "plugin/concurrent@1.0.0",
+    plugin: concurrentPromisePlugin({}),
+    implements: ["ens/wraps.eth:concurrent@1.0.0"],
+  },
+  http: {
+    uri: "plugin/http@1.1.0",
+    plugin: httpPlugin({}),
+    implements: ["ens/wraps.eth:http@1.1.0", "ens/wraps.eth:http@1.0.0"],
   },
 };
 
 export const embeds = {
-  fsResolver: {
-    uri: "embed/file-system-uri-resolver-ext@1.0.1",
-    package: fsResolver.wasmPackage,
-    source: "ens/wraps.eth:file-system-uri-resolver-ext@1.0.1",
+  httpResolver: {
+    uri: "embed/http-uri-resolver-ext@1.0.1",
+    package: httpResolver.wasmPackage,
+    source: "ens/wraps.eth:http-uri-resolver-ext@1.0.1",
   },
 };
 
-export const uriResolverExts = [embeds.fsResolver];
+export const uriResolverExts = [embeds.httpResolver];
 
 export function getBundleConfig(): BuilderConfig {
   const builder = new ClientConfigBuilder();

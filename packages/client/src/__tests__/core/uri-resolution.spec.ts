@@ -55,7 +55,7 @@ describe("URI resolution", () => {
     const redirectUri = new Uri(`test/to.eth`);
 
     const builder = new ClientConfigBuilder();
-    await builder.addDefaults("node");
+    await builder.addDefaults();
     builder.addResolver({
       tryResolveUri: async (uri: Uri) => {
         if (uri.uri === fromUri.uri) {

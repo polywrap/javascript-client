@@ -9,7 +9,7 @@ export const typeTestCases = (implementation: string) => {
   describe("types test cases", () => {
     test(`asyncify ${implementation}`, async () => {
       const builder = new ClientConfigBuilder();
-      await builder.addDefaults("node");
+      await builder.addDefaults();
       builder.addPackage(
         "wrap://ens/memory-storage.polywrap.eth",
         memoryStoragePlugin()

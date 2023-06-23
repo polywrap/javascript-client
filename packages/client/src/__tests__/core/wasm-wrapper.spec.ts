@@ -95,7 +95,7 @@ describe("wasm-wrapper", () => {
 
   it("should invoke wrapper with custom redirects", async () => {
     const builder = new ClientConfigBuilder();
-    await builder.addDefaults("node");
+    await builder.addDefaults();
     builder.addRedirect(wrapperUri.uri, "wrap://ens/mock.polywrap.eth");
     builder.addPackage("wrap://ens/mock.polywrap.eth", mockPlugin());
 
@@ -121,7 +121,7 @@ describe("wasm-wrapper", () => {
       .add({
         packages: { "wrap://ens/mock.polywrap.eth": mockPlugin() },
       })
-      .addDefaults("node");
+      .addDefaults();
 
     const client = new PolywrapClient(builder.build());
 

@@ -14,7 +14,7 @@ jest.setTimeout(200000);
 describe("sanity", () => {
   test("default client config", async () => {
     const clientConfig = (await PolywrapClient.default("node")).getConfig();
-    const expectedConfig = (await new ClientConfigBuilder().addDefaults("node")).build();
+    const expectedConfig = (await new ClientConfigBuilder().addDefaults()).build();
 
     expect(
       JSON.stringify(clientConfig, null, 2)

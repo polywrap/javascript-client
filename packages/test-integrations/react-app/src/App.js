@@ -1,8 +1,12 @@
 import React from 'react';
 import { PolywrapClient } from "@polywrap/client-js";
+import { getBundleConfig } from "@polywrap/sys-config-bundle-js";
 
 async function createClient() {
-  return await PolywrapClient.default("browser");
+  // Adding both of these to ensure we fail to
+  // compile if the packages aren't setup correctly.
+  const bundle = await getBundleConfig();
+  return await PolywrapClient.default();
 }
 
 function App() {

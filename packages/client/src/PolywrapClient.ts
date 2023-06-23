@@ -1,5 +1,5 @@
 import { InvokerOptions, TryResolveUriOptions } from "./types";
-import { RuntimeName, ClientConfigBuilder } from ".";
+import { ClientConfigBuilder } from ".";
 
 import { PolywrapCoreClient } from "@polywrap/core-client-js";
 import {
@@ -39,13 +39,11 @@ export class PolywrapClient extends PolywrapCoreClient {
 
   // $start: PolywrapClient-default
   /**
-   * Instantiate a default PolywrapClient for a specified runtime
-   *
-   * @param runtime - The JavaScript runtime's name
+   * Instantiate a default PolywrapClient, including all default bundles.
    */
-  static async default(runtime: RuntimeName): Promise<PolywrapClient> /* $ */ {
+  static async default(): Promise<PolywrapClient> /* $ */ {
     const builder = new ClientConfigBuilder();
-    await builder.addDefaults(runtime);
+    await builder.addDefaults();
     return new PolywrapClient(builder.build());
   }
 

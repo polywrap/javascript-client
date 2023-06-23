@@ -163,7 +163,7 @@ describe("Error structure", () => {
 
       test("Subinvoke error two layers deep", async () => {
         const config = new ClientConfigBuilder();
-        await config.addDefaults("node");
+        await config.addDefaults();
         config.addRedirects({
           "ens/imported-invoke.eth": asInvokeWrapperUri.uri,
           "ens/imported-subinvoke.eth": asSubinvokeWrapperUri.uri,
@@ -338,7 +338,7 @@ describe("Error structure", () => {
 
       test("Subinvoke error two layers deep", async () => {
         const config = new ClientConfigBuilder();
-        await config.addDefaults("node");
+        await config.addDefaults();
         config.addRedirects({
           "ens/imported-invoke.eth": rsInvokeWrapperUri.uri,
           "ens/imported-subinvoke.eth": rsSubinvokeWrapperUri.uri,
@@ -404,7 +404,7 @@ describe("Error structure", () => {
       const createClient = async () => {
         const mockPlugin = mockPluginRegistration("plugin/mock")
         const config = new ClientConfigBuilder();
-        await config.addDefaults("node");
+        await config.addDefaults();
         config.addPackage(mockPlugin.uri.uri, mockPlugin.package);
         return new PolywrapClient(config.build());
       };

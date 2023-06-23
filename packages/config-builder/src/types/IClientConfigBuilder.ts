@@ -1,6 +1,6 @@
 import { BuilderConfig } from "./configs";
 import { BuildOptions } from "./BuildOptions";
-import { BundleName, RuntimeName } from "../bundles";
+import { BundleName } from "../bundles";
 
 import { CoreClientConfig, Wrapper, IWrapPackage } from "@polywrap/core-js";
 import { UriResolverLike } from "@polywrap/uri-resolvers-js";
@@ -35,7 +35,7 @@ export interface IClientConfigBuilder {
    *
    * @returns IClientConfigBuilder (mutated self)
    */
-  addDefaults(runtime: RuntimeName): Promise<IClientConfigBuilder>;
+  addDefaults(): Promise<IClientConfigBuilder>;
   // $end
 
   // $start: IClientConfigBuilder-addBundle

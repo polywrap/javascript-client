@@ -23,7 +23,7 @@ describe("Embedded wrapper", () => {
     );
 
     const builder = new ClientConfigBuilder();
-    await builder.addDefaults("node");
+    await builder.addDefaults();
     builder.addWrapper(simpleWrapperUri, wrapper);
 
     const config = builder.build();
@@ -137,7 +137,7 @@ const testEmbeddedWrapperWithFile = async (
   fileText: string
 ) => {
   const builder = new ClientConfigBuilder();
-  await builder.addDefaults("node");
+  await builder.addDefaults();
   builder.addWrapper(simpleWrapperUri, wrapper);
 
   const config = builder.build();

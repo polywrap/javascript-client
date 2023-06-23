@@ -21,7 +21,7 @@ describe("Embedded package", () => {
 
     let wrapPackage = WasmPackage.from(manifestBuffer, wasmModuleBuffer);
     const builder = new ClientConfigBuilder();
-    await builder.addDefaults("node");
+    await builder.addDefaults();
     builder.addPackage(wrapperUri, wrapPackage)
     const config = builder.build();
     const client = new PolywrapClient(config);
@@ -142,7 +142,7 @@ const testEmbeddedPackageWithFile = async (
   fileText: string
 ) => {
   const builder = new ClientConfigBuilder();
-  await builder.addDefaults("node");
+  await builder.addDefaults();
   builder.addPackage(wrapperUri, wrapPackage);
 
   const config = builder.build();

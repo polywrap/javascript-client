@@ -1,18 +1,16 @@
 import { BuilderConfig } from "../types";
 
-export type BundleName = "sys" | "sys-node" | "sys-browser" | "web3";
+import { MaybeAsync } from "@polywrap/core-js";
 
-export type RuntimeName = "node" | "browser";
+export type BundleName = "sys" | "web3";
 
 export const bundlePackages: Record<BundleName, string> = {
   sys: "@polywrap/sys-config-bundle-js",
-  "sys-node": "@polywrap/sys-node-config-bundle-js",
-  "sys-browser": "@polywrap/sys-browser-config-bundle-js",
   web3: "@polywrap/web3-config-bundle-js",
 };
 
 export interface BundleModule {
-  getBundleConfig(): BuilderConfig;
+  getBundleConfig(): MaybeAsync<BuilderConfig>;
 }
 
 export async function loadBundleConfig(
@@ -42,5 +40,5 @@ export async function loadBundleConfig(
     );
   }
 
-  return bundleModule.getBundleConfig();
+  return await bundleModule.getBundleConfig();
 }
