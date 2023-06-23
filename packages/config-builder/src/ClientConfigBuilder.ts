@@ -44,7 +44,6 @@ export class ClientConfigBuilder extends BaseClientConfigBuilder {
         throw Error(`Unknown JS runtime '${runtime}'`);
     }
 
-    await this.addBundle("web");
     await this.addBundle("web3");
 
     return this;

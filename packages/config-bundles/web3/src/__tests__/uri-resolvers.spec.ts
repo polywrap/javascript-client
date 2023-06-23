@@ -5,7 +5,7 @@ import { PolywrapClient, Uri } from "@polywrap/client-js"
 
 jest.setTimeout(50000);
 
-describe("web config bundle resolvers", () => {
+describe("web3 config bundle resolvers", () => {
   const client = new PolywrapClient(
     new ClientConfigBuilder()
       .add(getBundleConfig())

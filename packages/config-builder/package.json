@@ -16,8 +16,8 @@
     "build:docs": "yarn build:snippets && yarn build:readme",
     "build:fast": "rimraf ./build && tsc --project tsconfig.build.json",
     "lint": "eslint --color -c ../../.eslintrc.js src/",
-    "test": "jest --passWithNoTests --runInBand --verbose --config ../../jest.config.js --rootDir .",
-    "test:watch": "yarn test -- --watch",
+    "test": "jest --passWithNoTests --runInBand --verbose --rootDir . --config ../../jest.config.js",
+    "test:watch": "yarn test --watch",
     "build:snippets": "tsc --project ./examples/tsconfig.examples.json",
     "build:readme": "yarn doc-snippets combine"
   },

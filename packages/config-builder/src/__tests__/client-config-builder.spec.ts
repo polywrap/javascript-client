@@ -173,7 +173,7 @@ describe("Client config builder", () => {
     });
   });
 
-  it.only("should successfully add the default config for node.js", async () => {
+  it("should successfully add the default config for node.js", async () => {
     const builder = new ClientConfigBuilder();
     await builder.addDefaults("node");
     const config = builder.config;
@@ -181,13 +181,12 @@ describe("Client config builder", () => {
     expect(config).toBeTruthy();
 
     // Expect the "node" default config to have the following bundles:
-    // "sys-node", "web", "web3"
+    // "sys-node", "web3"
     const expectedConfig = await new ClientConfigBuilder()
       .addBundle("sys-node").then(i =>
-        i.addBundle("web").then(i =>
-          i.addBundle("web3").then(i =>
-            i.config
-      )));
+        i.addBundle("web3").then(i =>
+          i.config
+      ));
 
     expect(JSON.stringify(config)).toBe(
       JSON.stringify(expectedConfig)
@@ -202,13 +201,12 @@ describe("Client config builder", () => {
     expect(config).toBeTruthy();
 
     // Expect the "browser" default config to have the following bundles:
-    // "sys-browser", "web", "web3"
+    // "sys-browser", "web3"
     const expectedConfig = await new ClientConfigBuilder()
       .addBundle("sys-browser").then(i =>
-        i.addBundle("web").then(i =>
-          i.addBundle("web3").then(i =>
-            i.build()
-      )));
+        i.addBundle("web3").then(i =>
+          i.build()
+      ));
 
     expect(JSON.stringify(config)).toBe(
       JSON.stringify(expectedConfig)

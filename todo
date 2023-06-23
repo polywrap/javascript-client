@@ -1,8 +1,11 @@
 TODO:
 x Update tests
-- move "web" into "sys"
+x move "web" into "sys"
+x create simple browser test to make sure it works (create react app probs)
+x migrate away from bad json-schema package
+- test react-app w/ "browser" and make sure it fails
 - look into using "if browser" and having async import happen internally? user would just deal with "sys" package.
-- create simple browser test to make sure it works (create react app probs)
+- remove tracing
 - PR description
 - bundle READMEs
 - document breaking change (PolywrapClient.from(...))

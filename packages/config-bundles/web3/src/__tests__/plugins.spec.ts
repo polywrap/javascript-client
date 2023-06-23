@@ -3,7 +3,7 @@ import { plugins, getBundleConfig } from "../";
 import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { PolywrapClient, Uri } from "@polywrap/client-js"
 
-describe("web config bundle plugins", () => {
+describe("web3 config bundle plugins", () => {
   const client = new PolywrapClient(
     new ClientConfigBuilder()
       .add(getBundleConfig())
