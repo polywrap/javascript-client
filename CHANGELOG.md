@@ -21,6 +21,14 @@
   * Valid config bundle packages are expected to export a `bundle` value, which is of type `Bundle`.
 
 ## Breaking Changes
+**`@polywrap/client-config-builder-js`:**
+* [PR-47](https://github.com/polywrap/javascript-client/pull/47) **Renaming For Improved Accuracy**
+  * Renamed `ClientConfigBuilder` to `PolywrapClientConfigBuilder`
+  * Renamed `IClientConfigBuilder` to `ClientConfigBuilder`
+  * Renamed `addWrapper(s)` to `setWrapper(s)`
+  * Renamed `addPackage(s)` to `setPackage(s)`
+  * Renamed `addRedirect(s)` to `setRedirect(s)`
+
 **`@polywrap/core-js`:**
 * [PR-32](https://github.com/polywrap/javascript-client/pull/32) **Rename `getEnvFromUriHistory` to `getEnvFromResolutionPath`**
 
