@@ -1,3 +1,42 @@
+# Polywrap Origin (0.11.0)
+## Features
+**`@polywrap/client-config-builder-js`:**
+* [PR-45](https://github.com/polywrap/javascript-client/pull/45) **Modular Config Bundles**
+  * The `DefaultBundle` has been broken apart into two separate bundles: `sys` and `web3`.
+  * `addBundle(...)` has been added to the `ClientConfigBuilder` interface.
+  * `addDefaults()` now calls `addBundle("sys")` and `addBundle("web3")` internally.
+
+**`@polywrap/sys-config-bundle-js`:**
+* [PR-45](https://github.com/polywrap/javascript-client/pull/45) **Bundled System-Level Plugins & Resolvers**
+  * The sys bundle includes: `logger`, `datetime`, `concurrent`, `http`, `httpResolver`
+  * This package is compiled to run in both node.js and browsers.
+  * In node.js, the bundle also includes: `fileSystem`, `fileSystemResolver`.
+
+**`@polywrap/web3-config-bundle-js`:**
+* [PR-45](https://github.com/polywrap/javascript-client/pull/45) **Bundled Web3 Plugins & Resolvers**
+  * The web3 bundle includes: `ethereumProviderV1`, `ethereumProviderV2`, `ipfsHttpClient`, `ipfsResolver`, `ensTextRecordResolver`, `ensResolver`, `ensIpfsContenthashResolver`.
+
+**`@polywrap/config-bundle-types-js`:**
+* [PR-45](https://github.com/polywrap/javascript-client/pull/45) **Base Typings For Config Bundle Packages**
+  * Valid config bundle packages are expected to export a `bundle` value, which is of type `Bundle`.
+
+## Breaking Changes
+**`@polywrap/core-js`:**
+* [PR-32](https://github.com/polywrap/javascript-client/pull/32) **Rename `getEnvFromUriHistory` to `getEnvFromResolutionPath`**
+
+## Bugs
+**`@polywrap/client-js`**
+* [PR-32](https://github.com/polywrap/javascript-client/pull/32) **Improved Browser Compatability**
+  * Building the JS client into browser-based applications no longer requires custom polyfills to remove Node.JS dependencies.
+
+**`@polywrap/client-cofig-builder-js`**
+* [PR-37](https://github.com/polywrap/javascript-client/pull/37) **Add `@polywrap/plugin-js` as a Dependency**
+  * This resolves some package resolution warnings that are emitted from npm when installing the client-config-builder.
+
+**`@polywrap/wasm-js`:**
+* [PR-30](https://github.com/polywrap/javascript-client/pull/30) **Properly Serialize Empty Wrap Environment**
+  * The wrap environment was being improperly encoded as an empty object, which had a size > 0 bytes, causing deserialization to fail. This has been fixed and it is now an empty byte array with size of 0.
+
 # Polywrap Origin (0.10.1)
 ## Features
 **`@polywrap/wasm-js`:**

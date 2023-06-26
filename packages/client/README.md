@@ -57,7 +57,7 @@ Invoke a wrapper.
 
 ## Configuration
 
-Below you will find a reference of object definitions which can be used to configure the Polywrap client. Please note that the intended way of configuring the client is to use the `ClientConfigBuilder`, as explained above.
+Below you will find a reference of object definitions which can be used to configure the Polywrap client. Please note that the intended way of configuring the client is to use the `PolywrapClientConfigBuilder`, as explained above.
 
 ## PolywrapClient
 

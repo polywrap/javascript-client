@@ -26,7 +26,6 @@ describe("Embedded wrapper", () => {
       .addDefaults()
       .setWrapper(simpleWrapperUri, wrapper)
       .build();
-
     const client = new PolywrapClient(config);
 
     const result = await client.invoke<string>({

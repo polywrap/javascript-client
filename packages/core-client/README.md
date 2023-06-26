@@ -34,8 +34,8 @@ Invoke a wrapper.
     uri: Uri.from("ens/helloworld.dev.polywrap.eth"),
     method: "logMessage",
     args: {
-      message: "Hello World!"
-    }
+      message: "Hello World!",
+    },
   });
 
   if (!result.ok) throw result.error;
