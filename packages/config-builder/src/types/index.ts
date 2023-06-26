@@ -1,3 +1,3 @@
 export * from "./configs";
-export * from "./IClientConfigBuilder";
+export * from "./ClientConfigBuilder";
 export * from "./BuildOptions";

@@ -1,4 +1,4 @@
-import { IClientConfigBuilder } from "../";
+import { ClientConfigBuilder } from "../";
 import { Sys } from "./sys";
 import { Web3 } from "./web3";
 
@@ -23,14 +23,14 @@ export function getBundle(name: BundleName): Bundle {
 
 export function addBundle(
   name: BundleName,
-  builder: IClientConfigBuilder
-): IClientConfigBuilder {
+  builder: ClientConfigBuilder
+): ClientConfigBuilder {
   const bundle = getBundle(name);
 
   for (const bundlePackage of Object.values(bundle)) {
     // Add package
     if (bundlePackage.package) {
-      builder.addPackage(bundlePackage.uri, bundlePackage.package);
+      builder.setPackage(bundlePackage.uri, bundlePackage.package);
     }
 
     // Add interface implementations
@@ -43,7 +43,7 @@ export function addBundle(
     // Add all redirects
     if (bundlePackage.redirectFrom) {
       for (const redirectFrom of bundlePackage.redirectFrom) {
-        builder.addRedirect(redirectFrom, bundlePackage.uri);
+        builder.setRedirect(redirectFrom, bundlePackage.uri);
       }
     }
 

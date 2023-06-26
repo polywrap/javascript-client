@@ -1,5 +1,5 @@
 import { GetPathToTestWrappers } from "@polywrap/test-cases";
-import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { PolywrapClient } from "../../../PolywrapClient";
 
 export const subinvokeCase = (implementation: string) => {
@@ -8,9 +8,9 @@ export const subinvokeCase = (implementation: string) => {
       const subinvokeUri = `file/${GetPathToTestWrappers()}/subinvoke/00-subinvoke/implementations/${implementation}`;
       const wrapperUri = `file/${GetPathToTestWrappers()}/subinvoke/01-invoke/implementations/${implementation}`;
 
-      const config = new ClientConfigBuilder()
+      const config = new PolywrapClientConfigBuilder()
         .addDefaults()
-        .addRedirect("ens/imported-subinvoke.eth", subinvokeUri)
+        .setRedirect("ens/imported-subinvoke.eth", subinvokeUri)
         .build();
       const client = new PolywrapClient(config);
 

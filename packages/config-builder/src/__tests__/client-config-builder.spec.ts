@@ -1,4 +1,4 @@
-import { ClientConfigBuilder } from "../ClientConfigBuilder";
+import { PolywrapClientConfigBuilder } from "../PolywrapClientConfigBuilder";
 import {
   CoreClient,
   Uri,
@@ -29,7 +29,7 @@ class MockUriResolver implements IUriResolver {
 }
 
 describe("Client config builder", () => {
-  const emptyBuilderConfig = new ClientConfigBuilder().config;
+  const emptyBuilderConfig = new PolywrapClientConfigBuilder().config;
 
   const testEnv1: Record<string, Record<string, unknown>> = {
     "wrap://ens/test.plugin.one": { test: "value" },
@@ -80,7 +80,7 @@ describe("Client config builder", () => {
   );
 
   it("should build an empty partial config", () => {
-    const clientConfig = new ClientConfigBuilder().build();
+    const clientConfig = new PolywrapClientConfigBuilder().build();
 
     expect(clientConfig.envs).toStrictEqual(new UriMap<WrapperEnv>());
     expect(clientConfig.interfaces).toStrictEqual(new UriMap<readonly Uri[]>());
@@ -94,7 +94,7 @@ describe("Client config builder", () => {
       resolvers: [testUriResolver],
     };
 
-    const builder = new ClientConfigBuilder().add(configObject);
+    const builder = new PolywrapClientConfigBuilder().add(configObject);
 
     const clientConfig = builder.build();
     const builderConfig = builder.config;
@@ -126,7 +126,7 @@ describe("Client config builder", () => {
   });
 
   it("should succesfully add and merge two config objects and build", () => {
-    const builder = new ClientConfigBuilder()
+    const builder = new PolywrapClientConfigBuilder()
       .add({
         envs: testEnv1,
         interfaces: testInterface1,
@@ -174,7 +174,7 @@ describe("Client config builder", () => {
   });
 
   it("should successfully add the default config", async () => {
-    const builder = new ClientConfigBuilder()
+    const builder = new PolywrapClientConfigBuilder()
       .addDefaults();
     const config = builder.config;
 
@@ -182,7 +182,7 @@ describe("Client config builder", () => {
 
     // Expect the default config to have the following bundles:
     // "sys", "web3"
-    const expectedConfig = new ClientConfigBuilder()
+    const expectedConfig = new PolywrapClientConfigBuilder()
       .addBundle("sys")
       .addBundle("web3")
       .config;
@@ -201,7 +201,7 @@ describe("Client config builder", () => {
       },
     };
 
-    const config = new ClientConfigBuilder().addEnv(envUri, env).build();
+    const config = new PolywrapClientConfigBuilder().addEnv(envUri, env).build();
 
     if (!config.envs || config.envs.size !== 1) {
       fail(["Expected 1 env, received:", config.envs]);
@@ -221,7 +221,7 @@ describe("Client config builder", () => {
       },
     };
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addEnv(envUri, env1)
       .addEnv(envUri, env2)
       .build();
@@ -236,7 +236,7 @@ describe("Client config builder", () => {
   });
 
   it("should succesfully add two separate envs", () => {
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addEnv(Object.keys(testEnvs)[0], Object.values(testEnvs)[0])
       .addEnv(Object.keys(testEnvs)[1], Object.values(testEnvs)[1])
       .build();
@@ -254,7 +254,7 @@ describe("Client config builder", () => {
   });
 
   it("should remove an env", () => {
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addEnv(Object.keys(testEnvs)[0], Object.values(testEnvs)[0])
       .addEnv(Object.keys(testEnvs)[1], Object.values(testEnvs)[1])
       .removeEnv(Object.keys(testEnvs)[0])
@@ -276,7 +276,7 @@ describe("Client config builder", () => {
       foo: "bar",
     };
 
-    const config = new ClientConfigBuilder().setEnv(envUri, env).build();
+    const config = new PolywrapClientConfigBuilder().setEnv(envUri, env).build();
 
     if (!config.envs || config.envs.size !== 1) {
       fail(["Expected 1 env, received:", config.envs]);
@@ -295,7 +295,7 @@ describe("Client config builder", () => {
       bar: "baz",
     };
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addEnv(envUri, env1)
       .setEnv(envUri, env2)
       .build();
@@ -311,7 +311,7 @@ describe("Client config builder", () => {
     const interfaceUri = "wrap://ens/some.interface.eth";
     const implUri = "wrap://ens/interface.impl.eth";
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addInterfaceImplementation(interfaceUri, implUri)
       .build();
 
@@ -329,7 +329,7 @@ describe("Client config builder", () => {
     const implUri1 = "wrap://ens/interface.impl1.eth";
     const implUri2 = "wrap://ens/interface.impl2.eth";
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addInterfaceImplementation(interfaceUri, implUri1)
       .addInterfaceImplementation(interfaceUri, implUri2)
       .build();
@@ -353,7 +353,7 @@ describe("Client config builder", () => {
     const implUri3 = "wrap://ens/interface.impl3.eth";
     const implUri4 = "wrap://ens/interface.impl4.eth";
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addInterfaceImplementation(interfaceUri1, implUri1)
       .addInterfaceImplementation(interfaceUri2, implUri2)
       .addInterfaceImplementation(interfaceUri1, implUri3)
@@ -377,7 +377,7 @@ describe("Client config builder", () => {
     const implUri1 = "wrap://ens/interface.impl1.eth";
     const implUri2 = "wrap://ens/interface.impl2.eth";
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addInterfaceImplementations(interfaceUri, [implUri1, implUri2])
       .build();
 
@@ -398,7 +398,7 @@ describe("Client config builder", () => {
     const implUri2 = "wrap://ens/interface.impl2.eth";
     const implUri3 = "wrap://ens/interface.impl3.eth";
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addInterfaceImplementations(interfaceUri, [implUri1])
       .addInterfaceImplementations(interfaceUri, [implUri2, implUri3])
       .build();
@@ -427,7 +427,7 @@ describe("Client config builder", () => {
     const implUri5 = "wrap://ens/interface.impl5.eth";
     const implUri6 = "wrap://ens/interface.impl6.eth";
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addInterfaceImplementation(interfaceUri1, implUri1)
       .addInterfaceImplementation(interfaceUri2, implUri2)
       .addInterfaceImplementations(interfaceUri1, [implUri3, implUri5])
@@ -458,7 +458,7 @@ describe("Client config builder", () => {
     const implUri1 = "wrap://ens/interface.impl1.eth";
     const implUri2 = "wrap://ens/interface.impl2.eth";
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addInterfaceImplementations(interfaceUri1, [implUri1, implUri2])
       .addInterfaceImplementations(interfaceUri2, [implUri1, implUri2])
       .removeInterfaceImplementation(interfaceUri1, implUri2)
@@ -482,7 +482,7 @@ describe("Client config builder", () => {
     const implUri1 = "wrap://ens/interface.impl1.eth";
     const implUri2 = "wrap://ens/interface.impl2.eth";
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addInterfaceImplementations(interfaceUri1, [implUri1, implUri2])
       .addInterfaceImplementations(interfaceUri2, [implUri1, implUri2])
       .removeInterfaceImplementation(interfaceUri1, implUri1)
@@ -504,7 +504,7 @@ describe("Client config builder", () => {
     const from = "wrap://ens/from.this.ens";
     const to = "wrap://ens/to.that.ens";
 
-    const builder = new ClientConfigBuilder().addRedirect(from, to);
+    const builder = new PolywrapClientConfigBuilder().setRedirect(from, to);
 
     const config = builder.build();
     const builderConfig = builder.config;
@@ -524,9 +524,9 @@ describe("Client config builder", () => {
     const from2 = "wrap://ens/from.this2.ens";
     const to2 = "wrap://ens/to.that2.ens";
 
-    const builder = new ClientConfigBuilder()
-      .addRedirect(from1, to1)
-      .addRedirect(from2, to2);
+    const builder = new PolywrapClientConfigBuilder()
+      .setRedirect(from1, to1)
+      .setRedirect(from2, to2);
 
     const config = builder.build();
     const builderConfig = builder.config;
@@ -547,10 +547,10 @@ describe("Client config builder", () => {
     const to1 = "wrap://ens/to.that1.ens";
     const to2 = "wrap://ens/to.that2.ens";
 
-    const builder = new ClientConfigBuilder()
-      .addRedirect(from1, to1)
-      .addRedirect(from2, to1)
-      .addRedirect(from1, to2);
+    const builder = new PolywrapClientConfigBuilder()
+      .setRedirect(from1, to1)
+      .setRedirect(from2, to1)
+      .setRedirect(from1, to2);
 
     const config = builder.build();
     const builderConfig = builder.config;
@@ -570,9 +570,9 @@ describe("Client config builder", () => {
     const to1 = "wrap://ens/to.that1.ens";
     const from2 = "wrap://ens/from.this2.ens";
     const to2 = "wrap://ens/to.that2.ens";
-    const builder = new ClientConfigBuilder()
-      .addRedirect(from1, to1)
-      .addRedirect(from2, to2)
+    const builder = new PolywrapClientConfigBuilder()
+      .setRedirect(from1, to1)
+      .setRedirect(from2, to2)
       .removeRedirect(from1);
 
     const config = builder.build();
@@ -593,7 +593,7 @@ describe("Client config builder", () => {
       "wrap://ens/to.eth"
     );
 
-    const builder = new ClientConfigBuilder().addResolver(uriResolver);
+    const builder = new PolywrapClientConfigBuilder().addResolver(uriResolver);
 
     const config = builder.build();
     const builderConfig = builder.config;
@@ -612,7 +612,7 @@ describe("Client config builder", () => {
       "wrap://ens/to2.eth"
     );
 
-    const builder = new ClientConfigBuilder()
+    const builder = new PolywrapClientConfigBuilder()
       .addResolver(uriResolver1)
       .addResolver(uriResolver2);
 
@@ -628,7 +628,7 @@ describe("Client config builder", () => {
     const shortUri = "ens/some1.wrapper.eth";
     const longUri = "wrap://ens/some2.wrapper.eth";
 
-    const builderConfig1 = new ClientConfigBuilder()
+    const builderConfig1 = new PolywrapClientConfigBuilder()
       .addEnv(shortUri, { foo: "bar" })
       .addEnv(longUri, { bar: "baz" }).config;
 
@@ -641,7 +641,7 @@ describe("Client config builder", () => {
       },
     });
 
-    const builderConfig2 = new ClientConfigBuilder()
+    const builderConfig2 = new PolywrapClientConfigBuilder()
       .add(builderConfig1)
       .removeEnv(shortUri).config;
 
@@ -656,7 +656,7 @@ describe("Client config builder", () => {
     const shortUri = "ens/some1.wrapper.eth";
     const longUri = "wrap://ens/some2.wrapper.eth";
 
-    const builderConfig1 = new ClientConfigBuilder()
+    const builderConfig1 = new PolywrapClientConfigBuilder()
       .addInterfaceImplementation(shortUri, longUri)
       .addInterfaceImplementation(longUri, shortUri).config;
 
@@ -665,7 +665,7 @@ describe("Client config builder", () => {
       [Uri.from(longUri).uri]: new Set([Uri.from(shortUri).uri]),
     });
 
-    const builderConfig2 = new ClientConfigBuilder()
+    const builderConfig2 = new PolywrapClientConfigBuilder()
       .add(builderConfig1)
       .removeInterfaceImplementation(shortUri, longUri).config;
 
@@ -678,16 +678,16 @@ describe("Client config builder", () => {
     const shortUri = "ens/some1.wrapper.eth";
     const longUri = "wrap://ens/some2.wrapper.eth";
 
-    const builderConfig1 = new ClientConfigBuilder()
-      .addRedirect(shortUri, longUri)
-      .addRedirect(longUri, shortUri).config;
+    const builderConfig1 = new PolywrapClientConfigBuilder()
+      .setRedirect(shortUri, longUri)
+      .setRedirect(longUri, shortUri).config;
 
     expect(builderConfig1.redirects).toStrictEqual({
       [Uri.from(shortUri).uri]: Uri.from(longUri).uri,
       [Uri.from(longUri).uri]: Uri.from(shortUri).uri,
     });
 
-    const builderConfig2 = new ClientConfigBuilder()
+    const builderConfig2 = new PolywrapClientConfigBuilder()
       .add(builderConfig1)
       .removeRedirect(shortUri).config;
 
@@ -703,7 +703,7 @@ describe("Client config builder", () => {
       getManifest: jest.fn(),
     };
 
-    const builderConfig = new ClientConfigBuilder().addPackage(uri, pkg).config;
+    const builderConfig = new PolywrapClientConfigBuilder().setPackage(uri, pkg).config;
 
     expect(builderConfig.packages).toStrictEqual({
       [uri]: pkg,
@@ -718,7 +718,7 @@ describe("Client config builder", () => {
       getManifest: jest.fn(),
     };
 
-    const builderConfig = new ClientConfigBuilder().addPackages({
+    const builderConfig = new PolywrapClientConfigBuilder().setPackages({
       [uri1]: pkg,
       [uri2]: pkg,
     }).config;
@@ -737,8 +737,8 @@ describe("Client config builder", () => {
       getManifest: jest.fn(),
     };
 
-    const builderConfig = new ClientConfigBuilder()
-      .addPackages({
+    const builderConfig = new PolywrapClientConfigBuilder()
+      .setPackages({
         [uri1]: pkg,
         [uri2]: pkg,
       })
@@ -757,7 +757,7 @@ describe("Client config builder", () => {
       getManifest: jest.fn(),
     };
 
-    const builderConfig1 = new ClientConfigBuilder().addPackages({
+    const builderConfig1 = new PolywrapClientConfigBuilder().setPackages({
       [shortUri]: pkg,
       [longUri]: pkg,
     }).config;
@@ -767,7 +767,7 @@ describe("Client config builder", () => {
       [Uri.from(longUri).uri]: pkg,
     });
 
-    const builderConfig2 = new ClientConfigBuilder()
+    const builderConfig2 = new PolywrapClientConfigBuilder()
       .add(builderConfig1)
       .removePackage(shortUri).config;
 
@@ -784,7 +784,7 @@ describe("Client config builder", () => {
       invoke: jest.fn(),
     };
 
-    const builderConfig = new ClientConfigBuilder().addWrapper(uri, wrapper)
+    const builderConfig = new PolywrapClientConfigBuilder().setWrapper(uri, wrapper)
       .config;
 
     expect(builderConfig.wrappers).toStrictEqual({
@@ -802,7 +802,7 @@ describe("Client config builder", () => {
       invoke: jest.fn(),
     };
 
-    const builderConfig = new ClientConfigBuilder().addWrappers({
+    const builderConfig = new PolywrapClientConfigBuilder().setWrappers({
       [uri1]: wrapper,
       [uri2]: wrapper,
     }).config;
@@ -823,8 +823,8 @@ describe("Client config builder", () => {
       invoke: jest.fn(),
     };
 
-    const builderConfig = new ClientConfigBuilder()
-      .addWrappers({
+    const builderConfig = new PolywrapClientConfigBuilder()
+      .setWrappers({
         [uri1]: wrapper,
         [uri2]: wrapper,
       })
@@ -844,7 +844,7 @@ describe("Client config builder", () => {
       invoke: jest.fn(),
     };
 
-    const builderConfig1 = new ClientConfigBuilder().addWrappers({
+    const builderConfig1 = new PolywrapClientConfigBuilder().setWrappers({
       [shortUri]: wrapper,
       [longUri]: wrapper,
     }).config;
@@ -854,7 +854,7 @@ describe("Client config builder", () => {
       [Uri.from(longUri).uri]: wrapper,
     });
 
-    const builderConfig2 = new ClientConfigBuilder()
+    const builderConfig2 = new PolywrapClientConfigBuilder()
       .add(builderConfig1)
       .removeWrapper(shortUri).config;
 

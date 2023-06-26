@@ -16,7 +16,7 @@ $snippet: quickstart-initialize
 
 ### Configure
 
-Add client configuration with [add](#add), or flexibly mix and match builder [configuration methods](#addwrapper) to add and remove configuration items.
+Add client configuration with [add](#add), or flexibly mix and match builder [configuration methods](#setWrapper) to add and remove configuration items.
 
 ```typescript
 $snippet: quickstart-configure
@@ -55,112 +55,112 @@ $snippet: ClientConfigBuilder-constructor
 
 ### add
 ```ts
-$snippet: IClientConfigBuilder-add
+$snippet: ClientConfigBuilder-add
 ```
 
-### addWrapper
+### setWrapper
 ```ts
-$snippet: IClientConfigBuilder-addWrapper
+$snippet: ClientConfigBuilder-setWrapper
 ```
 
-### addWrappers
+### setWrappers
 ```ts
-$snippet: IClientConfigBuilder-addWrappers
+$snippet: ClientConfigBuilder-setWrappers
 ```
 
 ### removeWrapper
 ```ts
-$snippet: IClientConfigBuilder-removeWrapper
+$snippet: ClientConfigBuilder-removeWrapper
 ```
 
-### addPackage
+### setPackage
 ```ts
-$snippet: IClientConfigBuilder-addPackage
+$snippet: ClientConfigBuilder-setPackage
 ```
 
-### addPackages
+### setPackages
 ```ts
-$snippet: IClientConfigBuilder-addPackages
+$snippet: ClientConfigBuilder-setPackages
 ```
 
 ### removePackage
 ```ts
-$snippet: IClientConfigBuilder-removePackage
+$snippet: ClientConfigBuilder-removePackage
 ```
 
 ### addEnv
 ```ts
-$snippet: IClientConfigBuilder-addEnv
+$snippet: ClientConfigBuilder-addEnv
 ```
 
 ### addEnvs
 ```ts
-$snippet: IClientConfigBuilder-addEnvs
+$snippet: ClientConfigBuilder-addEnvs
 ```
 
 ### removeEnv
 ```ts
-$snippet: IClientConfigBuilder-removeEnv
+$snippet: ClientConfigBuilder-removeEnv
 ```
 
 ### setEnv
 ```ts
-$snippet: IClientConfigBuilder-setEnv
+$snippet: ClientConfigBuilder-setEnv
 ```
 
 ### addInterfaceImplementation
 ```ts
-$snippet: IClientConfigBuilder-addInterfaceImplementation
+$snippet: ClientConfigBuilder-addInterfaceImplementation
 ```
 
 ### addInterfaceImplementations
 ```ts
-$snippet: IClientConfigBuilder-addInterfaceImplementations
+$snippet: ClientConfigBuilder-addInterfaceImplementations
 ```
 
 ### removeInterfaceImplementation
 ```ts
-$snippet: IClientConfigBuilder-removeInterfaceImplementation
+$snippet: ClientConfigBuilder-removeInterfaceImplementation
 ```
 
-### addRedirect
+### setRedirect
 ```ts
-$snippet: IClientConfigBuilder-addRedirect
+$snippet: ClientConfigBuilder-setRedirect
 ```
 
-### addRedirects
+### setRedirects
 ```ts
-$snippet: IClientConfigBuilder-addRedirects
+$snippet: ClientConfigBuilder-setRedirects
 ```
 
 ### removeRedirect
 ```ts
-$snippet: IClientConfigBuilder-removeRedirect
+$snippet: ClientConfigBuilder-removeRedirect
 ```
 
 ### addResolver
 ```ts
-$snippet: IClientConfigBuilder-addResolver
+$snippet: ClientConfigBuilder-addResolver
 ```
 
 ### addResolvers
 ```ts
-$snippet: IClientConfigBuilder-addResolvers
+$snippet: ClientConfigBuilder-addResolvers
 ```
 
 ### addDefaults
 ```ts
-$snippet: IClientConfigBuilder-addDefaults
+$snippet: ClientConfigBuilder-addDefaults
 ```
 
 ### addBundle
 ```ts
-$snippet: IClientConfigBuilder-addBundle
+$snippet: ClientConfigBuilder-addBundle
 ```
 
 ### build
 ```ts
-$snippet: IClientConfigBuilder-build
+$snippet: ClientConfigBuilder-build
 ```
 
 ## Bundles

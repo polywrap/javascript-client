@@ -1,6 +1,6 @@
 import { addBundle, BundleName } from "./bundles";
 import { BaseClientConfigBuilder } from "./BaseClientConfigBuilder";
-import { BuildOptions, IClientConfigBuilder, BuilderConfig } from "./types";
+import { BuildOptions, ClientConfigBuilder, BuilderConfig } from "./types";
 
 import {
   CoreClientConfig,
@@ -21,22 +21,22 @@ import {
 } from "@polywrap/uri-resolvers-js";
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
 
-export class ClientConfigBuilder extends BaseClientConfigBuilder {
+export class PolywrapClientConfigBuilder extends BaseClientConfigBuilder {
   // $start: ClientConfigBuilder-constructor
   /**
-   * Instantiate a ClientConfigBuilder
+   * Instantiate a PolywrapClientConfigBuilder
    */
   constructor() /* $ */ {
     super();
   }
 
-  addDefaults(): IClientConfigBuilder {
+  addDefaults(): ClientConfigBuilder {
     this.addBundle("sys");
     this.addBundle("web3");
     return this;
   }
 
-  addBundle(bundle: BundleName): IClientConfigBuilder {
+  addBundle(bundle: BundleName): ClientConfigBuilder {
     return addBundle(bundle, this);
   }
 

@@ -15,7 +15,7 @@ npm install --save @polywrap/uri-resolvers-js
 
 ## Usage
 
-This example is similar to the default resolver used by the ClientConfigBuilder in the @polywrap/client-config-builder-js package.
+This example is similar to the default resolver used by the PolywrapClientConfigBuilder in the @polywrap/client-config-builder-js package.
 
 ```ts
   const resolver = RecursiveResolver.from(
