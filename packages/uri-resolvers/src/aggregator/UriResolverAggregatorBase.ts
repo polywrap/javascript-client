@@ -1,11 +1,10 @@
-import { UriResolutionResult } from "../helpers";
-
 import {
   IUriResolver,
   Uri,
   CoreClient,
   IUriResolutionContext,
   UriPackageOrWrapper,
+  UriResolutionResult,
 } from "@polywrap/core-js";
 import { Result } from "@polywrap/result";
 

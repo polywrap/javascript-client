@@ -8,9 +8,9 @@ import { WrapError, WrapErrorCode } from "@polywrap/core-js";
 import { mockPluginRegistration } from "../helpers";
 import { msgpackDecode, msgpackEncode } from "@polywrap/msgpack-js";
 import {
-  ClientConfigBuilder,
-  DefaultBundle,
+  PolywrapClientConfigBuilder
 } from "@polywrap/client-config-builder-js";
+import * as SysBundle from "@polywrap/sys-config-bundle-js";
 
 jest.setTimeout(660000);
 
@@ -34,8 +34,8 @@ const rsConsumerWrapperUri = new Uri(`fs/${rsConsumerWrapperPath}`);
 
 describe("Error structure", () => {
   describe("URI resolution", () => {
-    let client = new PolywrapClient();
     test("Invoke a wrapper that is not found", async () => {
+      const client = new PolywrapClient();
       const result = await client.invoke<string>({
         uri: asSubinvokeWrapperUri.uri + "-not-found",
         method: "simpleMethod",
@@ -59,6 +59,7 @@ describe("Error structure", () => {
     });
 
     test("Subinvoke a wrapper that is not found", async () => {
+      const client = new PolywrapClient();
       const result = await client.invoke<number>({
         uri: asConsumerWrapperUri.uri,
         method: "throwError",
@@ -95,8 +96,8 @@ describe("Error structure", () => {
     });
 
     describe("Wasm wrapper - Assemblyscript", () => {
-      let client = new PolywrapClient();
       test("Invoke a wrapper with malformed arguments", async () => {
+        const client = new PolywrapClient();
         const result = await client.invoke<string>({
           uri: asSubinvokeWrapperUri.uri,
           method: "add",
@@ -127,6 +128,7 @@ describe("Error structure", () => {
       });
 
       test("Invoke a wrapper method that doesn't exist", async () => {
+        const client = new PolywrapClient();
         const result = await client.invoke<string>({
           uri: asSubinvokeWrapperUri.uri,
           method: "notExistingMethod",
@@ -160,14 +162,14 @@ describe("Error structure", () => {
       });
 
       test("Subinvoke error two layers deep", async () => {
-        const config = new ClientConfigBuilder()
+        const config = new PolywrapClientConfigBuilder()
           .addDefaults()
-          .addRedirects({
+          .setRedirects({
             "ens/imported-invoke.eth": asInvokeWrapperUri.uri,
             "ens/imported-subinvoke.eth": asSubinvokeWrapperUri.uri,
-          });
-        
-        client = new PolywrapClient(config.build());
+          })
+          .build();
+        const client = new PolywrapClient(config);
         const result = await client.invoke<boolean>({
           uri: asConsumerWrapperUri.uri,
           method: "throwError",
@@ -256,23 +258,22 @@ describe("Error structure", () => {
           if (result.ok) throw Error("should never happen");
 
           expect(result.error?.name).toEqual("WrapError");
-          expect(result.error?.code).toEqual(WrapErrorCode.URI_RESOLVER_ERROR);
+          expect(result.error?.code).toEqual(WrapErrorCode.CLIENT_LOAD_WRAPPER_ERROR);
           expect(result.error?.uri.endsWith("tmp")).toBeTruthy();
-          expect(result.error?.resolutionStack).toBeDefined();
           expect(`${result.error?.cause}`).toContain(
             `Unrecognized WrapManifest schema version "0.0.0.5"`
           );
         });
 
         afterAll(() => {
-          fs.rmdirSync("tmp", { recursive: true });
+          fs.rmSync("tmp", { recursive: true });
         });
       });
     });
 
     describe("Wasm wrapper - Rust", () => {
-      let client = new PolywrapClient();
       test("Invoke a wrapper with malformed arguments", async () => {
+        const client = new PolywrapClient();
         const result = await client.invoke<string>({
           uri: rsSubinvokeWrapperUri.uri,
           method: "add",
@@ -303,6 +304,7 @@ describe("Error structure", () => {
       });
 
       test("Invoke a wrapper method that doesn't exist", async () => {
+        const client = new PolywrapClient();
         const result = await client.invoke<string>({
           uri: rsSubinvokeWrapperUri.uri,
           method: "notExistingMethod",
@@ -336,14 +338,15 @@ describe("Error structure", () => {
       });
 
       test("Subinvoke error two layers deep", async () => {
-        const config = new ClientConfigBuilder()
+        const config = new PolywrapClientConfigBuilder()
           .addDefaults()
-          .addRedirects({
+          .setRedirects({
             "ens/imported-invoke.eth": rsInvokeWrapperUri.uri,
             "ens/imported-subinvoke.eth": rsSubinvokeWrapperUri.uri,
-          });
-        
-        client = new PolywrapClient(config.build());
+          })
+          .build();
+
+        const client = new PolywrapClient(config);
         const result = await client.invoke<number>({
           uri: rsConsumerWrapperUri.uri,
           method: "throwError",
@@ -400,13 +403,19 @@ describe("Error structure", () => {
     });
 
     describe("Plugin wrapper", () => {
-      const mockPlugin = mockPluginRegistration("plugin/mock")
-      const config = new ClientConfigBuilder()
-        .addDefaults().addPackage(mockPlugin.uri.uri, mockPlugin.package)
-      const client = new PolywrapClient(config.build());
+      const createClient = async () => {
+        const mockPlugin = mockPluginRegistration("plugin/mock")
+        const config = new PolywrapClientConfigBuilder()
+          .addDefaults()
+          .setPackage(mockPlugin.uri.uri, mockPlugin.package)
+          .build();
+        return new PolywrapClient(config);
+      };
+
       test("Invoke a plugin wrapper with malformed args", async () => {
+        const client = await createClient();
         const result = await client.invoke<Uint8Array>({
-          uri: DefaultBundle.plugins.fileSystem.uri.uri,
+          uri: SysBundle.bundle.fileSystem.uri,
           method: "readFile",
           args: {
             pathh: "packages/client/src/__tests__/core/index.ts",
@@ -423,7 +432,7 @@ describe("Error structure", () => {
         expect(result.error?.reason).toEqual(
           'The "path" argument must be of type string or an instance of Buffer or URL. Received undefined'
         );
-        expect(result.error?.uri).toEqual(DefaultBundle.plugins.fileSystem.uri.uri);
+        expect(result.error?.uri).toEqual(Uri.from(SysBundle.bundle.fileSystem.uri).uri);
         expect(result.error?.method).toEqual("readFile");
         expect(result.error?.args).toContain(
           '{\n  "pathh": "packages/client/src/__tests__/core/index.ts"\n}'
@@ -434,8 +443,9 @@ describe("Error structure", () => {
       });
 
       test("Invoke a plugin wrapper with a method that doesn't exist", async () => {
+        const client = await createClient();
         const result = await client.invoke<Uint8Array>({
-          uri: DefaultBundle.plugins.fileSystem.uri.uri,
+          uri: SysBundle.bundle.fileSystem.uri,
           method: "readFileNotFound",
           args: {
             path: __dirname + "/index.ts",
@@ -452,11 +462,12 @@ describe("Error structure", () => {
         expect(
           result.error?.reason.startsWith("Plugin missing method ")
         ).toBeTruthy();
-        expect(result.error?.uri).toEqual(DefaultBundle.plugins.fileSystem.uri.uri);
+        expect(result.error?.uri).toEqual(Uri.from(SysBundle.bundle.fileSystem.uri).uri);
         expect(result.error?.method).toEqual("readFileNotFound");
       });
 
       test("Invoke a plugin wrapper that throws explicitly", async () => {
+        const client = await createClient();
         const result = await client.invoke<string>({
           uri: "wrap://plugin/mock",
           method: "methodThatThrows",
@@ -481,8 +492,9 @@ describe("Error structure", () => {
       });
 
       test("Invoke a plugin wrapper that throws unexpectedly", async () => {
+        const client = await createClient();
         const result = await client.invoke<Uint8Array>({
-          uri: DefaultBundle.plugins.fileSystem.uri.uri,
+          uri: SysBundle.bundle.fileSystem.uri,
           method: "readFile",
           args: {
             path: "./this/path/does/not/exist.ts",
@@ -499,7 +511,7 @@ describe("Error structure", () => {
         expect(
           result.error?.reason.startsWith("ENOENT: no such file or directory")
         ).toBeTruthy();
-        expect(result.error?.uri).toEqual(DefaultBundle.plugins.fileSystem.uri.uri);
+        expect(result.error?.uri).toEqual(Uri.from(SysBundle.bundle.fileSystem.uri).uri);
         expect(result.error?.method).toEqual("readFile");
         expect(result.error?.args).toEqual(
           '{\n  "path": "./this/path/does/not/exist.ts"\n}'

@@ -1,0 +1,27 @@
+{
+  "name": "@polywrap/config-bundle-types-js",
+  "version": "0.10.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polywrap/javascript-client.git"
+  },
+  "main": "build/index.js",
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "rimraf ./build && tsc",
+    "lint": "eslint --color -c ../../.eslintrc.js src/"
+  },
+  "dependencies": {
+    "@polywrap/core-js": "~0.10.1"
+  },
+  "devDependencies": {
+    "rimraf": "3.0.2",
+    "typescript": "4.9.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

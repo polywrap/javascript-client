@@ -1,5 +1,5 @@
 {
-  "id": "WrapManifest",
+  "$id": "WrapManifest",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -29,13 +29,11 @@
     "name": {
       "description": "Wrapper Name",
       "type": "string",
-      "pattern": "^[a-zA-Z0-9\\-\\_]+$"
+      "pattern": "^[a-zA-Z0-9-_]+$"
     },
     "abi": {
       "description": "Information of modules",
-      "id": "Abi",
       "type": "object",
-      "unevaluatedProperties": false,
       "properties": {
         "version": {
           "description": "ABI Version",
@@ -115,11 +113,9 @@
                     "$ref": "#/properties/abi/definitions/interfaceImplementedDefinition"
                   }
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "moduleDefinition": {
           "type": "object",
@@ -150,11 +146,9 @@
                     "$ref": "#/properties/abi/definitions/interfaceImplementedDefinition"
                   }
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "interfaceImplementedDefinition": {
           "type": "object",
@@ -162,8 +156,7 @@
             {
               "$ref": "#/properties/abi/definitions/genericDefinition"
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "methodDefinition": {
           "type": "object",
@@ -191,17 +184,14 @@
                     "required": {
                       "type": "boolean"
                     }
-                  },
-                  "unevaluatedProperties": false
+                  }
                 },
                 "return": {
                   "$ref": "#/properties/abi/definitions/propertyDefinition"
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "envDefinition": {
           "type": "object",
@@ -231,11 +221,9 @@
                     "type": "string"
                   }
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "interfaceDefinition": {
           "type": "object",
@@ -254,11 +242,9 @@
                 "capabilities": {
                   "$ref": "#/properties/abi/definitions/capabilityDefinition"
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "capabilityDefinition": {
           "type": "object",
@@ -272,11 +258,9 @@
                 "enabled": {
                   "type": "boolean"
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
-          },
-          "unevaluatedProperties": false
+          }
         },
         "importedDefinition": {
           "type": "object",
@@ -295,8 +279,7 @@
             "nativeType": {
               "type": "string"
             }
-          },
-          "unevaluatedProperties": false
+          }
         },
         "importedObjectDefinition": {
           "type": "object",
@@ -310,8 +293,7 @@
             {
               "$ref": "#/properties/abi/definitions/withComment"
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "importedModuleDefinition": {
           "type": "object",
@@ -338,11 +320,9 @@
                     "boolean"
                   ]
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "importedEnumDefinition": {
           "type": "object",
@@ -353,8 +333,7 @@
             {
               "$ref": "#/properties/abi/definitions/importedDefinition"
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "importedEnvDefinition": {
           "type": "object",
@@ -362,8 +341,7 @@
             {
               "$ref": "#/properties/abi/definitions/importedObjectDefinition"
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "withKind": {
           "type": "object",
@@ -372,7 +350,6 @@
               "type": "number"
             }
           },
-          "unevaluatedProperties": false,
           "required": [
             "kind"
           ]
@@ -383,8 +360,7 @@
             "comment": {
               "type": "string"
             }
-          },
-          "unevaluatedProperties": false
+          }
         },
         "propertyDefinition": {
           "type": "object",
@@ -395,8 +371,7 @@
             {
               "$ref": "#/properties/abi/definitions/anyDefinition"
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "genericDefinition": {
           "type": "object",
@@ -422,11 +397,9 @@
                     "boolean"
                   ]
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "anyDefinition": {
           "type": "object",
@@ -461,11 +434,9 @@
                 "unresolvedObjectOrEnum": {
                   "$ref": "#/properties/abi/definitions/unresolvedObjectOrEnumRef"
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "arrayDefinition": {
           "type": "object",
@@ -478,11 +449,9 @@
                 "item": {
                   "$ref": "#/properties/abi/definitions/genericDefinition"
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
           ],
-          "unevaluatedProperties": false,
           "required": [
             "item"
           ]
@@ -518,7 +487,6 @@
               "$ref": "#/properties/abi/definitions/scalarType"
             }
           },
-          "unevaluatedProperties": false,
           "required": [
             "type"
           ]
@@ -548,11 +516,9 @@
                 "type": {
                   "$ref": "#/properties/abi/definitions/mapKeyType"
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
           ],
-          "unevaluatedProperties": false,
           "required": [
             "type"
           ]
@@ -574,11 +540,9 @@
                 "value": {
                   "$ref": "#/properties/abi/definitions/genericDefinition"
                 }
-              },
-              "unevaluatedProperties": false
+              }
             }
           ],
-          "unevaluatedProperties": false,
           "required": [
             "key",
             "value"
@@ -590,8 +554,7 @@
             {
               "$ref": "#/properties/abi/definitions/genericDefinition"
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "enumRef": {
           "type": "object",
@@ -599,8 +562,7 @@
             {
               "$ref": "#/properties/abi/definitions/genericDefinition"
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "unresolvedObjectOrEnumRef": {
           "type": "object",
@@ -608,8 +570,7 @@
             {
               "$ref": "#/properties/abi/definitions/genericDefinition"
             }
-          ],
-          "unevaluatedProperties": false
+          ]
         },
         "importedModuleRef": {
           "type": "object",
@@ -617,8 +578,7 @@
             "type": {
               "type": "string"
             }
-          },
-          "unevaluatedProperties": false
+          }
         }
       }
     }

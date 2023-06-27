@@ -20,7 +20,7 @@ npm install --save @polywrap/core-client-js
 Use the `@polywrap/client-config-builder-js` package to build a CoreClientConfig for your project, then use the PolywrapCoreClient [constructor](#constructor) to instantiate the client with your config.
 
 ```ts
-  const config = new ClientConfigBuilder().addDefaults().build();
+  const config = new PolywrapClientConfigBuilder().addDefaults().build();
 
   const client = new PolywrapCoreClient(config);
 ```
@@ -34,8 +34,8 @@ Invoke a wrapper.
     uri: Uri.from("ens/helloworld.dev.polywrap.eth"),
     method: "logMessage",
     args: {
-      message: "Hello World!"
-    }
+      message: "Hello World!",
+    },
   });
 
   if (!result.ok) throw result.error;
@@ -257,7 +257,7 @@ Invoke a wrapper.
 
 ## Development
 
-The Polywrap JavaScript client is open-source. It lives within the [Polywrap JavaScript Client repo](https://github.com/polywrap/javascript-client). Contributions from the community are welcomed!
+The Polywrap JavaScript client is open-source. It lives within the [Polywrap JavaScript Client repository](https://github.com/polywrap/javascript-client). Contributions from the community are welcomed!
 
 ### Build
 ```bash

@@ -45,6 +45,7 @@ export const createImports = (config: {
           method: method,
           args: new Uint8Array(args),
           encodeResult: true,
+          resolutionContext: state.resolutionContext,
         });
 
         if (result.ok) {

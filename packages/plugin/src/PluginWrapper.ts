@@ -1,5 +1,6 @@
 import { PluginModule } from "./PluginModule";
 import { getErrorSource } from "./utils/getErrorSource";
+import { ResolutionContextOverrideClient } from "./ResolutionContextOverrideClient";
 
 import {
   Wrapper,
@@ -84,7 +85,7 @@ export class PluginWrapper implements Wrapper {
     const result = await this._module._wrap_invoke(
       method,
       jsArgs,
-      client,
+      new ResolutionContextOverrideClient(client, options.resolutionContext),
       options.env || {}
     );
 

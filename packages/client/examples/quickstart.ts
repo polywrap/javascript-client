@@ -1,4 +1,4 @@
-import { ClientConfigBuilder, PolywrapClient } from "../build";
+import { PolywrapClientConfigBuilder, PolywrapClient } from "../build";
 
 export function instantiate(): PolywrapClient {
   // /* $: quickstart-instantiate */  import { PolywrapClient } from "@polywrap/client-js";
@@ -11,7 +11,7 @@ export function instantiate(): PolywrapClient {
 
 export function configure(): PolywrapClient {
   // $start: quickstart-configure
-  const config = new ClientConfigBuilder().addDefaults().build();
+  const config = new PolywrapClientConfigBuilder().addDefaults().build();
 
   const client = new PolywrapClient(config);
   // $end
