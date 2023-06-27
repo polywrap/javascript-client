@@ -8,7 +8,7 @@ import {
   ResolutionResultCache,
 } from "@polywrap/uri-resolvers-js";
 import { fileSystemPlugin } from "@polywrap/file-system-plugin-js";
-import { CoreClientConfig } from "@polywrap/core-js";
+import { CoreClientConfig, IWrapPackage } from "@polywrap/core-js";
 
 export function initialize(): PolywrapClientConfigBuilder {
   // $start: quickstart-initialize
@@ -35,11 +35,11 @@ export function configure(): PolywrapClientConfigBuilder {
 
   // add or remove items by chaining method calls
   builder
-    .setPackage("wrap://plugin/package", httpPlugin({}))
+    .setPackage("wrap://plugin/package", httpPlugin({}) as IWrapPackage)
     .removePackage("wrap://plugin/package")
     .setPackages({
-      "wrap://plugin/http": httpPlugin({}),
-      "wrap://plugin/filesystem": fileSystemPlugin({}),
+      "wrap://plugin/http": httpPlugin({}) as IWrapPackage,
+      "wrap://plugin/filesystem": fileSystemPlugin({}) as IWrapPackage,
     });
   // $end
 
@@ -108,10 +108,10 @@ export async function example(): Promise<CoreClientConfig> {
 
   // add and remove wrap packages
   builder
-    .setPackage("wrap://plugin/package", httpPlugin({}))
+    .setPackage("wrap://plugin/package", httpPlugin({}) as IWrapPackage)
     .removePackage("wrap://plugin/package")
     .setPackages({
-      "wrap://plugin/package": httpPlugin({}),
+      "wrap://plugin/package": httpPlugin({}) as IWrapPackage,
     });
 
   // add and remove Envs

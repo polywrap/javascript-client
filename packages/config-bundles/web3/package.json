@@ -1,6 +1,6 @@
 {
   "name": "@polywrap/web3-config-bundle-js",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,12 +17,12 @@
     "lint": "eslint --color -c ../../../.eslintrc.js src/"
   },
   "dependencies": {
-    "@polywrap/config-bundle-types-js": "~0.10.1",
+    "@polywrap/config-bundle-types-js": "0.11.0",
     "@polywrap/ethereum-provider-js": "npm:@polywrap/ethereum-provider-js@~0.3.1",
     "@polywrap/ethereum-provider-js-v1": "npm:@polywrap/ethereum-provider-js@~0.2.4",
-    "@polywrap/sys-config-bundle-js": "~0.10.1",
-    "@polywrap/uri-resolver-extensions-js": "~0.10.1",
-    "@polywrap/wasm-js": "~0.10.1",
+    "@polywrap/sys-config-bundle-js": "0.11.0",
+    "@polywrap/uri-resolver-extensions-js": "0.11.0",
+    "@polywrap/wasm-js": "0.11.0",
     "base64-to-uint8array": "1.0.0"
   },
   "devDependencies": {
@@ -36,7 +36,9 @@
   },
   "doc-snippets": {
     "extract": {
-      "include": ["./src/**/*.{ts,tsx,json,yaml,txt,md,graphql,cue}"],
+      "include": [
+        "./src/**/*.{ts,tsx,json,yaml,txt,md,graphql,cue}"
+      ],
       "ignore": [
         "./**/node_modules/**",
         "./**/.polywrap/**",
@@ -49,12 +51,24 @@
       "include": "./README.md"
     },
     "startTokens": [
-      { "pattern": "$start: ", "inline": false },
-      { "pattern": "/* $: {SNIPPET_NAME} */", "inline": true }
+      {
+        "pattern": "$start: ",
+        "inline": false
+      },
+      {
+        "pattern": "/* $: {SNIPPET_NAME} */",
+        "inline": true
+      }
     ],
     "endTokens": [
-      { "pattern": "$end", "inline": false },
-      { "pattern": "/* $ */", "inline": true }
+      {
+        "pattern": "$end",
+        "inline": false
+      },
+      {
+        "pattern": "/* $ */",
+        "inline": true
+      }
     ],
     "outputDir": "./"
   }
