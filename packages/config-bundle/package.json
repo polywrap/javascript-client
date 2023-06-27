@@ -1,6 +1,6 @@
 {
   "name": "@polywrap/config-bundle-types-js",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "lint": "eslint --color -c ../../.eslintrc.js src/"
   },
   "dependencies": {
-    "@polywrap/core-js": "~0.10.1"
+    "@polywrap/core-js": "0.11.0"
   },
   "devDependencies": {
     "rimraf": "3.0.2",

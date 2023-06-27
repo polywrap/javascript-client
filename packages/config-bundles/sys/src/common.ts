@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { IWrapPackage } from "@polywrap/core-js";
 import { Bundle } from "@polywrap/config-bundle-types-js";
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
 
@@ -12,25 +13,25 @@ import * as httpResolver from "./embeds/http-resolver/wrap";
 export const bundle: Bundle = {
   logger: {
     uri: "plugin/logger@1.0.0",
-    package: loggerPlugin({}),
+    package: loggerPlugin({}) as IWrapPackage,
     implements: ["ens/wraps.eth:logger@1.0.0"],
     redirectFrom: ["ens/wraps.eth:logger@1.0.0"],
   },
   datetime: {
     uri: "plugin/datetime@1.0.0",
-    package: dateTimePlugin({}),
+    package: dateTimePlugin({}) as IWrapPackage,
     implements: ["ens/wraps.eth:datetime@1.0.0"],
     redirectFrom: ["ens/wraps.eth:datetime@1.0.0"],
   },
   concurrent: {
     uri: "plugin/concurrent@1.0.0",
-    package: concurrentPromisePlugin({}),
+    package: concurrentPromisePlugin({}) as IWrapPackage,
     implements: ["ens/wraps.eth:concurrent@1.0.0"],
     redirectFrom: ["ens/wraps.eth:concurrent@1.0.0"],
   },
   http: {
     uri: "plugin/http@1.1.0",
-    package: httpPlugin({}),
+    package: httpPlugin({}) as IWrapPackage,
     implements: ["ens/wraps.eth:http@1.1.0", "ens/wraps.eth:http@1.0.0"],
     redirectFrom: ["ens/wraps.eth:http@1.1.0", "ens/wraps.eth:http@1.0.0"],
   },
