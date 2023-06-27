@@ -35,7 +35,7 @@ export class AsyncWasmInstance {
 
   private static _dataAddr = 16;
   private static _dataStart = AsyncWasmInstance._dataAddr + 8;
-  private static _dataEnd = 1024;
+  private static _dataEnd = 24576;
 
   private _instance: WasmInstance;
   private _wrappedImports: WasmImports;

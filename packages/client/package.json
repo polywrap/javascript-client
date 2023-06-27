@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@polywrap/cli-js": "~0.10.0",
+    "@polywrap/sys-config-bundle-js": "0.10.1",
     "@polywrap/test-cases": "0.10.1",
     "@types/jest": "29.5.0",
     "@types/prettier": "2.6.0",
@@ -51,7 +52,6 @@
     "typescript": "4.9.5",
     "yaml": "2.1.3"
   },
-  "gitHead": "7346adaf5adb7e6bbb70d9247583e995650d390a",
   "publishConfig": {
     "access": "public"
   },

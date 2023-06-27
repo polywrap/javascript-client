@@ -5,7 +5,7 @@ import { WasmWrapper, InMemoryFileReader } from "@polywrap/wasm-js";
 import { Wrapper } from "@polywrap/core-js";
 import { Result, ResultErr, ResultOk } from "@polywrap/result";
 import { PolywrapClient } from "../../PolywrapClient";
-import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
 
 jest.setTimeout(200000);
 
@@ -22,11 +22,10 @@ describe("Embedded wrapper", () => {
       wasmModuleBuffer
     );
 
-    const config = new ClientConfigBuilder()
+    const config = new PolywrapClientConfigBuilder()
       .addDefaults()
-      .addWrapper(simpleWrapperUri, wrapper)
+      .setWrapper(simpleWrapperUri, wrapper)
       .build();
-
     const client = new PolywrapClient(config);
 
     const result = await client.invoke<string>({
@@ -136,9 +135,9 @@ const testEmbeddedWrapperWithFile = async (
   filePath: string,
   fileText: string
 ) => {
-  const config = new ClientConfigBuilder()
+  const config = new PolywrapClientConfigBuilder()
     .addDefaults()
-    .addWrapper(simpleWrapperUri, wrapper)
+    .setWrapper(simpleWrapperUri, wrapper)
     .build();
 
   const client = new PolywrapClient(config);

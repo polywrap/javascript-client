@@ -24,7 +24,7 @@ import {
   WrapManifest,
 } from "@polywrap/wrap-manifest-types-js";
 import { Tracer, TracerConfig } from "@polywrap/tracing-js";
-import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
 
 export class PolywrapClient extends PolywrapCoreClient {
   // $start: PolywrapClient-constructor
@@ -34,7 +34,7 @@ export class PolywrapClient extends PolywrapCoreClient {
    * @param config - a client configuration
    */
   constructor(config?: CoreClientConfig) /* $ */ {
-    super(config ?? new ClientConfigBuilder().addDefaults().build());
+    super(config ?? new PolywrapClientConfigBuilder().addDefaults().build());
   }
 
   /**

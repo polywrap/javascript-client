@@ -1,0 +1,15 @@
+{
+  "name": "integration-tests-root",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "./**",
+      "../packages/**"
+    ]
+  },
+  "scripts": {
+    "build": "yarn build:react",
+    "build:react": "cd react-app && yarn build"
+  }
+}
