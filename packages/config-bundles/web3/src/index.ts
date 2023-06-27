@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { IWrapPackage } from "@polywrap/core-js";
 import { Bundle } from "@polywrap/config-bundle-types-js";
 import { ExtendableUriResolver } from "@polywrap/uri-resolver-extensions-js";
 
@@ -32,7 +33,7 @@ export const bundle: Bundle = {
           }),
         },
       }),
-    }),
+    }) as IWrapPackage,
     implements: [
       "ens/wraps.eth:ethereum-provider@1.1.0",
       "ens/wraps.eth:ethereum-provider@1.0.0",
@@ -57,7 +58,7 @@ export const bundle: Bundle = {
           }),
         },
       }),
-    }),
+    }) as IWrapPackage,
     implements: ["ens/wraps.eth:ethereum-provider@2.0.0"],
     redirectFrom: ["ens/wraps.eth:ethereum-provider@2.0.0"],
   },

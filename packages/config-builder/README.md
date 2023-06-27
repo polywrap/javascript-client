@@ -32,11 +32,11 @@ Add client configuration with [add](#add), or flexibly mix and match builder [co
 
   // add or remove items by chaining method calls
   builder
-    .setPackage("wrap://plugin/package", httpPlugin({}))
+    .setPackage("wrap://plugin/package", httpPlugin({}) as IWrapPackage)
     .removePackage("wrap://plugin/package")
     .setPackages({
-      "wrap://plugin/http": httpPlugin({}),
-      "wrap://plugin/filesystem": fileSystemPlugin({}),
+      "wrap://plugin/http": httpPlugin({}) as IWrapPackage,
+      "wrap://plugin/filesystem": fileSystemPlugin({}) as IWrapPackage,
     });
 ```
 
@@ -105,10 +105,10 @@ A complete example using all or most of the available methods.
 
   // add and remove wrap packages
   builder
-    .setPackage("wrap://plugin/package", httpPlugin({}))
+    .setPackage("wrap://plugin/package", httpPlugin({}) as IWrapPackage)
     .removePackage("wrap://plugin/package")
     .setPackages({
-      "wrap://plugin/package": httpPlugin({}),
+      "wrap://plugin/package": httpPlugin({}) as IWrapPackage,
     });
 
   // add and remove Envs
