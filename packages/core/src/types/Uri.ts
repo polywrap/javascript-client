@@ -25,7 +25,7 @@ export interface UriConfig {
  * Some example short-hand URIs (utilizing inference):
  * ipfs/QmHASH        -> wrap://ipfs/QmHASH
  * https://domain.com -> wrap://https/domain.com
- * 
+ *
  * URI inference is performed in the following ways:
  * 1. If wrap:// is missing, it will be added.
  * 2. If non-wrap schema exists, it becomes the authority.
@@ -128,10 +128,12 @@ export class Uri {
       "https://domain.com/path\n\n";
 
     if (!input) {
-      return ResultErr(Error(
-        "The provided URI is empty, here are some examples of valid URIs:\n" +
-        validUriExamples
-      ));
+      return ResultErr(
+        Error(
+          "The provided URI is empty, here are some examples of valid URIs:\n" +
+            validUriExamples
+        )
+      );
     }
 
     let processedUri = input.trim();
@@ -149,7 +151,8 @@ export class Uri {
         // Make sure the string before the scheme doesn't contain an authority
         if (!(authorityIndex !== -1 && schemeIndex > authorityIndex)) {
           processedUri =
-            processedUri.substring(0, schemeIndex) + "/" +
+            processedUri.substring(0, schemeIndex) +
+            "/" +
             processedUri.substring(schemeIndex + schemeDelimiter.length);
         }
       }
