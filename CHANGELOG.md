@@ -1,5 +1,12 @@
 # Polywrap Origin (0.11.0)
 ## Features
+**`@polywrap/core-js`:**
+* [PR-6](https://github.com/polywrap/javascript-client/pull/6) **Improved URI Inference**
+  * Non-wrap URI schemes can now be used (ex: `https://domain.com/path`). The non-wrap scheme will be used as the authority, and all other contents will be shifted into the path.
+  * Examples:
+    * `https://domain.com/path` into `wrap://https/domain.com/path`
+    * `ipfs://QmHASH` into `wrap://ipfs/QmHASH`
+
 **`@polywrap/client-config-builder-js`:**
 * [PR-45](https://github.com/polywrap/javascript-client/pull/45) **Modular Config Bundles**
   * The `DefaultBundle` has been broken apart into two separate bundles: `sys` and `web3`.
