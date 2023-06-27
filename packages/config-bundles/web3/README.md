@@ -34,7 +34,7 @@ export const bundle: Bundle = {
           }),
         },
       }),
-    }),
+    }) as IWrapPackage,
     implements: [
       "ens/wraps.eth:ethereum-provider@1.1.0",
       "ens/wraps.eth:ethereum-provider@1.0.0",
@@ -59,7 +59,7 @@ export const bundle: Bundle = {
           }),
         },
       }),
-    }),
+    }) as IWrapPackage,
     implements: ["ens/wraps.eth:ethereum-provider@2.0.0"],
     redirectFrom: ["ens/wraps.eth:ethereum-provider@2.0.0"],
   },
