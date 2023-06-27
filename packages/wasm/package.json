@@ -26,7 +26,7 @@
     "@polywrap/wrap-manifest-types-js": "0.11.0"
   },
   "peerDependencies": {
-    "@polywrap/core-js": "0.10.x"
+    "@polywrap/core-js": "0.11.x"
   },
   "devDependencies": {
     "@polywrap/cli-js": "~0.10.0",
