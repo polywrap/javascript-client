@@ -347,7 +347,7 @@ export interface UriConfig {
  * Some example short-hand URIs (utilizing inference):
  * ipfs/QmHASH        -> wrap://ipfs/QmHASH
  * https://domain.com -> wrap://https/domain.com
- * 
+ *
  * URI inference is performed in the following ways:
  * 1. If wrap:// is missing, it will be added.
  * 2. If non-wrap schema exists, it becomes the authority.
@@ -439,7 +439,7 @@ export class Uri {
    * @param uri - a string representation of a wrap URI
    * @returns A Result containing a UriConfig, if successful, or an error
    */
-  public static parseUri(uri: string): Result<UriConfig, Error> 
+  public static parseUri(input: string): Result<UriConfig, Error> 
 ```
 
 ##### from
