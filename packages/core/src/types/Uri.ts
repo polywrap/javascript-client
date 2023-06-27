@@ -17,23 +17,15 @@ export interface UriConfig {
 // $start: Uri
 /**
  * A Polywrap URI. Some examples of valid URIs are:
- * wrap://https/domain.com
  * wrap://ipfs/QmHASH
- * wrap://ens/sub.domain.eth
- * wrap://file/directory/file.txt
- *
- * Some example short-hand URIs (utilizing inference):
- * ipfs/QmHASH        -> wrap://ipfs/QmHASH
- * https://domain.com -> wrap://https/domain.com
- *
- * URI inference is performed in the following ways:
- * 1. If wrap:// is missing, it will be added.
- * 2. If non-wrap schema exists, it becomes the authority.
+ * wrap://ens/sub.dimain.eth
+ * wrap://fs/directory/file.txt
+ * wrap://uns/domain.crypto
  *
  * Breaking down the various parts of the URI, as it applies
  * to [the URI standard](https://tools.ietf.org/html/rfc3986#section-3):
  * **wrap://** - URI Scheme: differentiates Polywrap URIs.
- * **ens/** - URI Authority: allows the Polywrap URI resolution algorithm to determine an authoritative URI resolver.
+ * **ipfs/** - URI Authority: allows the Polywrap URI resolution algorithm to determine an authoritative URI resolver.
  * **sub.domain.eth** - URI Path: tells the Authority where the Wrapper resides.
  */
 export class Uri {
@@ -115,87 +107,60 @@ export class Uri {
    * @param uri - a string representation of a wrap URI
    * @returns A Result containing a UriConfig, if successful, or an error
    */
-  public static parseUri(input: string): Result<UriConfig, Error> /* $ */ {
-    const authorityDelimiter = "/";
-    const schemeDelimiter = "://";
-    const wrapScheme = "wrap://";
+  public static parseUri(uri: string): Result<UriConfig, Error> /* $ */ {
+    if (!uri) {
+      return ResultErr(Error("The provided URI is empty"));
+    }
 
-    const validUriExamples =
-      "wrap://ipfs/QmHASH\n" +
-      "wrap://ens/domain.eth\n" +
-      "ipfs/QmHASH\n" +
-      "ens/domain.eth\n" +
-      "https://domain.com/path\n\n";
+    let processed = uri;
 
-    if (!input) {
+    // Trim preceding '/' characters
+    while (processed[0] === "/") {
+      processed = processed.substring(1);
+    }
+
+    // Check for the wrap:// scheme, add if it isn't there
+    const wrapSchemeIdx = processed.indexOf("wrap://");
+
+    // If it's missing the wrap:// scheme, add it
+    if (wrapSchemeIdx === -1) {
+      processed = "wrap://" + processed;
+    }
+
+    // If the wrap:// is not in the beginning, return an error
+    if (wrapSchemeIdx > -1 && wrapSchemeIdx !== 0) {
       return ResultErr(
-        Error(
-          "The provided URI is empty, here are some examples of valid URIs:\n" +
-            validUriExamples
-        )
+        Error("The wrap:// scheme must be at the beginning of the URI string")
       );
     }
 
-    let processedUri = input.trim();
+    // Extract the authoriy & path
+    const result = processed.match(/wrap:\/\/([a-z][a-z0-9-_]+)\/(.*)/);
+    let uriParts: string[];
 
-    // Remove leading "/"
-    if (processedUri.startsWith(authorityDelimiter)) {
-      processedUri = processedUri.substring(1);
-    }
-
-    // Check if the string starts with a non-wrap URI scheme
-    if (!processedUri.startsWith(wrapScheme)) {
-      const schemeIndex = processedUri.indexOf(schemeDelimiter);
-      const authorityIndex = processedUri.indexOf(authorityDelimiter);
-      if (schemeIndex !== -1) {
-        // Make sure the string before the scheme doesn't contain an authority
-        if (!(authorityIndex !== -1 && schemeIndex > authorityIndex)) {
-          processedUri =
-            processedUri.substring(0, schemeIndex) +
-            "/" +
-            processedUri.substring(schemeIndex + schemeDelimiter.length);
-        }
-      }
+    // Remove all empty strings
+    if (result) {
+      uriParts = result.filter((str) => !!str);
     } else {
-      processedUri = processedUri.substring(wrapScheme.length);
+      uriParts = [];
     }
 
-    // Split the string into parts, using "/" as a delimeter
-    const parts = processedUri.split(authorityDelimiter);
-
-    if (parts.length < 2) {
+    if (uriParts.length !== 3) {
       return ResultErr(
         Error(
-          `URI authority is missing, here are some examples of valid URIs:\n` +
-            validUriExamples +
-            `Invalid URI Received: ${input}`
+          `URI is malformed, here are some examples of valid URIs:\n` +
+            `wrap://ipfs/QmHASH\n` +
+            `wrap://ens/domain.eth\n` +
+            `ens/domain.eth\n\n` +
+            `Invalid URI Received: ${uri}`
         )
       );
-    }
-
-    // Extract the authority and path
-    const authority = parts[0];
-    const path = parts.slice(1).join("/");
-
-    if (!path) {
-      return ResultErr(
-        Error(
-          `URI path is missing, here are some examples of valid URIs:\n` +
-            validUriExamples +
-            `Invalid URI Received: ${input}`
-        )
-      );
-    }
-
-    // Add "wrap://" if not already present
-    if (!processedUri.startsWith("wrap://")) {
-      processedUri = "wrap://" + processedUri;
     }
 
     return ResultOk({
-      uri: processedUri,
-      authority,
-      path,
+      uri: processed,
+      authority: uriParts[1],
+      path: uriParts[2],
     });
   }
 

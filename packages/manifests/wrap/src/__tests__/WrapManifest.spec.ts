@@ -100,7 +100,7 @@ describe("Polywrap Manifest Validation", () => {
     }, true);
 
     await expect(() => deserializeWrapManifest(manifest)).rejects.toThrow(
-      /must NOT have additional properties"/
+      /not allowed to have the additional property "not_accepted_field"/
     );
   });
 
@@ -111,7 +111,7 @@ describe("Polywrap Manifest Validation", () => {
     }, true);
 
     await expect(() => deserializeWrapManifest(manifest)).rejects.toThrow(
-      /must have required property 'name'/
+      /instance requires property "name"/
     );
   });
 
@@ -122,7 +122,7 @@ describe("Polywrap Manifest Validation", () => {
     }, true);
 
     await expect(() => deserializeWrapManifest(manifest)).rejects.toThrow(
-      /must match pattern/
+      /instance.name does not match pattern/
     );
   });
 
@@ -133,7 +133,7 @@ describe("Polywrap Manifest Validation", () => {
     }, true);
 
     await expect(() => deserializeWrapManifest(manifest)).rejects.toThrow(
-      /must be object/
+      /instance.abi is not of a type\(s\) object/
     );
   });
 });

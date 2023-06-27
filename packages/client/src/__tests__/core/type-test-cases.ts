@@ -2,20 +2,18 @@ import { memoryStoragePlugin, ErrResult } from "../helpers";
 import { PolywrapClient } from "../../PolywrapClient";
 
 import BigNumber from "bignumber.js";
-import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { GetPathToTestWrappers } from "@polywrap/test-cases";
 
 export const typeTestCases = (implementation: string) => {
   describe("types test cases", () => {
     test(`asyncify ${implementation}`, async () => {
-      const config = new PolywrapClientConfigBuilder()
-        .addDefaults()
-        .setPackage(
-          "wrap://ens/memory-storage.polywrap.eth",
-          memoryStoragePlugin()
-        )
-        .build();
-      const client = new PolywrapClient(config);
+      const builder = new ClientConfigBuilder();
+      builder.addDefaults().addPackage(
+        "wrap://ens/memory-storage.polywrap.eth",
+        memoryStoragePlugin()
+      );
+      const client = new PolywrapClient(builder.build());
 
       const uri = `fs/${GetPathToTestWrappers()}/asyncify/implementations/${implementation}`;
       const subsequentInvokes = await client.invoke({

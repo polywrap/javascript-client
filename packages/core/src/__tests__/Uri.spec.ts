@@ -15,11 +15,17 @@ describe("Uri", () => {
   });
 
   it("Fails if an authority is not present", () => {
-    expect(() => new Uri("wrap://path")).toThrowError(/URI authority is missing,/);
+    expect(() => new Uri("wrap://path")).toThrowError(/URI is malformed,/);
   });
 
   it("Fails if a path is not present", () => {
-    expect(() => new Uri("wrap://authority/")).toThrowError(/URI path is missing,/);
+    expect(() => new Uri("wrap://authority/")).toThrowError(/URI is malformed,/);
+  });
+
+  it("Fails if scheme is not at the beginning", () => {
+    expect(() => new Uri("path/wrap://something")).toThrowError(
+      /The wrap:\/\/ scheme must/
+    );
   });
 
   it("Fails with an empty string", () => {
@@ -43,39 +49,5 @@ describe("Uri", () => {
       authority: "valid",
       path: "uri",
     });
-  });
-
-  it("Infers common URI authorities", () => {
-    let uri = new Uri("https://domain.com/path/to/thing");
-    expect(uri.uri).toEqual("wrap://https/domain.com/path/to/thing");
-    expect(uri.authority).toEqual("https");
-    expect(uri.path).toEqual("domain.com/path/to/thing");
-
-    uri = new Uri("http://domain.com/path/to/thing");
-    expect(uri.uri).toEqual("wrap://http/domain.com/path/to/thing");
-    expect(uri.authority).toEqual("http");
-    expect(uri.path).toEqual("domain.com/path/to/thing");
-
-    uri = new Uri("ipfs://QmaM318ABUXDhc5eZGGbmDxkb2ZgnbLxigm5TyZcCsh1Kw");
-    expect(uri.uri).toEqual("wrap://ipfs/QmaM318ABUXDhc5eZGGbmDxkb2ZgnbLxigm5TyZcCsh1Kw");
-    expect(uri.authority).toEqual("ipfs");
-    expect(uri.path).toEqual("QmaM318ABUXDhc5eZGGbmDxkb2ZgnbLxigm5TyZcCsh1Kw");
-
-    uri = new Uri("ens://domain.eth");
-    expect(uri.uri).toEqual("wrap://ens/domain.eth");
-    expect(uri.authority).toEqual("ens");
-    expect(uri.path).toEqual("domain.eth");
-
-    uri = new Uri("ens://domain.eth:pkg@1.0.0");
-    expect(uri.uri).toEqual("wrap://ens/domain.eth:pkg@1.0.0");
-    expect(uri.authority).toEqual("ens");
-    expect(uri.path).toEqual("domain.eth:pkg@1.0.0");
-  });
-
-  it("Handles cases where the scheme delimiter is nested under an authority", () => {
-    const uri = new Uri("authority/something?uri=wrap://something/something2");
-    expect(uri.uri).toEqual("wrap://authority/something?uri=wrap://something/something2");
-    expect(uri.authority).toEqual("authority");
-    expect(uri.path).toEqual("something?uri=wrap://something/something2");
   });
 });

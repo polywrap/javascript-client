@@ -5,7 +5,7 @@ import { Uri, PolywrapClient, IWrapPackage } from "../..";
 import { WrapManifest } from "@polywrap/wrap-manifest-types-js";
 import { PluginModule, PluginPackage } from "@polywrap/plugin-js";
 import { UriResolver } from "@polywrap/uri-resolvers-js";
-import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { mockPluginRegistration, ErrResult } from "../helpers";
 
 jest.setTimeout(200000);
@@ -94,11 +94,12 @@ describe("wasm-wrapper", () => {
   });
 
   it("should invoke wrapper with custom redirects", async () => {
-    const config = new PolywrapClientConfigBuilder()
+    const config = new ClientConfigBuilder()
       .addDefaults()
-      .setRedirect(wrapperUri.uri, "wrap://ens/mock.polywrap.eth")
-      .setPackage("wrap://ens/mock.polywrap.eth", mockPlugin())
+      .addRedirect(wrapperUri.uri, "wrap://ens/mock.polywrap.eth")
+      .addPackage("wrap://ens/mock.polywrap.eth", mockPlugin())
       .build();
+
     const client = new PolywrapClient(config);
 
     const result = await client.invoke({
@@ -116,7 +117,7 @@ describe("wasm-wrapper", () => {
   });
 
   it("should allow clone + reconfigure of redirects", async () => {
-    let builder = new PolywrapClientConfigBuilder()
+    let builder = new ClientConfigBuilder()
       .add({
         packages: { "wrap://ens/mock.polywrap.eth": mockPlugin() },
       })

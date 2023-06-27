@@ -5,7 +5,7 @@ import {
   UriResolutionResult,
 } from "@polywrap/core-js";
 import { Result } from "@polywrap/result";
-import { PolywrapClient, PolywrapClientConfigBuilder } from "../../";
+import { PolywrapClient, ClientConfigBuilder } from "../../";
 
 jest.setTimeout(200000);
 
@@ -54,7 +54,7 @@ describe("URI resolution", () => {
     const fromUri = new Uri(`test/from.eth`);
     const redirectUri = new Uri(`test/to.eth`);
 
-    const config = new PolywrapClientConfigBuilder()
+    const config = new ClientConfigBuilder()
       .addDefaults()
       .addResolver({
         tryResolveUri: async (uri: Uri) => {

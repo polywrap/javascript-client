@@ -4,7 +4,7 @@ import {
   PolywrapClient,
   UriMap,
 } from "../../../index";
-import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { UriResolver } from "@polywrap/uri-resolvers-js";
 import { mockPluginRegistration } from "../../helpers";
 import { GetPathToTestWrappers } from "@polywrap/test-cases";
@@ -18,11 +18,10 @@ export const interfaceInvokeCase = (implementation: string) => {
       const implementationPath = `${GetPathToTestWrappers()}/interface-invoke/01-implementation/implementations/${implementation}`;
       const implementationUri = `fs/${implementationPath}`;
 
-      const config = new PolywrapClientConfigBuilder()
+      const config = new ClientConfigBuilder()
         .addDefaults()
-        .addInterfaceImplementation(interfaceUri, implementationUri)
-        .build();
-      const client = new PolywrapClient(config);
+        .addInterfaceImplementation(interfaceUri, implementationUri);
+      const client = new PolywrapClient(config.build());
 
       const wrapperPath = `${GetPathToTestWrappers()}/interface-invoke/02-wrapper/implementations/${implementation}`;
       const wrapperUri = `fs/${wrapperPath}`;
@@ -159,13 +158,14 @@ export const interfaceInvokeCase = (implementation: string) => {
       const implementationUri1 = Uri.from("wrap://ens/implementation1.eth");
       const implementationUri2 = Uri.from("wrap://ens/implementation2.eth");
 
-      const config = new PolywrapClientConfigBuilder()
+      const config = new ClientConfigBuilder()
         .addDefaults()
         .addInterfaceImplementations(interfaceUri.uri, [
           implementationUri1.uri,
           implementationUri2.uri,
         ])
         .build();
+
       const client = new PolywrapClient(config);
 
       const implementationUris = (client.getInterfaces() || new UriMap<Uri[]>).get(interfaceUri);
@@ -181,18 +181,20 @@ export const interfaceInvokeCase = (implementation: string) => {
       const implementationUri1 = Uri.from("wrap://ens/implementation1.eth");
       const implementationUri2 = Uri.from("wrap://ens/implementation2.eth");
 
-      const config = new PolywrapClientConfigBuilder()
+      const config = new ClientConfigBuilder()
         .addDefaults()
         .addInterfaceImplementations(interfaceUri.uri, [
           implementationUri1.uri,
           implementationUri2.uri,
         ])
         .build();
+
       const client = new PolywrapClient(config);
 
       const implementationUris = (client.getInterfaces() ?? new UriMap<Uri[]>).get(interfaceUri);
 
-      const defaultClientConfig = new PolywrapClientConfigBuilder().addDefaults().build();
+      const builder = new ClientConfigBuilder();
+      const defaultClientConfig = builder.addDefaults().build();
 
       expect(implementationUris).toEqual([
         ...((defaultClientConfig.interfaces ?? new UriMap<Uri[]>).get(interfaceUri) || []),
@@ -271,9 +273,9 @@ export const interfaceInvokeCase = (implementation: string) => {
         "wrap://mock/some-implementation2"
       );
 
-      const config = new PolywrapClientConfigBuilder()
+      const config = new ClientConfigBuilder()
         .addDefaults()
-        .setRedirect(oldInterfaceUri.uri, newInterfaceUri.uri)
+        .addRedirect(oldInterfaceUri.uri, newInterfaceUri.uri)
         .addInterfaceImplementation(oldInterfaceUri.uri, implementation1Uri.uri)
         .addInterfaceImplementation(newInterfaceUri.uri, implementation2Uri.uri)
         .build();

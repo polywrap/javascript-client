@@ -164,7 +164,7 @@ export class WasmWrapper implements Wrapper {
             ? args
             : msgpackEncode(args)
           : EMPTY_ENCODED_OBJECT,
-        env: options.env ? msgpackEncode(options.env) : new Uint8Array(),
+        env: options.env ? msgpackEncode(options.env) : EMPTY_ENCODED_OBJECT,
         resolutionContext: options.resolutionContext,
       };
 

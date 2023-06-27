@@ -339,23 +339,15 @@ export interface UriConfig {
 ```ts
 /**
  * A Polywrap URI. Some examples of valid URIs are:
- * wrap://https/domain.com
  * wrap://ipfs/QmHASH
- * wrap://ens/sub.domain.eth
- * wrap://file/directory/file.txt
- *
- * Some example short-hand URIs (utilizing inference):
- * ipfs/QmHASH        -> wrap://ipfs/QmHASH
- * https://domain.com -> wrap://https/domain.com
- *
- * URI inference is performed in the following ways:
- * 1. If wrap:// is missing, it will be added.
- * 2. If non-wrap schema exists, it becomes the authority.
+ * wrap://ens/sub.dimain.eth
+ * wrap://fs/directory/file.txt
+ * wrap://uns/domain.crypto
  *
  * Breaking down the various parts of the URI, as it applies
  * to [the URI standard](https://tools.ietf.org/html/rfc3986#section-3):
  * **wrap://** - URI Scheme: differentiates Polywrap URIs.
- * **ens/** - URI Authority: allows the Polywrap URI resolution algorithm to determine an authoritative URI resolver.
+ * **ipfs/** - URI Authority: allows the Polywrap URI resolution algorithm to determine an authoritative URI resolver.
  * **sub.domain.eth** - URI Path: tells the Authority where the Wrapper resides.
  */
 export class Uri {
@@ -439,7 +431,7 @@ export class Uri {
    * @param uri - a string representation of a wrap URI
    * @returns A Result containing a UriConfig, if successful, or an error
    */
-  public static parseUri(input: string): Result<UriConfig, Error> 
+  public static parseUri(uri: string): Result<UriConfig, Error> 
 ```
 
 ##### from

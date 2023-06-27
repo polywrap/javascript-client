@@ -1,11 +1,10 @@
 import { PolywrapCoreClient } from "../build";
-
-import { PolywrapClientConfigBuilder } from "@polywrap/client-config-builder-js";
+import { ClientConfigBuilder } from "@polywrap/client-config-builder-js";
 import { Uri } from "@polywrap/core-js";
 
 export function instantiate(): PolywrapCoreClient {
   // $start: quickstart-instantiate
-  const config = new PolywrapClientConfigBuilder().addDefaults().build();
+  const config = new ClientConfigBuilder().addDefaults().build();
 
   const client = new PolywrapCoreClient(config);
   // $end
@@ -14,7 +13,7 @@ export function instantiate(): PolywrapCoreClient {
 }
 
 export async function invoke(): Promise<any> {
-  const config = new PolywrapClientConfigBuilder().addDefaults().build();
+  const config = new ClientConfigBuilder().addDefaults().build();
 
   const client = new PolywrapCoreClient(config);
 
@@ -23,8 +22,8 @@ export async function invoke(): Promise<any> {
     uri: Uri.from("ens/helloworld.dev.polywrap.eth"),
     method: "logMessage",
     args: {
-      message: "Hello World!",
-    },
+      message: "Hello World!"
+    }
   });
 
   if (!result.ok) throw result.error;

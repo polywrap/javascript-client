@@ -12,7 +12,7 @@ import {
   IUriResolutionContext,
   UriPackageOrWrapper,
   UriResolutionContext,
-  getEnvFromResolutionPath,
+  getEnvFromUriHistory,
   InvokeResult,
   buildCleanUriHistory,
   CoreClientConfig,
@@ -297,18 +297,18 @@ export class PolywrapCoreClient implements CoreClient {
       resolutionPath =
         resolutionPath.length > 0 ? resolutionPath : [typedOptions.uri];
 
-      const resolvedUri = resolutionPath[resolutionPath.length - 1];
+      const finalUri = resolutionPath[resolutionPath.length - 1];
 
       const wrapper = loadWrapperResult.value;
 
       resolutionContext.trackStep({
         sourceUri: typedOptions.uri,
-        result: UriResolutionResult.ok(resolvedUri, loadWrapperResult.value),
+        result: UriResolutionResult.ok(finalUri, loadWrapperResult.value),
         description: `Client.loadWrapper`,
         subHistory: loadWrapperContext.getHistory(),
       });
 
-      const env = options.env ?? getEnvFromResolutionPath(resolutionPath, this);
+      const env = options.env ?? getEnvFromUriHistory(resolutionPath, this);
 
       const invokeContext = resolutionContext.createSubContext();
 
@@ -320,9 +320,9 @@ export class PolywrapCoreClient implements CoreClient {
       });
 
       resolutionContext.trackStep({
-        sourceUri: resolvedUri,
+        sourceUri: finalUri,
         result: invokeResult.ok
-          ? UriResolutionResult.ok(resolvedUri)
+          ? UriResolutionResult.ok(finalUri)
           : ResultErr(invokeResult.error),
         description: `Client.invokeWrapper`,
         subHistory: invokeContext.getHistory(),
