@@ -44,5 +44,9 @@ export const bundle: Bundle = {
     ],
     redirectFrom: ["ens/wraps.eth:http-uri-resolver-ext@1.0.1"],
   },
+  githubResolver: {
+    uri: "wrap://ipfs/QmYPp2bQpRxR7WCoiAgWsWoiQzqxyFdqWxp1i65VW8wNv2",
+    implements: [ExtendableUriResolver.defaultExtInterfaceUris[0].uri],
+  }
 };
 // $end
