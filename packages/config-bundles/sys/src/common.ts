@@ -35,6 +35,10 @@ export const bundle: Bundle = {
     implements: ["ens/wraps.eth:http@1.1.0", "ens/wraps.eth:http@1.0.0"],
     redirectFrom: ["ens/wraps.eth:http@1.1.0", "ens/wraps.eth:http@1.0.0"],
   },
+  githubResolver: {
+    uri: "wrap://ipfs/QmYPp2bQpRxR7WCoiAgWsWoiQzqxyFdqWxp1i65VW8wNv2",
+    implements: [ExtendableUriResolver.defaultExtInterfaceUris[0].uri],
+  },
   httpResolver: {
     uri: "embed/http-uri-resolver-ext@1.0.1",
     package: httpResolver.wasmPackage,
@@ -44,9 +48,5 @@ export const bundle: Bundle = {
     ],
     redirectFrom: ["ens/wraps.eth:http-uri-resolver-ext@1.0.1"],
   },
-  githubResolver: {
-    uri: "wrap://ipfs/QmYPp2bQpRxR7WCoiAgWsWoiQzqxyFdqWxp1i65VW8wNv2",
-    implements: [ExtendableUriResolver.defaultExtInterfaceUris[0].uri],
-  }
 };
 // $end
