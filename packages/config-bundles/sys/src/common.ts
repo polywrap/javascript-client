@@ -48,7 +48,7 @@ export const bundle: Bundle = {
     uri: "https://wraps.wrapscan.io/r/polywrap/wrapscan-uri-resolver@1.0",
     implements: [
       "wrapscan/polywrap/wrapscan-uri-resolver@1.0",
-      ExtendableUriResolver.defaultExtInterfaceUris[0].uri,
+      ExtendableUriResolver.defaultExtInterfaceUris[2].uri,
     ],
     redirectFrom: ["wrapscan/polywrap/wrapscan-uri-resolver@1.0"],
   },
