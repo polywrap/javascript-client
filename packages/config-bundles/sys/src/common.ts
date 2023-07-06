@@ -44,5 +44,13 @@ export const bundle: Bundle = {
     ],
     redirectFrom: ["ens/wraps.eth:http-uri-resolver-ext@1.0.1"],
   },
+  wrapscanResolver: {
+    uri: "https://wraps.wrapscan.io/r/polywrap/wrapscan-uri-resolver@1.0",
+    implements: [
+      "wrapscan/polywrap/wrapscan-uri-resolver@1.0",
+      ExtendableUriResolver.defaultExtInterfaceUris[2].uri,
+    ],
+    redirectFrom: ["wrapscan/polywrap/wrapscan-uri-resolver@1.0"],
+  },
 };
 // $end
